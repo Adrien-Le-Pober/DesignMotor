@@ -34,18 +34,18 @@ class AppFixtures extends Fixture
 
             $vehicle = (new Vehicle())
                 ->setPower(mt_rand(1, 100))
-                ->setSpace(mt_rand(1, 10))
                 ->setBrand($brand);
 
             switch($modelName) {
                 case 'Megane E-Tech':
                     $color = (new Color())->setName('blue');
                     $manager->persist($color);
-                    $type = (new Type())->setName('Voiture');
+                    $type = (new Type())->setName('Car');
                     $manager->persist($type);
                     $motorization = (new Motorization())->setName('Electric');
                     $manager->persist($motorization);
                     $vehicle
+                        ->setSpace(mt_rand(1, 10))
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type);
@@ -53,11 +53,12 @@ class AppFixtures extends Fixture
                 case 'Classe S':
                     $color = (new Color())->setName('black');
                     $manager->persist($color);
-                    $type = (new Type())->setName('Voiture');
+                    $type = (new Type())->setName('Car');
                     $manager->persist($type);
                     $motorization = (new Motorization())->setName('Petrol');
                     $manager->persist($motorization);
                     $vehicle
+                        ->setSpace(mt_rand(1, 10))
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type);
@@ -65,11 +66,12 @@ class AppFixtures extends Fixture
                 case 'Polo':
                     $color = (new Color())->setName('yellow');
                     $manager->persist($color);
-                    $type = (new Type())->setName('Voiture');
+                    $type = (new Type())->setName('Car');
                     $manager->persist($type);
                     $motorization = (new Motorization())->setName('Petrol');
                     $manager->persist($motorization);
                     $vehicle
+                        ->setSpace(mt_rand(1, 10))
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type);

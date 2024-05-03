@@ -1,0 +1,18 @@
+<?php
+
+namespace App\AbstractFactory;
+
+use App\AbstractFactory\AbstractCar;
+
+class ElectricCar extends AbstractCar
+{
+    public function getInfos(): string
+    {
+        return json_encode([
+            'brand' => $this->brand,
+            'color' => $this->color,
+            'power' => $this->power,
+            'space' => $this->space
+        ]);
+    }
+}

@@ -31,6 +31,74 @@ class VehicleRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    public function findElectricCars(): array
+    {
+        return $this->createQueryBuilder('v')
+            ->select('v.power', 'v.space', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->leftJoin('v.brand', 'b')
+            ->leftJoin('v.color', 'c')
+            ->leftJoin('v.motorization', 'm')
+            ->andWhere('m.name = :motorization')
+            ->leftJoin('v.type', 't')
+            ->andWhere('t.name = :type')
+            ->setParameter('motorization', 'Electric')
+            ->setParameter('type', 'Car')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findPetrolCars(): array
+    {
+        return $this->createQueryBuilder('v')
+            ->select('v.power', 'v.space', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->leftJoin('v.brand', 'b')
+            ->leftJoin('v.color', 'c')
+            ->leftJoin('v.motorization', 'm')
+            ->andWhere('m.name = :motorization')
+            ->leftJoin('v.type', 't')
+            ->andWhere('t.name = :type')
+            ->setParameter('motorization', 'Petrol')
+            ->setParameter('type', 'Car')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findElectricScooters(): array
+    {
+        return $this->createQueryBuilder('v')
+            ->select('v.power', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->leftJoin('v.brand', 'b')
+            ->leftJoin('v.color', 'c')
+            ->leftJoin('v.motorization', 'm')
+            ->andWhere('m.name = :motorization')
+            ->leftJoin('v.type', 't')
+            ->andWhere('t.name = :type')
+            ->setParameter('motorization', 'Electric')
+            ->setParameter('type', 'Scooter')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findPetrolScooters(): array
+    {
+        return $this->createQueryBuilder('v')
+            ->select('v.power', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->leftJoin('v.brand', 'b')
+            ->leftJoin('v.color', 'c')
+            ->leftJoin('v.motorization', 'm')
+            ->andWhere('m.name = :motorization')
+            ->leftJoin('v.type', 't')
+            ->andWhere('t.name = :type')
+            ->setParameter('motorization', 'Petrol')
+            ->setParameter('type', 'Scooter')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     //    public function findOneBySomeField($value): ?Vehicle
     //    {
     //        return $this->createQueryBuilder('v')
