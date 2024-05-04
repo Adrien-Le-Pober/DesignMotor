@@ -5,6 +5,7 @@ namespace App\AbstractFactory;
 interface VehicleFactoryInterface
 {
     public function createCar(
+        int $id,
         string $brand,
         array $color,
         string $power,
@@ -12,6 +13,7 @@ interface VehicleFactoryInterface
     ): AbstractCar;
 
     public function createScooter(
+        int $id,
         string $brand,
         array $color,
         string $power

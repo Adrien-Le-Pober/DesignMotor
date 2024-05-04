@@ -34,7 +34,7 @@ class VehicleRepository extends ServiceEntityRepository
     public function findElectricCars(): array
     {
         return $this->createQueryBuilder('v')
-            ->select('v.power', 'v.space', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->select('v.id', 'v.power', 'v.space', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
             ->leftJoin('v.brand', 'b')
             ->leftJoin('v.color', 'c')
             ->leftJoin('v.motorization', 'm')
@@ -51,7 +51,7 @@ class VehicleRepository extends ServiceEntityRepository
     public function findPetrolCars(): array
     {
         return $this->createQueryBuilder('v')
-            ->select('v.power', 'v.space', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->select('v.id', 'v.power', 'v.space', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
             ->leftJoin('v.brand', 'b')
             ->leftJoin('v.color', 'c')
             ->leftJoin('v.motorization', 'm')
@@ -68,7 +68,7 @@ class VehicleRepository extends ServiceEntityRepository
     public function findElectricScooters(): array
     {
         return $this->createQueryBuilder('v')
-            ->select('v.power', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->select('v.id', 'v.power', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
             ->leftJoin('v.brand', 'b')
             ->leftJoin('v.color', 'c')
             ->leftJoin('v.motorization', 'm')
@@ -85,7 +85,7 @@ class VehicleRepository extends ServiceEntityRepository
     public function findPetrolScooters(): array
     {
         return $this->createQueryBuilder('v')
-            ->select('v.power', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->select('v.id', 'v.power', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
             ->leftJoin('v.brand', 'b')
             ->leftJoin('v.color', 'c')
             ->leftJoin('v.motorization', 'm')
