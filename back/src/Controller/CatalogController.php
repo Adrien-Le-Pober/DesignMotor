@@ -24,6 +24,7 @@ class CatalogController extends AbstractController
                 $vehicles[] = $electricVehicleFactory->createCar(
                     $electricCar["id"],
                     $electricCar["brandName"],
+                    $electricCar["modelName"],
                     [$electricCar["colorName"]],
                     $electricCar["power"],
                     $electricCar["space"]
@@ -36,6 +37,7 @@ class CatalogController extends AbstractController
                 $vehicles[] = $petrolVehicleFactory->createCar(
                     $petrolCar["id"],
                     $petrolCar["brandName"],
+                    $petrolCar["modelName"],
                     [$petrolCar["colorName"]],
                     $petrolCar["power"],
                     $petrolCar["space"]
@@ -48,6 +50,7 @@ class CatalogController extends AbstractController
                 $vehicles[] = $electricVehicleFactory->createScooter(
                     $electricScooter["id"],
                     $electricScooter["brandName"],
+                    $electricScooter["modelName"],
                     [$electricScooter["colorName"]],
                     $electricScooter["power"],
                 );
@@ -59,6 +62,7 @@ class CatalogController extends AbstractController
                 $vehicles[] = $electricVehicleFactory->createScooter(
                     $petrolScooter["id"],
                     $petrolScooter["brandName"],
+                    $petrolScooter["modelName"],
                     [$petrolScooter["colorName"]],
                     $petrolScooter["power"],
                 );

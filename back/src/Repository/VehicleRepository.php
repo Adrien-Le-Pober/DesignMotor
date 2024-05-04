@@ -34,9 +34,19 @@ class VehicleRepository extends ServiceEntityRepository
     public function findElectricCars(): array
     {
         return $this->createQueryBuilder('v')
-            ->select('v.id', 'v.power', 'v.space', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->select(
+                'v.id',
+                'v.power',
+                'v.space',
+                'b.name AS brandName',
+                'c.name AS colorName',
+                'mo.name AS modelName',
+                'm.name AS motorizationName',
+                't.name AS typeName'
+            )
             ->leftJoin('v.brand', 'b')
             ->leftJoin('v.color', 'c')
+            ->leftJoin('v.model', 'mo')
             ->leftJoin('v.motorization', 'm')
             ->andWhere('m.name = :motorization')
             ->leftJoin('v.type', 't')
@@ -51,9 +61,19 @@ class VehicleRepository extends ServiceEntityRepository
     public function findPetrolCars(): array
     {
         return $this->createQueryBuilder('v')
-            ->select('v.id', 'v.power', 'v.space', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->select(
+                'v.id',
+                'v.power',
+                'v.space',
+                'b.name AS brandName',
+                'c.name AS colorName',
+                'mo.name AS modelName',
+                'm.name AS motorizationName',
+                't.name AS typeName'
+            )
             ->leftJoin('v.brand', 'b')
             ->leftJoin('v.color', 'c')
+            ->leftJoin('v.model', 'mo')
             ->leftJoin('v.motorization', 'm')
             ->andWhere('m.name = :motorization')
             ->leftJoin('v.type', 't')
@@ -68,9 +88,18 @@ class VehicleRepository extends ServiceEntityRepository
     public function findElectricScooters(): array
     {
         return $this->createQueryBuilder('v')
-            ->select('v.id', 'v.power', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->select(
+                'v.id',
+                'v.power',
+                'b.name AS brandName',
+                'c.name AS colorName',
+                'mo.name AS modelName',
+                'm.name AS motorizationName',
+                't.name AS typeName'
+            )
             ->leftJoin('v.brand', 'b')
             ->leftJoin('v.color', 'c')
+            ->leftJoin('v.model', 'mo')
             ->leftJoin('v.motorization', 'm')
             ->andWhere('m.name = :motorization')
             ->leftJoin('v.type', 't')
@@ -85,9 +114,18 @@ class VehicleRepository extends ServiceEntityRepository
     public function findPetrolScooters(): array
     {
         return $this->createQueryBuilder('v')
-            ->select('v.id', 'v.power', 'b.name AS brandName', 'c.name AS colorName', 'm.name AS motorizationName', 't.name AS typeName')
+            ->select(
+                'v.id',
+                'v.power',
+                'b.name AS brandName',
+                'c.name AS colorName',
+                'mo.name AS modelName',
+                'm.name AS motorizationName',
+                't.name AS typeName'
+            )
             ->leftJoin('v.brand', 'b')
             ->leftJoin('v.color', 'c')
+            ->leftJoin('v.model', 'mo')
             ->leftJoin('v.motorization', 'm')
             ->andWhere('m.name = :motorization')
             ->leftJoin('v.type', 't')
