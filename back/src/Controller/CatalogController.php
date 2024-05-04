@@ -22,6 +22,7 @@ class CatalogController extends AbstractController
         foreach($vehicleRepository->findElectricCars() as $electricCar) {
             if(!empty($electricCar)) {
                 $vehicles[] = $electricVehicleFactory->createCar(
+                    $electricCar["id"],
                     $electricCar["brandName"],
                     [$electricCar["colorName"]],
                     $electricCar["power"],
@@ -33,6 +34,7 @@ class CatalogController extends AbstractController
         foreach($vehicleRepository->findPetrolCars() as $petrolCar) {
             if(!empty($petrolCar)) {
                 $vehicles[] = $petrolVehicleFactory->createCar(
+                    $petrolCar["id"],
                     $petrolCar["brandName"],
                     [$petrolCar["colorName"]],
                     $petrolCar["power"],
@@ -44,6 +46,7 @@ class CatalogController extends AbstractController
         foreach($vehicleRepository->findElectricScooters() as $electricScooter) {
             if(!empty($eletricScooter)) {
                 $vehicles[] = $electricVehicleFactory->createScooter(
+                    $electricScooter["id"],
                     $electricScooter["brandName"],
                     [$electricScooter["colorName"]],
                     $electricScooter["power"],
@@ -54,6 +57,7 @@ class CatalogController extends AbstractController
         foreach($vehicleRepository->findPetrolScooters() as $petrolScooter) {
             if(!empty($petrolScooter)) {
                 $vehicles[] = $electricVehicleFactory->createScooter(
+                    $petrolScooter["id"],
                     $petrolScooter["brandName"],
                     [$petrolScooter["colorName"]],
                     $petrolScooter["power"],
