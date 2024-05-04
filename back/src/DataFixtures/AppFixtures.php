@@ -34,7 +34,8 @@ class AppFixtures extends Fixture
 
             $vehicle = (new Vehicle())
                 ->setPower(mt_rand(1, 100))
-                ->setBrand($brand);
+                ->setBrand($brand)
+                ->setModel($model);
 
             switch($modelName) {
                 case 'Megane E-Tech':
