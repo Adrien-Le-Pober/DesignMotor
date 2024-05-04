@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\Entity\Type;
 use App\Entity\Brand;
 use App\Entity\Color;
+use App\Entity\Model;
 use App\Entity\Vehicle;
 use App\Entity\Motorization;
 use PHPUnit\Framework\TestCase;
@@ -16,6 +17,7 @@ class VehicleUnitTest extends TestCase
         $brand = new Brand();
         $color = new Color();
         $type = new Type();
+        $model = new Model();
         $motorization = new Motorization();
 
         $vehicle = (new Vehicle)
@@ -24,6 +26,7 @@ class VehicleUnitTest extends TestCase
             ->setBrand($brand)
             ->addColor($color)
             ->setType($type)
+            ->setModel($model)
             ->setMotorization($motorization);
 
         $this->assertTrue($vehicle->getPower() === '12');
@@ -31,29 +34,27 @@ class VehicleUnitTest extends TestCase
         $this->assertTrue($vehicle->getBrand() === $brand);
         $this->assertContains($color, $vehicle->getColor());
         $this->assertTrue($vehicle->getType() === $type);
+        $this->assertTrue($vehicle->getModel() === $model);
         $this->assertTrue($vehicle->getMotorization() === $motorization);
     }
 
     public function testIsFalse(): void
     {
-        $brand = new Brand();
-        $color = new Color();
-        $type = new Type();
-        $motorization = new Motorization();
-
         $vehicle = (new Vehicle)
             ->setPower('12')
             ->setSpace('15')
-            ->setBrand($brand)
-            ->addColor($color)
-            ->setType($type)
-            ->setMotorization($motorization);
+            ->setBrand(new Brand())
+            ->addColor(new Color())
+            ->setType(new Type())
+            ->setModel(new Model())
+            ->setMotorization(new Motorization());
 
         $this->assertFalse($vehicle->getPower() === '8');
         $this->assertFalse($vehicle->getSpace() === '16');
         $this->assertFalse($vehicle->getBrand() === new Brand());
         $this->assertNotContains(new Color(), $vehicle->getColor());
         $this->assertFalse($vehicle->getType() === new Type());
+        $this->assertFalse($vehicle->getModel() === new Model());
         $this->assertFalse($vehicle->getMotorization() === new Motorization());
     }
 
@@ -66,6 +67,7 @@ class VehicleUnitTest extends TestCase
         $this->assertEmpty($vehicle->getBrand());
         $this->assertEmpty($vehicle->getColor());
         $this->assertEmpty($vehicle->getType());
+        $this->assertEmpty($vehicle->getModel());
         $this->assertEmpty($vehicle->getMotorization());
     }
 
