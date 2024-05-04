@@ -16,10 +16,10 @@ class Vehicle
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 8)]
     private ?string $power = null;
 
-    #[ORM\Column(length: 10, nullable: true)]
+    #[ORM\Column(length: 8, nullable: true)]
     private ?string $space = null;
 
 
@@ -41,6 +41,10 @@ class Vehicle
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Motorization $motorization = null;
+
+    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Model $model = null;
 
     public function __construct()
     {
@@ -132,6 +136,18 @@ class Vehicle
     public function setMotorization(?Motorization $motorization): static
     {
         $this->motorization = $motorization;
+
+        return $this;
+    }
+
+    public function getModel(): ?Model
+    {
+        return $this->model;
+    }
+
+    public function setModel(?Model $model): static
+    {
+        $this->model = $model;
 
         return $this;
     }
