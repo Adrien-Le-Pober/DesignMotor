@@ -12,5 +12,5 @@ abstract class AbstractScooter
         protected string $power
     ) { }
 
-    abstract public function getVehicleInfos(): string;
+    abstract public function getVehicleInfos(): array;
 }

@@ -6,15 +6,15 @@ use App\AbstractFactory\AbstractCar;
 
 class ElectricCar extends AbstractCar
 {
-    public function getVehicleInfos(): string
+    public function getVehicleInfos(): array
     {
-        return json_encode([
+        return [
             'id' => $this->id,
             'brand' => $this->brand,
             'model' => $this->model,
             'color' => $this->color,
             'power' => $this->power,
             'space' => $this->space
-        ]);
+        ];
     }
 }

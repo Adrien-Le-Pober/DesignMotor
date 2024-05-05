@@ -6,14 +6,14 @@ use App\AbstractFactory\AbstractScooter;
 
 class PetrolScooter extends AbstractScooter
 {
-    public function getVehicleInfos(): string
+    public function getVehicleInfos(): array
     {
-        return json_encode([
+        return [
             'id' => $this->id,
             'brand' => $this->brand,
             'model' => $this->model,
             'color' => $this->color,
             'power' => $this->power,
-        ]);
+        ];
     }
 }

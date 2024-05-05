@@ -28,7 +28,7 @@ class CatalogController extends AbstractController
                     [$electricCar["colorName"]],
                     $electricCar["power"],
                     $electricCar["space"]
-                );
+                )->getVehicleInfos();
             }
         }
 
@@ -41,7 +41,7 @@ class CatalogController extends AbstractController
                     [$petrolCar["colorName"]],
                     $petrolCar["power"],
                     $petrolCar["space"]
-                );
+                )->getVehicleInfos();
             }
         }
 
@@ -53,7 +53,7 @@ class CatalogController extends AbstractController
                     $electricScooter["modelName"],
                     [$electricScooter["colorName"]],
                     $electricScooter["power"],
-                );
+                )->getVehicleInfos();
             }
         }
 
@@ -65,10 +65,9 @@ class CatalogController extends AbstractController
                     $petrolScooter["modelName"],
                     [$petrolScooter["colorName"]],
                     $petrolScooter["power"],
-                );
+                )->getVehicleInfos();
             }
         }
-
 
         return $this->json($vehicles);
     }

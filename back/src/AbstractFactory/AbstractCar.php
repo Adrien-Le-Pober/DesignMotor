@@ -13,5 +13,5 @@ abstract class AbstractCar
         protected string $space
     ) { }
 
-    abstract public function getVehicleInfos(): string;
+    abstract public function getVehicleInfos(): array;
 }
