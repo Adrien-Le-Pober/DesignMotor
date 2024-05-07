@@ -6,6 +6,7 @@ use App\Repository\ModelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ModelRepository::class)]
 class Model
@@ -16,10 +17,13 @@ class Model
     private ?int $id = null;
 
     #[ORM\Column(length: 48)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 48)]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'models')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Brand $brand = null;
 
     /**

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\VehicleRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VehicleRepository::class)]
 class Vehicle
@@ -17,33 +17,41 @@ class Vehicle
     private ?int $id = null;
 
     #[ORM\Column(length: 8)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 8)]
     private ?string $power = null;
 
     #[ORM\Column(length: 8, nullable: true)]
+    #[Assert\Length(max: 8)]
     private ?string $space = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Brand $brand = null;
 
     /**
      * @var Collection<int, Color>
      */
     #[ORM\ManyToMany(targetEntity: Color::class, inversedBy: 'vehicles')]
+    #[Assert\NotBlank]
     private Collection $color;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Type $type = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Motorization $motorization = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Model $model = null;
 
     public function __construct()

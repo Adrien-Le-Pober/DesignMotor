@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\BrandRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BrandRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BrandRepository::class)]
 class Brand
@@ -16,6 +17,8 @@ class Brand
     private ?int $id = null;
 
     #[ORM\Column(length: 48)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 48)]
     private ?string $name = null;
 
     /**
