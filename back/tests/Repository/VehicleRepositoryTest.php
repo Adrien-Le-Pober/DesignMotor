@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Repository;
 
 use App\Repository\VehicleRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
