@@ -19,39 +19,41 @@ class Vehicle
     #[ORM\Column(length: 8)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 8)]
+    #[Assert\Regex('/^\d+/')]
     private ?string $power = null;
 
     #[ORM\Column(length: 8, nullable: true)]
+    #[Assert\NotBlank]
     #[Assert\Length(max: 8)]
+    #[Assert\Regex('/^\d+/')]
     private ?string $space = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?Brand $brand = null;
 
     /**
      * @var Collection<int, Color>
      */
     #[ORM\ManyToMany(targetEntity: Color::class, inversedBy: 'vehicles')]
-    #[Assert\NotBlank]
     private Collection $color;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?Type $type = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?Motorization $motorization = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?Model $model = null;
 
     public function __construct()

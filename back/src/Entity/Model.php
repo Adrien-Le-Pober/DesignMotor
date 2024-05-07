@@ -24,6 +24,7 @@ class Model
     #[ORM\ManyToOne(inversedBy: 'models')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?Brand $brand = null;
 
     /**
