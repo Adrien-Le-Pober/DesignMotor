@@ -61,7 +61,6 @@ class VehicleEntityTest extends KernelTestCase
 
         $this->assertSame('test', $kernel->getEnvironment());
 
-
         $validator = static::getContainer()->get('validator');
         $errors = $validator->validate($vehicle);
         $messages = [];
