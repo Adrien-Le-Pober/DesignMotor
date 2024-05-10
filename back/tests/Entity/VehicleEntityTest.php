@@ -8,15 +8,26 @@ use App\Entity\Color;
 use App\Entity\Model;
 use App\Entity\Vehicle;
 use App\Entity\Motorization;
+use App\Service\AssetsService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class VehicleEntityTest extends KernelTestCase
 {
+    private AssetsService $assetsService;
+
+    public function setUp(): void
+    {
+        self::bootKernel();
+        $this->assetsService = static::getContainer()->get(AssetsService::class);
+        
+    }
+
     public function getEntity(): Vehicle
 	{
 		return (new Vehicle())
             ->setPower('55')
             ->setSpace('20')
+            ->setImagePath($this->assetsService->getImagePath() . 'SomePath.jpg')
             ->setBrand(new Brand())
             ->addColor(new Color())
             ->setType(new Type())
@@ -33,6 +44,7 @@ class VehicleEntityTest extends KernelTestCase
 	{
 		$this->assertHasErrors($this->getEntity()->setPower(''), 1);
         $this->assertHasErrors($this->getEntity()->setSpace(''), 1);
+        $this->assertHasErrors($this->getEntity()->setImagePath(''), 1);
 	}
 
     public function testInvalidNullArgument()
@@ -47,6 +59,7 @@ class VehicleEntityTest extends KernelTestCase
 	{
 		$this->assertHasErrors($this->getEntity()->setPower(str_repeat('1', 9)), 1);
         $this->assertHasErrors($this->getEntity()->setSpace(str_repeat('1', 9)), 1);
+        $this->assertHasErrors($this->getEntity()->setImagePath(str_repeat('p', 256)), 1);
 	}
 
     public function testInvalidRegex()

@@ -57,6 +57,8 @@ class Vehicle
     private ?Model $model = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $imagePath = null;
 
     public function __construct()
