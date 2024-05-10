@@ -35,6 +35,7 @@ class VehicleAbstractFactoryServiceTest extends TestCase
                         'colorName' => ['blue'],
                         'power'=> '4',
                         'space' => '5',
+                        'imagePath' => 'somePath.jpg'
                     ]
                 ]);
         }
