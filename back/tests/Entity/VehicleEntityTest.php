@@ -28,6 +28,7 @@ class VehicleEntityTest extends KernelTestCase
             ->setPower('55')
             ->setSpace('20')
             ->setImagePath($this->assetsService->getImagePath() . 'SomePath.jpg')
+            ->setVideoPath($this->assetsService->getVideoPath() . 'SomePath.mp4')
             ->setBrand(new Brand())
             ->addColor(new Color())
             ->setType(new Type())
@@ -45,6 +46,7 @@ class VehicleEntityTest extends KernelTestCase
 		$this->assertHasErrors($this->getEntity()->setPower(''), 1);
         $this->assertHasErrors($this->getEntity()->setSpace(''), 1);
         $this->assertHasErrors($this->getEntity()->setImagePath(''), 1);
+        $this->assertHasErrors($this->getEntity()->setVideoPath(''), 1);
 	}
 
     public function testInvalidNullArgument()
@@ -60,6 +62,7 @@ class VehicleEntityTest extends KernelTestCase
 		$this->assertHasErrors($this->getEntity()->setPower(str_repeat('1', 9)), 1);
         $this->assertHasErrors($this->getEntity()->setSpace(str_repeat('1', 9)), 1);
         $this->assertHasErrors($this->getEntity()->setImagePath(str_repeat('p', 256)), 1);
+        $this->assertHasErrors($this->getEntity()->setVideoPath(str_repeat('p', 256)), 1);
 	}
 
     public function testInvalidRegex()

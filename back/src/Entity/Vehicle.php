@@ -62,6 +62,8 @@ class Vehicle
     private ?string $imagePath = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $videoPath = null;
 
     public function __construct()

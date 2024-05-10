@@ -24,6 +24,7 @@ class VehicleUnitTest extends TestCase
             ->setPower('12')
             ->setSpace('15')
             ->setImagePath('somePath')
+            ->setVideoPath('somePath')
             ->setBrand($brand)
             ->addColor($color)
             ->setType($type)
@@ -33,6 +34,7 @@ class VehicleUnitTest extends TestCase
         $this->assertTrue($vehicle->getPower() === '12');
         $this->assertTrue($vehicle->getSpace() === '15');
         $this->assertTrue($vehicle->getImagePath() === 'somePath');
+        $this->assertTrue($vehicle->getVideoPath() === 'somePath');
         $this->assertTrue($vehicle->getBrand() === $brand);
         $this->assertContains($color, $vehicle->getColor());
         $this->assertTrue($vehicle->getType() === $type);
@@ -46,6 +48,7 @@ class VehicleUnitTest extends TestCase
             ->setPower('12')
             ->setSpace('15')
             ->setImagePath('somePath')
+            ->setImagePath('somePath')
             ->setBrand(new Brand())
             ->addColor(new Color())
             ->setType(new Type())
@@ -55,6 +58,7 @@ class VehicleUnitTest extends TestCase
         $this->assertFalse($vehicle->getPower() === '8');
         $this->assertFalse($vehicle->getSpace() === '16');
         $this->assertFalse($vehicle->getImagePath() === 'someOtherPath');
+        $this->assertFalse($vehicle->getVideoPath() === 'someOtherPath');
         $this->assertFalse($vehicle->getBrand() === new Brand());
         $this->assertNotContains(new Color(), $vehicle->getColor());
         $this->assertFalse($vehicle->getType() === new Type());
@@ -71,6 +75,7 @@ class VehicleUnitTest extends TestCase
         $this->assertEmpty($vehicle->getBrand());
         $this->assertEmpty($vehicle->getColor());
         $this->assertEmpty($vehicle->getImagePath());
+        $this->assertEmpty($vehicle->getVideoPath());
         $this->assertEmpty($vehicle->getType());
         $this->assertEmpty($vehicle->getModel());
         $this->assertEmpty($vehicle->getMotorization());
