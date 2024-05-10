@@ -5,6 +5,7 @@ export class Vehicle {
         public model: string,
         public color: string[],
         public power: string,
-        public space?: string
+        public space?: string,
+        public image?: string
     ) {}
 }

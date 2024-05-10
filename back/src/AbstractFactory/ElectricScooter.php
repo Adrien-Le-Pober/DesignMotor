@@ -3,9 +3,12 @@
 namespace App\AbstractFactory;
 
 use App\AbstractFactory\AbstractScooter;
+use App\Trait\Base64ImageTrait;
 
 class ElectricScooter extends AbstractScooter
 {
+    use Base64ImageTrait;
+
     public function getVehicleInfos(): array
     {
         return [
@@ -14,6 +17,7 @@ class ElectricScooter extends AbstractScooter
             'model' => $this->model,
             'color' => $this->color,
             'power' => $this->power,
+            'image' => $this->getBase64Image($this->imagePath)
         ];
     }
 }

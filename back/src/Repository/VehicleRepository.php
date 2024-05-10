@@ -38,6 +38,7 @@ class VehicleRepository extends ServiceEntityRepository
                 'v.id',
                 'v.power',
                 'v.space',
+                'v.imagePath',
                 'b.name AS brandName',
                 'c.name AS colorName',
                 'mo.name AS modelName',
@@ -65,6 +66,7 @@ class VehicleRepository extends ServiceEntityRepository
                 'v.id',
                 'v.power',
                 'v.space',
+                'v.imagePath',
                 'b.name AS brandName',
                 'c.name AS colorName',
                 'mo.name AS modelName',
@@ -91,6 +93,7 @@ class VehicleRepository extends ServiceEntityRepository
             ->select(
                 'v.id',
                 'v.power',
+                'v.imagePath',
                 'b.name AS brandName',
                 'c.name AS colorName',
                 'mo.name AS modelName',
@@ -117,6 +120,7 @@ class VehicleRepository extends ServiceEntityRepository
             ->select(
                 'v.id',
                 'v.power',
+                'v.imagePath',
                 'b.name AS brandName',
                 'c.name AS colorName',
                 'mo.name AS modelName',

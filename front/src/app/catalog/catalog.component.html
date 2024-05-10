@@ -1,6 +1,7 @@
 <h3>Catalogue de véhicules</h3>
 
 <div *ngFor="let vehicle of vehicleList">
+    <img [src]="vehicle.image" alt="image du véhicule" width="300">
     <p>Marque : {{vehicle.brand}}</p>
     <p>Modèle : {{vehicle.model}}</p>
     <p *ngFor="let color of vehicle.color"> Couleur : {{color}}</p>

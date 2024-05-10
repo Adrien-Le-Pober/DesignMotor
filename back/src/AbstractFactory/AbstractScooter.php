@@ -9,7 +9,8 @@ abstract class AbstractScooter
         protected string $brand,
         protected string $model,
         protected array $color,
-        protected string $power
+        protected string $power,
+        protected string $imagePath
     ) { }
 
     abstract public function getVehicleInfos(): array;

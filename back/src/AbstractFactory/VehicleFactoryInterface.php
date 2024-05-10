@@ -10,7 +10,8 @@ interface VehicleFactoryInterface
         string $model,
         array $color,
         string $power,
-        string $space
+        string $space,
+        string $imagePath
     ): AbstractCar;
 
     public function createScooter(
@@ -18,6 +19,7 @@ interface VehicleFactoryInterface
         string $brand,
         string $model,
         array $color,
-        string $power
+        string $power,
+        string $imagePath
     ): AbstractScooter;
 }
