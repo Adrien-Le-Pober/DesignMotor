@@ -56,7 +56,8 @@ class AppFixtures extends Fixture
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type)
-                        ->setImagePath($assetsPath->getImagePath() . 'renault_megan_E-Tech.jpg');
+                        ->setImagePath($assetsPath->getImagePath() . 'renault_megan_E-Tech.jpg')
+                        ->setVideoPath($assetsPath->getVideoPath() . 'Renault_Megane-eTech.mp4');
                     break;
                 case 'Classe S':
                     $color = (new Color())->setName('grey');
@@ -70,7 +71,8 @@ class AppFixtures extends Fixture
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type)
-                        ->setImagePath($assetsPath->getImagePath() . 'mercedes_classe_s.jpg');
+                        ->setImagePath($assetsPath->getImagePath() . 'mercedes_classe_s.jpg')
+                        ->setVideoPath($assetsPath->getVideoPath() . 'Mercedes-Classe-S.mp4');
                     break;
                 case 'Polo':
                     $color = (new Color())->setName('blue');
@@ -84,7 +86,8 @@ class AppFixtures extends Fixture
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type)
-                        ->setImagePath($assetsPath->getImagePath() . 'volkswagen_polo.jpg');
+                        ->setImagePath($assetsPath->getImagePath() . 'volkswagen_polo.jpg')
+                        ->setVideoPath($assetsPath->getVideoPath() . 'Volkswagen-Polo.mp4');
                     break;
                 case 'DJANGO CLASSIC 50':
                     $color = (new Color())->setName('red');
@@ -97,7 +100,8 @@ class AppFixtures extends Fixture
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type)
-                        ->setImagePath($assetsPath->getImagePath() . 'Peugeot_Django_classic_50.jpg');
+                        ->setImagePath($assetsPath->getImagePath() . 'Peugeot_Django_classic_50.jpg')
+                        ->setVideoPath($assetsPath->getVideoPath() . 'Peugeot-Django-50.mp4');
                     break;
                 default:
                     echo 'error';
