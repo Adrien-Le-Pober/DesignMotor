@@ -61,6 +61,9 @@ class Vehicle
     #[Assert\Length(max: 255)]
     private ?string $imagePath = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $videoPath = null;
+
     public function __construct()
     {
         $this->color = new ArrayCollection();
@@ -175,6 +178,18 @@ class Vehicle
     public function setImagePath(?string $imagePath): static
     {
         $this->imagePath = $imagePath;
+
+        return $this;
+    }
+
+    public function getVideoPath(): ?string
+    {
+        return $this->videoPath;
+    }
+
+    public function setVideoPath(?string $videoPath): static
+    {
+        $this->videoPath = $videoPath;
 
         return $this;
     }
