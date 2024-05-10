@@ -14,4 +14,10 @@ class AssetsService
         $projectDir = $this->kernel->getProjectDir();
         return $projectDir . '/assets/images/';
     }
+
+    public function getVideoPath(): string
+    {
+        $projectDir = $this->kernel->getProjectDir();
+        return $projectDir . '/assets/videos/';
+    }
 }
