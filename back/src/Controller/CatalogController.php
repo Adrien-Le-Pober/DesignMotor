@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Vehicle;
+use App\Proxy\VideoProxy;
 use App\Service\VehicleAbstractFactoryService;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CatalogController extends AbstractController
@@ -13,5 +17,17 @@ class CatalogController extends AbstractController
     public function index(VehicleAbstractFactoryService $vehicleAbstractFactoryService): JsonResponse
     {
         return $this->json($vehicleAbstractFactoryService->getVehicles());
+    }
+
+    #[Route('vehicle/{vehicle}/video', name: 'vehicule-video')]
+    public function getVideo(Vehicle $vehicle): Response
+    {
+        $videoProxy = new VideoProxy();
+        $video = $videoProxy->loadVideo($vehicle->getVideoPath());
+
+        $response = new BinaryFileResponse($video);
+        $response->headers->set('Content-Type', 'video/mp4');
+
+        return $response;
     }
 }

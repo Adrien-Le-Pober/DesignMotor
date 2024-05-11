@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { Vehicle } from '../models/vehicle.model';
-import { VehicleService } from './vehicle.service';
+import { CatalogService } from './catalog.service';
 import { CommonModule } from '@angular/common';
+import { VehicleComponent } from '../vehicle/vehicle.component';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    VehicleComponent
   ],
   templateUrl: 'catalog.component.html',
   styles: ``
@@ -16,11 +18,11 @@ export class CatalogComponent {
   public vehicleList: Vehicle[];
 
   constructor(
-    private vehicleService: VehicleService
+    private catalogService: CatalogService
   ) { }
 
   ngOnInit() {
-    this.vehicleService.getVehicleList()
+    this.catalogService.getVehicleList()
       .subscribe(vehicleList => {
         this.vehicleList = vehicleList;
       });

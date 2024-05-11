@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment.development';
 @Injectable({
   providedIn: 'root'
 })
-export class VehicleService {
+export class CatalogService {
 
   private appURL = environment.appURL;
 

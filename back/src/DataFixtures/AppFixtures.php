@@ -57,7 +57,7 @@ class AppFixtures extends Fixture
                         ->setMotorization($motorization)
                         ->setType($type)
                         ->setImagePath($assetsPath->getImagePath() . 'renault_megan_E-Tech.jpg')
-                        ->setVideoPath($assetsPath->getVideoPath() . 'Renault_Megane-eTech.mp4');
+                        ->setVideoPath($assetsPath->getVideoPath() . 'Renault-Megane-eTech.mp4');
                     break;
                 case 'Classe S':
                     $color = (new Color())->setName('grey');

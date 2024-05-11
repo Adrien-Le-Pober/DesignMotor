@@ -1,0 +1,24 @@
+<div 
+    (mouseenter)="loadVideo(vehicle.id)"
+    (mouseleave)="resetMedia()"
+>
+    <video 
+        *ngIf="videoUrl"
+        width="300"
+        controls
+        autoplay
+        mute
+        (loadeddata)="hideLoading()"
+    >
+        <source [src]="videoUrl" type="video/mp4">
+        Votre navigateur ne supporte pas la lecture de vidéos.
+    </video>
+    <div *ngIf="loading" style="height:225px;">Chargement du media...</div>
+    <img *ngIf="!videoUrl && !loading" [src]="vehicle.image" alt="image du véhicule" width="300">
+    <p>Marque : {{vehicle.brand}}</p>
+    <p>Modèle : {{vehicle.model}}</p>
+    <p *ngFor="let color of vehicle.color"> Couleur : {{color}}</p>
+    <p>Puissance : {{vehicle.power}}</p>
+    <p *ngIf="vehicle.space">Espace : {{vehicle.space}}</p>
+    <br>
+</div>
