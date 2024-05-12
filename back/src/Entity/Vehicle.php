@@ -66,6 +66,12 @@ class Vehicle
     #[Assert\Length(max: 255)]
     private ?string $videoPath = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column]
+    private ?float $price = null;
+
     public function __construct()
     {
         $this->color = new ArrayCollection();
@@ -195,4 +201,46 @@ class Vehicle
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): static
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function setDiscountPrice(float $coefficient): static
+    {
+        $this->setPrice(round($coefficient * $this->getPrice()));
+
+        return $this;
+    }
+
+    public function getStorageDurationInDays(): int|false
+    {
+        $createdAt = $this->getCreatedAt();
+        $today = new \DateTime();
+
+        $interval = $createdAt->diff($today);
+        return $interval->days;
+    }
+
+
 }
