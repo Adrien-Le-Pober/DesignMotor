@@ -70,6 +70,7 @@ class Vehicle
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?float $price = null;
 
     public function __construct()

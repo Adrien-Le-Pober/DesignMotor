@@ -6,6 +6,7 @@ use App\Entity\Type;
 use App\Entity\Brand;
 use App\Entity\Color;
 use App\Entity\Model;
+use DateTimeImmutable;
 use App\Entity\Vehicle;
 use App\Entity\Motorization;
 use App\Service\AssetsService;
@@ -29,6 +30,8 @@ class VehicleEntityTest extends KernelTestCase
             ->setSpace('20')
             ->setImagePath($this->assetsService->getImagePath() . 'SomePath.jpg')
             ->setVideoPath($this->assetsService->getVideoPath() . 'SomePath.mp4')
+            ->setPrice(10_000)
+            ->setCreatedAt(new DateTimeImmutable())
             ->setBrand(new Brand())
             ->addColor(new Color())
             ->setType(new Type())
@@ -70,6 +73,11 @@ class VehicleEntityTest extends KernelTestCase
 		$this->assertHasErrors($this->getEntity()->setPower('a'), 1);
         $this->assertHasErrors($this->getEntity()->setSpace('a'), 1);
 	}
+
+    public function testInvalidNumber()
+    {
+        $this->assertHasErrors($this->getEntity()->setPrice(-10,), 1);
+    }
 
     public function assertHasErrors(Vehicle $vehicle, int $number = 0): void
     {
