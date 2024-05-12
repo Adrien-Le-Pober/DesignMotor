@@ -15,10 +15,11 @@
     </video>
     <div *ngIf="loading" style="height:225px;">Chargement du media...</div>
     <img *ngIf="!videoUrl && !loading" [src]="vehicle.image" alt="image du véhicule" width="300">
-    <p>Marque : {{vehicle.brand}}</p>
-    <p>Modèle : {{vehicle.model}}</p>
-    <p *ngFor="let color of vehicle.color"> Couleur : {{color}}</p>
-    <p>Puissance : {{vehicle.power}}</p>
-    <p *ngIf="vehicle.space">Espace : {{vehicle.space}}</p>
+    <p>Marque : {{ vehicle.brand }}</p>
+    <p>Modèle : {{ vehicle.model }}</p>
+    <p>Prix : {{ vehicle.price | currency: 'EUR' }}</p>
+    <p *ngFor="let color of vehicle.color"> Couleur : {{ color }}</p>
+    <p>Puissance : {{ vehicle.power }}</p>
+    <p *ngIf="vehicle.space">Espace : {{ vehicle.space }}</p>
     <br>
 </div>

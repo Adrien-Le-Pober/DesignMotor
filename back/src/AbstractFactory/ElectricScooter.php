@@ -17,7 +17,8 @@ class ElectricScooter extends AbstractScooter
             'model' => $this->model,
             'color' => $this->color,
             'power' => $this->power,
-            'image' => $this->getBase64Image($this->imagePath)
+            'image' => $this->getBase64Image($this->imagePath),
+            'price' => $this->price
         ];
     }
 }

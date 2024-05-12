@@ -11,7 +11,8 @@ interface VehicleFactoryInterface
         array $color,
         string $power,
         string $space,
-        string $imagePath
+        string $imagePath,
+        float $price
     ): AbstractCar;
 
     public function createScooter(
@@ -20,6 +21,7 @@ interface VehicleFactoryInterface
         string $model,
         array $color,
         string $power,
-        string $imagePath
+        string $imagePath,
+        float $price
     ): AbstractScooter;
 }

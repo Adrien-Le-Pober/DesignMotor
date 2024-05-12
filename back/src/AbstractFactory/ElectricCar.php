@@ -18,7 +18,8 @@ class ElectricCar extends AbstractCar
             'color' => $this->color,
             'power' => $this->power,
             'space' => $this->space,
-            'image' => $this->getBase64Image($this->imagePath)
+            'image' => $this->getBase64Image($this->imagePath),
+            'price' => $this->price
         ];
     }
 }
