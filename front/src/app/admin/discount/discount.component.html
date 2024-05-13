@@ -1,0 +1,11 @@
+<h3>Gestion des soldes en cours</h3>
+<p>Appliquer une nouvelle réduction</p>
+<app-discount-form></app-discount-form>
+
+<h3>Soldes actives</h3>
+<div *ngFor="let discount of discountList">
+    <p>Taux : {{ discount.rate }}</p>
+    <p>Durée de stockage : {{ discount.storageDuration }}</p>
+    <button (click)="cancelDiscount(discount.id)">Supprimer</button>
+    <hr>
+</div>

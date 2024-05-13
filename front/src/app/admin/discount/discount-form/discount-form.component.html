@@ -1,0 +1,24 @@
+<form (ngSubmit)="onSubmit()" #discountForm="ngForm">
+    <label>En stock depuis</label>
+    <div [hidden]="storageDuration.valid || storageDuration.pristine">Le nombre de jour est requis</div>
+    <input type="number"
+        id="storageDuration"
+        required
+        placeholder="Nombre de jour"
+        name="storageDuration"
+        [(ngModel)]="discount.storageDuration"
+        #storageDuration="ngModel"
+    >
+    <label>Coefficient de réduction</label>
+    <div [hidden]="rate.valid || rate.pristine">Le coefficient est requis</div>
+    <input type="number"
+        id="rate"
+        required
+        placeholder="0.1 pour 10%"
+        name="rate"
+        [(ngModel)]="discount.rate"
+        #rate="ngModel"
+    >
+    <button type="submit" [disabled]="!discountForm.form.valid">Valider</button>
+</form>
+<p *ngIf="successMessage">{{ successMessage }}</p>

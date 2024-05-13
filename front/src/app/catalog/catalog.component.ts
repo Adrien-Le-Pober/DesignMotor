@@ -3,6 +3,7 @@ import { Vehicle } from '../models/vehicle.model';
 import { CatalogService } from './catalog.service';
 import { CommonModule } from '@angular/common';
 import { VehicleComponent } from '../vehicle/vehicle.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-catalog',
@@ -15,6 +16,7 @@ import { VehicleComponent } from '../vehicle/vehicle.component';
   styles: ``
 })
 export class CatalogComponent {
+  private requestSubscription: Subscription | undefined;
   public vehicleList: Vehicle[];
 
   constructor(
@@ -22,9 +24,15 @@ export class CatalogComponent {
   ) { }
 
   ngOnInit() {
-    this.catalogService.getVehicleList()
+    this.requestSubscription = this.catalogService.getVehicleList()
       .subscribe(vehicleList => {
         this.vehicleList = vehicleList;
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.requestSubscription) {
+      this.requestSubscription.unsubscribe();
+    }
   }
 }
