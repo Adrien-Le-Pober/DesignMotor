@@ -1,5 +1,15 @@
 <h3>Catalogue de véhicules</h3>
 
+<div>
+    <label>Marque:</label>
+    <select [(ngModel)]="filters.brand" (change)="applyFilters()">
+        <option value="">Toutes les marques</option>
+        <option *ngFor="let brand of brandList" [value]="brand.name">{{ brand.name }}</option>
+    </select>
+</div>
+
+<hr>
+
 <div *ngFor="let vehicle of vehicleList">
     <app-vehicle [vehicle]="vehicle"></app-vehicle>
 </div>

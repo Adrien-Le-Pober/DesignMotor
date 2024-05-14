@@ -20,7 +20,7 @@ class VehicleRepositoryTest extends KernelTestCase
 
     public function testFindEletricCars(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
 
         $this->makeAssertions(
             method: 'findElectricCars',
@@ -32,7 +32,7 @@ class VehicleRepositoryTest extends KernelTestCase
 
     public function testFindPetrolCars(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
 
         $this->makeAssertions(
             method: 'findPetrolCars',
@@ -44,7 +44,7 @@ class VehicleRepositoryTest extends KernelTestCase
 
     public function testFindEletricScooters(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
 
         $this->makeAssertions(
             method: 'findElectricScooters',
@@ -79,7 +79,7 @@ class VehicleRepositoryTest extends KernelTestCase
     ) {
         $vehicles = static::getContainer()
         ->get(VehicleRepository::class)
-        ->$method();
+        ->$method($filters = []);
 
         $this->assertIsArray($vehicles);
         !$isEmpty ? $this->assertNotEmpty($vehicles) : $this->assertEmpty($vehicles);

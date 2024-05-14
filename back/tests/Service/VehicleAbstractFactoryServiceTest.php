@@ -35,7 +35,8 @@ class VehicleAbstractFactoryServiceTest extends TestCase
                         'colorName' => ['blue'],
                         'power'=> '4',
                         'space' => '5',
-                        'imagePath' => 'somePath.jpg'
+                        'imagePath' => 'somePath.jpg',
+                        'price' => 25000
                     ]
                 ]);
         }
@@ -46,7 +47,7 @@ class VehicleAbstractFactoryServiceTest extends TestCase
             $vehicleRepositoryMock
         );
 
-        $vehicles = $vehicleService->getVehicles();
+        $vehicles = $vehicleService->getVehicles($filters = []);
 
         $this->assertIsArray($vehicles);
         $this->assertNotEmpty($vehicles);

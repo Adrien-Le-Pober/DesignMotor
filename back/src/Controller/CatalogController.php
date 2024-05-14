@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Vehicle;
 use App\Proxy\VideoProxy;
+use App\Repository\BrandRepository;
+use Symfony\Component\HttpFoundation\Request;
 use App\Service\VehicleAbstractFactoryService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,9 +16,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CatalogController extends AbstractController
 {
     #[Route('/catalog', name: 'catalog')]
-    public function index(VehicleAbstractFactoryService $vehicleAbstractFactoryService): JsonResponse
-    {
-        return $this->json($vehicleAbstractFactoryService->getVehicles());
+    public function index(
+        VehicleAbstractFactoryService $vehicleAbstractFactoryService,
+        Request $request
+    ): JsonResponse {
+        $filters = [];
+
+        if ($request->query->has('brand')) {
+            $filters['brand'] = $request->query->get('brand');
+        }
+
+        return $this->json($vehicleAbstractFactoryService->getVehicles($filters));
     }
 
     #[Route('vehicle/{vehicle}/video', name: 'vehicule-video')]
@@ -29,5 +39,11 @@ class CatalogController extends AbstractController
         $response->headers->set('Content-Type', 'video/mp4');
 
         return $response;
+    }
+
+    #[Route('/catalog/brands', name: 'catalog-brands')]
+    public function getBrands(BrandRepository $brandRepository): JsonResponse
+    {
+        return $this->json($brandRepository->findAllBrandNames());
     }
 }

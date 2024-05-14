@@ -9,6 +9,7 @@ use App\AbstractFactory\ElectricVehicleFactory;
 class VehicleAbstractFactoryService
 {
     private array $vehicles = [];
+    private array $filters = [];
 
     public function __construct(
         private PetrolVehicleFactory $petrolVehicleFactory,
@@ -16,8 +17,9 @@ class VehicleAbstractFactoryService
         private VehicleRepository $vehicleRepository
     ) { }
 
-    public function getVehicles(): array
+    public function getVehicles(array $filters): array
     {
+        $this->filters = $filters;
         $this->makeElectricCars();
         $this->makePetrolCars();
         $this->makeElectricScooters();
@@ -27,7 +29,7 @@ class VehicleAbstractFactoryService
 
     private function makeElectricCars(): void
     {
-        foreach($this->vehicleRepository->findElectricCars() as $electricCar) {
+        foreach($this->vehicleRepository->findElectricCars($this->filters) as $electricCar) {
             if(!empty($electricCar)) {
                 $this->vehicles[] = $this->electricVehicleFactory->createCar(
                     $electricCar["id"],
@@ -45,7 +47,7 @@ class VehicleAbstractFactoryService
 
     private function makePetrolCars(): void
     {
-        foreach($this->vehicleRepository->findPetrolCars() as $petrolCar) {
+        foreach($this->vehicleRepository->findPetrolCars($this->filters) as $petrolCar) {
             if(!empty($petrolCar)) {
                 $this->vehicles[] = $this->petrolVehicleFactory->createCar(
                     $petrolCar["id"],
@@ -63,7 +65,7 @@ class VehicleAbstractFactoryService
 
     private function makeElectricScooters(): void
     {
-        foreach($this->vehicleRepository->findElectricScooters() as $electricScooter) {
+        foreach($this->vehicleRepository->findElectricScooters($this->filters) as $electricScooter) {
             if(!empty($eletricScooter)) {
                 $this->vehicles[] = $this->electricVehicleFactory->createScooter(
                     $electricScooter["id"],
@@ -80,7 +82,7 @@ class VehicleAbstractFactoryService
 
     private function makePetrolScooters(): void
     {
-        foreach($this->vehicleRepository->findPetrolScooters() as $petrolScooter) {
+        foreach($this->vehicleRepository->findPetrolScooters($this->filters) as $petrolScooter) {
             if(!empty($petrolScooter)) {
                 $this->vehicles[] = $this->electricVehicleFactory->createScooter(
                     $petrolScooter["id"],
