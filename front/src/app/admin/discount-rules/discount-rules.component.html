@@ -1,0 +1,30 @@
+<div>
+    <h3>Créer une règle de réduction </h3>
+    <app-discount-rules-form 
+        [discountRule]="selectedDiscountRule"
+        [isRequestPending]="isRequestPending"
+        (save)="onSave($event)">
+    </app-discount-rules-form>
+
+    <h3>Règles actives</h3>
+    <ul>
+      <li *ngFor="let discountRule of discountRuleList">
+        <hr>
+        <div *ngIf="selectedDiscountRule?.id !== discountRule.id">
+            <span>{{ discountRule.name }}</span>
+            <button (click)="onEdit(discountRule)">Modifier</button>
+            <button (click)="onDelete(discountRule)" [disabled]="isRequestPending">Supprimer</button>
+        </div>
+        <div *ngIf="selectedDiscountRule?.id === discountRule.id && isEditMode">
+            <button (click)="onCancelEdit()">Annuler</button>
+            <app-discount-rules-form 
+                [discountRule]="discountRule"
+                [isRequestPending]="isRequestPending"
+                [isEditMode]="isEditMode"
+                (save)="onSave($event)">
+            </app-discount-rules-form>
+        </div>
+        <hr>
+    </li>
+    </ul>
+</div>
