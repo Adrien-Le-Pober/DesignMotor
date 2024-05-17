@@ -44,8 +44,8 @@ class DiscountController extends AbstractController
 
         if (isset($data['storageDuration']) && isset($data['rate'])) {
             $discount = (new Discount())
-            ->setStorageDuration($data['storageDuration'])
-            ->setRate($data['rate']);
+                ->setStorageDuration($data['storageDuration'])
+                ->setRate($data['rate']);
 
             $discount->run($vehicleRepository->findAll());
 

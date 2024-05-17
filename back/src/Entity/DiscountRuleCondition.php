@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\DiscountRuleConditionRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DiscountRuleConditionRepository;
 
 #[ORM\Entity(repositoryClass: DiscountRuleConditionRepository::class)]
 class DiscountRuleCondition
@@ -16,11 +17,8 @@ class DiscountRuleCondition
     #[ORM\Column(length: 48)]
     private ?string $type = null;
 
-    #[ORM\Column(length: 48)]
-    private ?string $operator = null;
-
-    #[ORM\Column(length: 48)]
-    private ?string $value = null;
+    #[ORM\Column(type: 'json')]
+    private array $value = [];
 
     #[ORM\ManyToOne(inversedBy: 'discountRuleConditions')]
     #[ORM\JoinColumn(nullable: false)]
@@ -43,24 +41,12 @@ class DiscountRuleCondition
         return $this;
     }
 
-    public function getOperator(): ?string
-    {
-        return $this->operator;
-    }
-
-    public function setOperator(string $operator): static
-    {
-        $this->operator = $operator;
-
-        return $this;
-    }
-
-    public function getValue(): ?string
+    public function getValue(): array
     {
         return $this->value;
     }
 
-    public function setValue(string $value): static
+    public function setValue(array $value): static
     {
         $this->value = $value;
 
