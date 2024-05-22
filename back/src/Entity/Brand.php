@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BrandRepository;
 use Doctrine\Common\Collections\Collection;
@@ -32,6 +33,9 @@ class Brand
      */
     #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'brand', orphanRemoval: true)]
     private Collection $vehicles;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -112,6 +116,18 @@ class Brand
                 $vehicle->setBrand(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
