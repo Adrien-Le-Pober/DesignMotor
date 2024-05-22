@@ -8,9 +8,6 @@ abstract class AbstractCar
         protected int $id,
         protected string $brand,
         protected string $model,
-        protected array $color,
-        protected string $power,
-        protected string $space,
         protected string $imagePath,
         protected float $price
     ) { }

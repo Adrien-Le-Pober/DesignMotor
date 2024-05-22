@@ -3,10 +3,7 @@ export class Vehicle {
         public id: number,
         public brand: string,
         public model: string,
-        public color: string[],
-        public power: string,
         public price: number,
-        public space?: string,
         public image?: string,
     ) {}
 }

@@ -8,8 +8,6 @@ abstract class AbstractScooter
         protected int $id,
         protected string $brand,
         protected string $model,
-        protected array $color,
-        protected string $power,
         protected string $imagePath,
         protected float $price
     ) { }

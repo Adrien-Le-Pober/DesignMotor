@@ -8,9 +8,6 @@ interface VehicleFactoryInterface
         int $id,
         string $brand,
         string $model,
-        array $color,
-        string $power,
-        string $space,
         string $imagePath,
         float $price
     ): AbstractCar;
@@ -19,8 +16,6 @@ interface VehicleFactoryInterface
         int $id,
         string $brand,
         string $model,
-        array $color,
-        string $power,
         string $imagePath,
         float $price
     ): AbstractScooter;

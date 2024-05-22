@@ -26,11 +26,9 @@ class VehicleRepository extends ServiceEntityRepository
 
         $defaultSelectFields = [
             'v.id',
-            'v.power',
             'v.imagePath',
             'v.price',
             'b.name AS brandName',
-            'c.name AS colorName',
             'mo.name AS modelName',
             'm.name AS motorizationName',
             't.name AS typeName'
@@ -40,7 +38,6 @@ class VehicleRepository extends ServiceEntityRepository
 
         $qb->select($selectFields)
             ->leftJoin('v.brand', 'b')
-            ->leftJoin('v.color', 'c')
             ->leftJoin('v.model', 'mo')
             ->leftJoin('v.motorization', 'm')
             ->andWhere('m.name = :motorization')
@@ -61,12 +58,12 @@ class VehicleRepository extends ServiceEntityRepository
 
     public function findElectricCars(array $filters): array
     {
-        return $this->findVehicles('Electric', 'Car', $filters, ['v.space']);
+        return $this->findVehicles('Electric', 'Car', $filters, []);
     }
 
     public function findPetrolCars(array $filters): array
     {
-        return $this->findVehicles('Petrol', 'Car', $filters, ['v.space']);
+        return $this->findVehicles('Petrol', 'Car', $filters, []);
     }
 
     public function findElectricScooters(array $filters): array

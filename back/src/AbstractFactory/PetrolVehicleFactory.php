@@ -11,26 +11,21 @@ class PetrolVehicleFactory implements VehicleFactoryInterface
         int $id,
         string $brand,
         string $model,
-        array $color,
-        string $power,
-        string $space,
         string $imagePath,
         float $price
     ): AbstractCar
     {
-        return new PetrolCar($id, $brand, $model, $color, $power, $space, $imagePath, $price);
+        return new PetrolCar($id, $brand, $model, $imagePath, $price);
     }
 
     public function createScooter(
         int $id,
         string $brand,
         string $model,
-        array $color, 
-        string $power,
         string $imagePath,
         float $price
     ): AbstractScooter
     {
-        return new PetrolScooter($id, $brand, $model, $color, $power, $imagePath, $price);
+        return new PetrolScooter($id, $brand, $model, $imagePath, $price);
     }
 }
