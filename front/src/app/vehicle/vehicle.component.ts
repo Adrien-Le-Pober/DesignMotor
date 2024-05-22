@@ -2,12 +2,14 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Vehicle } from '../models/vehicle.model';
 import { VehicleService } from './vehicle.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
   ],
   templateUrl: 'vehicle.component.html',
   styles: ``

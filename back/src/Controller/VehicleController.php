@@ -4,17 +4,26 @@ namespace App\Controller;
 
 use App\Entity\Vehicle;
 use App\Repository\VehicleRepository;
+use App\Trait\Base64ImageTrait;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class VehicleController extends AbstractController
 {
-    #[Route('/vehicle/{vehicle}', name: 'app_show_vehicle')]
+    use Base64ImageTrait;
+
+    #[Route('/vehicle/{id}', name: 'app_show_vehicle')]
     public function show(
-        Vehicle $vehicle,
+        int $id,
         VehicleRepository $vehicleRepository
     ): JsonResponse {
-        return $this->json('');
+        $vehicle = $vehicleRepository->findDescriptionById($id);
+
+        if($vehicle['image']) {
+            $vehicle['image'] = $this->getBase64Image($vehicle['image']);
+        }
+        
+        return $this->json($vehicle);
     }
 }

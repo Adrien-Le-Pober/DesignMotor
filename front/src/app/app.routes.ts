@@ -9,5 +9,6 @@ export const routes: Routes = [
     { path: 'catalog', component: CatalogComponent },
     { path: 'vehicle/:id', component: ShowVehicleComponent },
     { path: '', redirectTo: 'catalog', pathMatch: 'full' },
-    { path: '**', component: PageNotFoundComponent }
+    { path: '404', component: PageNotFoundComponent },
+    { path: '**', redirectTo: '/404' }
 ];

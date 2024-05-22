@@ -75,4 +75,31 @@ class VehicleRepository extends ServiceEntityRepository
     {
         return $this->findVehicles('Petrol', 'Scooter', $filters, []);
     }
+
+    public function findDescriptionById(int $id): array
+    {
+        return $this->createQueryBuilder('v')
+            ->select(
+                'v.id',
+                'v.price',
+                'v.power',
+                'v.space',
+                'v.imagePath AS image',
+                'v.description',
+                'b.name AS brand',
+                'b.description AS brandDescription',
+                'mo.name AS model',
+                'mo.description AS modelDescription',
+                'm.name AS motorization',
+                'c.name AS color'
+            )
+            ->andWhere('v.id = :id')
+            ->setParameter('id', $id)
+            ->leftJoin('v.brand', 'b')
+            ->leftJoin('v.model', 'mo')
+            ->leftJoin('v.motorization', 'm')
+            ->leftJoin('v.color', 'c')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

@@ -18,8 +18,6 @@
     <p>Marque : {{ vehicle.brand }}</p>
     <p>Modèle : {{ vehicle.model }}</p>
     <p>Prix : {{ vehicle.price | currency: 'EUR' }}</p>
-    <p *ngFor="let color of vehicle.color"> Couleur : {{ color }}</p>
-    <p>Puissance : {{ vehicle.power }}</p>
-    <p *ngIf="vehicle.space">Espace : {{ vehicle.space }}</p>
-    <br>
+    <a [routerLink]="['/vehicle', vehicle.id]">Description</a>
+    <hr>
 </div>
