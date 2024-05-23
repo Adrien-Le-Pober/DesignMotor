@@ -60,6 +60,7 @@ class AppFixtures extends Fixture
                         ->setImagePath($assetsPath->getImagePath() . 'renault_megan_E-Tech.jpg')
                         ->setVideoPath($assetsPath->getVideoPath() . 'Renault-Megane-eTech.mp4')
                         ->setPrice(30_000)
+                        ->setDescription("Découvrez la Megane E-Tech, la berline 100% électrique de Renault, avec 220 ch, autonomie jusqu'à 480 km et assemblée en France.")
                         ->setCreatedAt(new DateTimeImmutable());
                     break;
                 case 'Classe S':
@@ -69,6 +70,8 @@ class AppFixtures extends Fixture
                     $manager->persist($type);
                     $motorization = (new Motorization())->setName('Petrol');
                     $manager->persist($motorization);
+                    $model->setDescription("Découvrez les points forts de la Mercedes-Benz Classe S Berline : design expressif, confort de première classe et technologie innovante de sécurité.");
+                    $manager->persist($model);
                     $vehicle
                         ->setSpace(mt_rand(1, 10))
                         ->addColor($color)
@@ -86,6 +89,8 @@ class AppFixtures extends Fixture
                     $manager->persist($type);
                     $motorization = (new Motorization())->setName('Petrol');
                     $manager->persist($motorization);
+                    $brand->setDescription("La marque Volkswagen appartient au Groupe Volkswagen AG qui est en 2018, le premier constructeur mondial de véhicules devant Toyota avec 10,8 millions d'unités vendues");
+                    $manager->persist($brand);
                     $vehicle
                         ->setSpace(mt_rand(1, 10))
                         ->addColor($color)
