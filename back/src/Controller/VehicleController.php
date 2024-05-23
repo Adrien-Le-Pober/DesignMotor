@@ -18,7 +18,7 @@ class VehicleController extends AbstractController
         int $id,
         VehicleRepository $vehicleRepository
     ): JsonResponse {
-        $vehicle = $vehicleRepository->findDescriptionById($id);
+        $vehicle = $vehicleRepository->findDetailsById($id);
 
         if($vehicle['image']) {
             $vehicle['image'] = $this->getBase64Image($vehicle['image']);

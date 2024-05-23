@@ -51,8 +51,7 @@ class VehicleRepositoryTest extends KernelTestCase
             count: 0,
             motorizationName: 'Electric',
             typeName: 'Scooter',
-            isEmpty: true,
-            space: false
+            isEmpty: true
         );
     }
 
@@ -64,9 +63,41 @@ class VehicleRepositoryTest extends KernelTestCase
             method: 'findPetrolScooters',
             count: 1,
             motorizationName: 'Petrol',
-            typeName: 'Scooter',
-            space: false
+            typeName: 'Scooter'
         );
+    }
+
+    public function testFindDetailsById(): void
+    {
+        $kernel = self::bootKernel();
+
+        $vehicle = static::getContainer()
+            ->get(VehicleRepository::class)
+            ->findDetailsById(1);
+        
+        $this->assertIsArray($vehicle);
+        $this->assertNotEmpty($vehicle);
+
+        $this->assertArrayHasKey('id', $vehicle);
+        $this->assertArrayHasKey('price', $vehicle);
+        $this->assertArrayHasKey('power', $vehicle);
+        $this->assertArrayHasKey('space', $vehicle);
+        $this->assertArrayHasKey('image', $vehicle);
+        $this->assertArrayHasKey('description', $vehicle);
+        $this->assertArrayHasKey('brand', $vehicle);
+        $this->assertArrayHasKey('brandDescription', $vehicle);
+        $this->assertArrayHasKey('model', $vehicle);
+        $this->assertArrayHasKey('modelDescription', $vehicle);
+        $this->assertArrayHasKey('motorization', $vehicle);
+        $this->assertArrayHasKey('color', $vehicle);
+
+        $this->assertNotEmpty($vehicle['id']);
+        $this->assertNotEmpty($vehicle['price']);
+        $this->assertNotEmpty($vehicle['power']);
+        $this->assertNotEmpty($vehicle['brand']);
+        $this->assertNotEmpty($vehicle['model']);
+        $this->assertNotEmpty($vehicle['motorization']);
+        $this->assertNotEmpty($vehicle['color']);
     }
 
     private function makeAssertions(
@@ -74,12 +105,11 @@ class VehicleRepositoryTest extends KernelTestCase
         int $count,
         string $motorizationName,
         string $typeName,
-        bool $isEmpty = false,
-        bool $space = true
+        bool $isEmpty = false
     ) {
         $vehicles = static::getContainer()
-        ->get(VehicleRepository::class)
-        ->$method($filters = []);
+            ->get(VehicleRepository::class)
+            ->$method($filters = []);
 
         $this->assertIsArray($vehicles);
         !$isEmpty ? $this->assertNotEmpty($vehicles) : $this->assertEmpty($vehicles);
@@ -87,22 +117,19 @@ class VehicleRepositoryTest extends KernelTestCase
 
         foreach ($vehicles as $vehicle) {
             $this->assertArrayHasKey('id', $vehicle);
+            $this->assertArrayHasKey('price', $vehicle);
+            $this->assertArrayHasKey('imagePath', $vehicle);
             $this->assertArrayHasKey('brandName', $vehicle);
             $this->assertArrayHasKey('modelName', $vehicle);
-            $this->assertArrayHasKey('colorName', $vehicle);
-            $this->assertArrayHasKey('power', $vehicle);
-            $space ?? $this->assertArrayHasKey('space', $vehicle);
             $this->assertArrayHasKey('motorizationName', $vehicle);
             $this->assertArrayHasKey('typeName', $vehicle);
         }
 
         foreach ($vehicles as $vehicle) {
             $this->assertNotEmpty($vehicle['id']);
+            $this->assertNotEmpty($vehicle['price']);
             $this->assertNotEmpty($vehicle['brandName']);
             $this->assertNotEmpty($vehicle['modelName']);
-            $this->assertNotEmpty($vehicle['colorName']);
-            $this->assertNotEmpty($vehicle['power']);
-            $space ?? $this->assertNotEmpty($vehicle['space']);
             $this->assertNotEmpty($vehicle['motorizationName']);
             $this->assertNotEmpty($vehicle['typeName']);
         }

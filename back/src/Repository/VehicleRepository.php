@@ -76,7 +76,7 @@ class VehicleRepository extends ServiceEntityRepository
         return $this->findVehicles('Petrol', 'Scooter', $filters, []);
     }
 
-    public function findDescriptionById(int $id): array
+    public function findDetailsById(int $id): array
     {
         return $this->createQueryBuilder('v')
             ->select(
