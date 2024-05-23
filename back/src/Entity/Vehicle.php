@@ -85,6 +85,7 @@ class Vehicle
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $description = null;
 
     public function __construct()

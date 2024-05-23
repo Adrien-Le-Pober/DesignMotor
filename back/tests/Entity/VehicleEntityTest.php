@@ -31,6 +31,7 @@ class VehicleEntityTest extends KernelTestCase
             ->setImagePath($this->assetsService->getImagePath() . 'SomePath.jpg')
             ->setVideoPath($this->assetsService->getVideoPath() . 'SomePath.mp4')
             ->setPrice(10_000)
+            ->setDescription('description')
             ->setCreatedAt(new DateTimeImmutable())
             ->setBrand(new Brand())
             ->addColor(new Color())
@@ -50,6 +51,7 @@ class VehicleEntityTest extends KernelTestCase
         $this->assertHasErrors($this->getEntity()->setSpace(''), 1);
         $this->assertHasErrors($this->getEntity()->setImagePath(''), 1);
         $this->assertHasErrors($this->getEntity()->setVideoPath(''), 1);
+        $this->assertHasErrors($this->getEntity()->setDescription(''), 1);
 	}
 
     public function testInvalidNullArgument()

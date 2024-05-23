@@ -34,6 +34,7 @@ class Model
     private Collection $vehicles;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $description = null;
 
     public function __construct()

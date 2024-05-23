@@ -28,6 +28,7 @@ class VehicleUnitTest extends TestCase
             ->setImagePath('somePath')
             ->setVideoPath('somePath')
             ->setPrice(10_000.50)
+            ->setDescription('description')
             ->setBrand($brand)
             ->addColor($color)
             ->setType($type)
@@ -40,6 +41,7 @@ class VehicleUnitTest extends TestCase
         $this->assertTrue($vehicle->getImagePath() === 'somePath');
         $this->assertTrue($vehicle->getVideoPath() === 'somePath');
         $this->assertTrue($vehicle->getPrice() === 10_000.50);
+        $this->assertTrue($vehicle->getDescription() === 'description');
         $this->assertTrue($vehicle->getBrand() === $brand);
         $this->assertContains($color, $vehicle->getColor());
         $this->assertTrue($vehicle->getType() === $type);
@@ -56,6 +58,7 @@ class VehicleUnitTest extends TestCase
             ->setImagePath('somePath')
             ->setImagePath('somePath')
             ->setPrice(10_000)
+            ->setDescription('description')
             ->setBrand(new Brand())
             ->addColor(new Color())
             ->setType(new Type())
@@ -68,6 +71,7 @@ class VehicleUnitTest extends TestCase
         $this->assertFalse($vehicle->getImagePath() === 'someOtherPath');
         $this->assertFalse($vehicle->getVideoPath() === 'someOtherPath');
         $this->assertFalse($vehicle->getPrice() === 20_000);
+        $this->assertFalse($vehicle->getDescription() === 'another description');
         $this->assertFalse($vehicle->getBrand() === new Brand());
         $this->assertNotContains(new Color(), $vehicle->getColor());
         $this->assertFalse($vehicle->getType() === new Type());
@@ -87,6 +91,7 @@ class VehicleUnitTest extends TestCase
         $this->assertEmpty($vehicle->getImagePath());
         $this->assertEmpty($vehicle->getVideoPath());
         $this->assertEmpty($vehicle->getPrice());
+        $this->assertEmpty($vehicle->getDescription());
         $this->assertEmpty($vehicle->getType());
         $this->assertEmpty($vehicle->getModel());
         $this->assertEmpty($vehicle->getMotorization());

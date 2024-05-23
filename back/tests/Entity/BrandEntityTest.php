@@ -13,6 +13,7 @@ class BrandEntityTest extends KernelTestCase
 	{
 		return (new Brand())
             ->setName('Renault')
+            ->setDescription('description')
             ->addModel(new Model())
             ->addVehicle(new Vehicle());
 	}
@@ -25,6 +26,7 @@ class BrandEntityTest extends KernelTestCase
     public function testInvalidBlankArgument()
 	{
 		$this->assertHasErrors($this->getEntity()->setName(''), 1);
+        $this->assertHasErrors($this->getEntity()->setDescription(''), 1);
 	}
 
     public function testInvalidMaxLength()

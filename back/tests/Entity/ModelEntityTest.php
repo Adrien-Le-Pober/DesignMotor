@@ -13,6 +13,7 @@ class ModelEntityTest extends KernelTestCase
 	{
 		return (new Model())
             ->setName('blue')
+            ->setDescription('description')
             ->setBrand(new Brand())
             ->addVehicle(new Vehicle());
 	}
@@ -20,6 +21,7 @@ class ModelEntityTest extends KernelTestCase
     public function testInvalidBlankArgument()
 	{
 		$this->assertHasErrors($this->getEntity()->setName(''), 1);
+        $this->assertHasErrors($this->getEntity()->setDescription(''), 1);
 	}
 
         public function testInvalidNullArgument()
