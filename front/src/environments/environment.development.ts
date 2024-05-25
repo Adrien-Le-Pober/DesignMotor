@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    appURL: 'http://localhost:8000'
+    appURL: 'https://localhost:8000'
 };

@@ -10,6 +10,11 @@ composer install
 ```
 
 ```
+symfony console lexik:jwt:generate-keypair
+```
+
+
+```
 symfony console d:d:c
 ```
 
