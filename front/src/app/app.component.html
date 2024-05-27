@@ -1,0 +1,25 @@
+<nav>
+    <ul>
+        <li>
+            <a routerLink="/" routerLinkActive="active">Accueil</a>
+        </li>
+        <li>
+            <a routerLink="/admin" routerLinkActive="active">Admin</a>
+        </li>
+        <li *ngIf="!currentUser">
+            <a routerLink="/connection" routerLinkActive="active">Connexion</a>
+        </li>
+        <li *ngIf="currentUser">
+            <ul>
+                <li>
+                    <a routerLinkActive="active">Mon compte</a>
+                </li>
+                <li>
+                    <a routerLink="" (click)="logout()" routerLinkActive="active">Déconnexion</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<router-outlet></router-outlet>

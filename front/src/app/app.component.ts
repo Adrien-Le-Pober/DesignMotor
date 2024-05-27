@@ -1,7 +1,9 @@
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from './auth/auth.service';
+import { UserService } from './user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -11,21 +13,21 @@ import { FormsModule } from '@angular/forms';
     RouterModule,
     FormsModule
   ],
-  template: `
-    <nav>
-      <ul>
-        <li>
-          <a routerLink="/" routerLinkActive="active">Accueil</a>
-        </li>
-        <li>
-          <a routerLink="/admin" routerLinkActive="active">Admin</a>
-        </li>
-      </ul>
-    </nav>
-
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: './app.component.html',
   styles: [],
 })
 export class AppComponent {
+  currentUser: string|null = null;
+
+  constructor(private userService: UserService) { }
+
+  ngOnInit() {
+    this.userService.currentUser$.subscribe((user: string | null) => {
+      this.currentUser = user;
+    });
+  }
+
+  logout() {
+    this.userService.clearCurrentUser();
+  }
 }

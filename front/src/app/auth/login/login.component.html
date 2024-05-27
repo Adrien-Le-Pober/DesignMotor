@@ -1,0 +1,36 @@
+<div>
+    <form (submit)="login()" #loginForm="ngForm">
+        <label for="email">Email</label>
+        <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
+            <div *ngIf="emailRef.errors?.['required']">Votre adresse email est requise.</div>
+            <div *ngIf="emailRef.errors?.['email']">Cette adresse email n'est pas valide.</div>
+        </div>
+        <input type="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            email
+            #emailRef="ngModel"
+        >
+        <label for="password">Mot de passe</label>
+        <div *ngIf="passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)">
+            <div *ngIf="passwordRef.errors?.['required']">Le mot de passe est requis.</div>
+            <div *ngIf="passwordRef.errors?.['pattern']">
+                <div *ngIf="password.length < 8">Le mot de passe doit contenir au moins 8 caractères.</div>
+                <div *ngIf="!password.match('[A-Z]')">Le mot de passe doit contenir au moins une lettre majuscule.</div>
+                <div *ngIf="!password.match('[a-z]')">Le mot de passe doit contenir au moins une lettre minuscule.</div>
+                <div *ngIf="!password.match('[0-9]')">Le mot de passe doit contenir au moins un chiffre.</div>
+                <div *ngIf="!password.match('[\\W_]')">Le mot de passe doit contenir au moins un caractère spécial.</div>
+            </div>
+        </div>
+        <input type="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$"
+            #passwordRef="ngModel"
+        >
+        <button type="submit" [disabled]="!loginForm.form.valid || isRequestPending">Valider</button>
+    </form>
+    <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>
