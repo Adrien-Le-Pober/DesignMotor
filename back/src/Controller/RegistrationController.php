@@ -20,7 +20,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
+    public function __construct(private EmailVerifier $emailVerifier, private EntityManagerInterface $entityManager)
     {
     }
 
@@ -28,7 +28,6 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager,
         ValidatorInterface $validator
     ): JsonResponse {
         $userData = json_decode($request->getContent(), true);
@@ -53,8 +52,8 @@ class RegistrationController extends AbstractController
             )
         );
 
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
         // Envoyer le mail depuis un Event Subscriber
         $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
@@ -92,5 +91,36 @@ class RegistrationController extends AbstractController
         }
 
         return $this->redirect($this->getParameter('frontend_base_url') . '/connection?message=Merci, votre adresse email a bien été vérifiée.');
+    }
+
+    #[Route('/resend-confirmation-email', name: 'app_resend_confirmation_email', methods: ['POST'])]
+    public function resendConfirmationEmail(Request $request): JsonResponse
+    {
+        $userData = json_decode($request->getContent(), true);
+        $email = $userData["email"];
+
+        if (!$email) {
+            return new JsonResponse(['message' => "L'adresse email est requise"], Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+
+        if (!$user) {
+            return new JsonResponse(['message' => "Cette adresse email n'existe pas dans notre base"], Response::HTTP_NOT_FOUND);
+        }
+
+        if ($user->isVerified()) {
+            return new JsonResponse(['message' => 'Cette adresse email a déjà été vérifié'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            (new TemplatedEmail())
+                ->from(new Address($this->getParameter('mailer_from'), 'Design Motor'))
+                ->to($user->getEmail())
+                ->subject('Confirmation de votre adresse email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
+        );
+
+        return new JsonResponse(['message' => 'Un email de confirmation vient de vous être envoyé'], Response::HTTP_OK);
     }
 }

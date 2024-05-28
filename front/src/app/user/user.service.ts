@@ -22,6 +22,10 @@ export class UserService {
     return this.http.post<any>(`${this.appURL}/register`, { email, password });
   }
 
+  resendConfirmationEmail(email: string): Observable<any> {
+    return this.http.post(`${this.appURL}/resend-confirmation-email`, { email });
+  }
+
   setCurrentUser(user: string | null) {
     if (user) {
       localStorage.setItem('currentUser', JSON.stringify(user));

@@ -1,0 +1,16 @@
+<p *ngIf="message">{{ message }}</p>
+<form (submit)="resendConfirmationEmail()" #resendConfirmationEmailForm="ngForm">
+    <label for="email">Email</label>
+    <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
+        <div *ngIf="emailRef.errors?.['required']">Votre adresse email est requise.</div>
+        <div *ngIf="emailRef.errors?.['email']">Cette adresse email n'est pas valide.</div>
+    </div>
+    <input type="email"
+        [(ngModel)]="email"
+        required
+        name="email"
+        email
+        #emailRef="ngModel"
+    />
+    <button type="submit" [disabled]="!resendConfirmationEmailForm.form.valid || isRequestPending">Envoyer</button>
+</form>

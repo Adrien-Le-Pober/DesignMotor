@@ -1,5 +1,11 @@
 <div>
     <div *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div *ngIf="isResendConfirmationEmail">
+        <p>
+            Vous n'avez pas reçu d'email ou le lien de confirmation a expiré?
+            <a routerLink="/resend-confirmation-email">reçevoir un email de confirmation</a>.
+        </p>
+    </div>
     <form (submit)="login()" #loginForm="ngForm">
         <label for="email">Email</label>
         <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
