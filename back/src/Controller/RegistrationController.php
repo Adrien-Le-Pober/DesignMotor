@@ -59,13 +59,13 @@ class RegistrationController extends AbstractController
         // Envoyer le mail depuis un Event Subscriber
         $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
             (new TemplatedEmail())
-                ->from(new Address('adrien.le.pober@gmail.com', 'Design Motor'))
+                ->from(new Address($this->getParameter('mailer_from'), 'Design Motor'))
                 ->to($user->getEmail())
-                ->subject('Merci de confirmer votre adresse email')
+                ->subject('Confirmation de votre adresse email')
                 ->htmlTemplate('registration/confirmation_email.html.twig')
         );
 
-        return $this->json(['message' => 'Vous avez reçu un email de validation'], Response::HTTP_CREATED);
+        return $this->json(['message' => 'Merci de vérifier votre boîte email, nous vous avons envoyé un email de confirmation'], Response::HTTP_CREATED);
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
@@ -74,13 +74,13 @@ class RegistrationController extends AbstractController
         $id = $request->query->get('id');
 
         if (null === $id) {
-            return $this->redirect("http://localhost:4200/verification-email?message=Aucun identifiant n'a été fournit");
+            return $this->redirect($this->getParameter('frontend_base_url') . "/connection?message=Aucun identifiant n'a été fournit");
         }
 
         $user = $userRepository->find($id);
 
         if (null === $user) {
-            return $this->redirect('http://localhost:4200/verification-email?message=Cet utilisateur est introuvable');
+            return $this->redirect($this->getParameter('frontend_base_url') . '/connection?message=Cet utilisateur est introuvable');
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists
@@ -88,9 +88,9 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $errorMessage = $translator->trans($exception->getReason(), [], 'VerifyEmailBundle');
-            return $this->redirect('http://your-frontend-app-url.com/verification-email?message=' . urlencode($errorMessage));
+            return $this->redirect($this->getParameter('frontend_base_url') . '/connection?message=' . urlencode($errorMessage));
         }
 
-        return $this->redirect('http://localhost:4200/verification-email?message=Votre adresse email à bien été vérifiée.');
+        return $this->redirect($this->getParameter('frontend_base_url') . '/connection?message=Merci, votre adresse email a bien été vérifiée.');
     }
 }
