@@ -1,4 +1,5 @@
 <div>
+    <div *ngIf="errorMessage">{{ errorMessage }}</div>
     <form (submit)="login()" #loginForm="ngForm">
         <label for="email">Email</label>
         <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
@@ -24,5 +25,4 @@
         >
         <button type="submit" [disabled]="!loginForm.form.valid || isRequestPending">Valider</button>
     </form>
-    <div *ngIf="errorMessage">{{ errorMessage }}</div>
 </div>

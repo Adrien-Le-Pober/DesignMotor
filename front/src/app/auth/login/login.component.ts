@@ -26,9 +26,13 @@ export class LoginComponent {
             this.isRequestPending = false;
             this.router.navigate(['/']);
         },
-        error: () => {
+        error: (error) => {
             this.isRequestPending = false;
-            this.errorMessage = 'Email ou mot de passe invalide';
+            if (error.status === 403) {
+              this.errorMessage = error.error.message;
+            } else {
+                this.errorMessage = 'Email ou mot de passe invalide';
+            }
         }
     });
   }
