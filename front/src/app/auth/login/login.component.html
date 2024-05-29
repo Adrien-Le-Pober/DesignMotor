@@ -29,6 +29,7 @@
             required
             #passwordRef="ngModel"
         >
+        <a routerLink="/mot-de-passe-oublie">J'ai oublié mon mot de passe</a>
         <button type="submit" [disabled]="!loginForm.form.valid || isRequestPending">Valider</button>
     </form>
 </div>

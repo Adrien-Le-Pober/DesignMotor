@@ -1,0 +1,7 @@
+<p>Pour changer votre mot de passe, cliquez sur le lien ci dessous</p>
+
+<a href="{{ redirectPath ~ '/reinitialiser-mot-de-passe/' ~ resetToken.token }}">Changer mon mot de passe</a>
+
+<p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+<p>A bientôt!</p>
