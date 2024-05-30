@@ -38,7 +38,11 @@ class ResetPasswordController extends AbstractController
         if (!$email) {
             return new JsonResponse(['error' => "L'adresse email est requise"], Response::HTTP_BAD_REQUEST);
         }
-        // Validator?
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return new JsonResponse(['error' => "L'adresse email n'est pas valide"], Response::HTTP_BAD_REQUEST);
+        }
+
         return $this->processSendingPasswordResetEmail($email, $mailer, $translator);
     }
 
