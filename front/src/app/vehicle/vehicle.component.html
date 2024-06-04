@@ -1,7 +1,9 @@
 <div 
     (mouseenter)="loadVideo(vehicle.id)"
     (mouseleave)="resetMedia()"
+    class="card"
 >
+    <h5>{{ vehicle.brand }} {{ vehicle.model }}</h5>
     <video 
         *ngIf="videoUrl"
         width="300"
@@ -13,11 +15,13 @@
         <source [src]="videoUrl" type="video/mp4">
         Votre navigateur ne supporte pas la lecture de vidéos.
     </video>
-    <div *ngIf="loading" style="height:225px;">Chargement du media...</div>
-    <img *ngIf="!videoUrl && !loading" [src]="vehicle.image" alt="image du véhicule" width="300">
-    <p>Marque : {{ vehicle.brand }}</p>
-    <p>Modèle : {{ vehicle.model }}</p>
-    <p>Prix : {{ vehicle.price | currency: 'EUR' }}</p>
-    <a [routerLink]="['/vehicle', vehicle.id]">Description</a>
+    <div *ngIf="loading" class="spinner">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <img *ngIf="!videoUrl && !loading" [src]="vehicle.image" alt="image du véhicule">
     <hr>
+    <p>{{ vehicle.price | currency: 'EUR' }}</p>
+    <a class="btn btn-primary" [routerLink]="['/vehicle', vehicle.id]">Voir la description</a>
 </div>

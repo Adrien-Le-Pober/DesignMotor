@@ -1,15 +1,31 @@
-<h3>Catalogue de véhicules</h3>
+<section class="container bg-light p-2 p-sm-5">
+    <h3 class="text-center">Notre catalogue de véhicules</h3>
 
-<div>
-    <label>Marque:</label>
-    <select [(ngModel)]="filters.brand" (change)="applyFilters()">
-        <option value="">Toutes les marques</option>
-        <option *ngFor="let brand of brandList" [value]="brand.name">{{ brand.name }}</option>
-    </select>
-</div>
-
-<hr>
-
-<div *ngFor="let vehicle of vehicleList">
-    <app-vehicle [vehicle]="vehicle"></app-vehicle>
-</div>
+    <div *ngIf="!isLoading" class="row">
+        <p>Résultats trouvés</p>
+        <hr>
+        <h6>TRIER PAR</h6>
+        <label>Marque</label>
+        <div class="col-lg-6 col-xl-4">
+            <select class="form-select" [(ngModel)]="filters.brand" (change)="applyFilters()">
+                <option value="">Toutes les marques</option>
+                <option *ngFor="let brand of brandList" [value]="brand.name">{{ brand.name }}</option>
+            </select>
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="d-flex row justify-content-center">
+        <div *ngIf="isLoading" class="spinner">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <ng-container *ngIf="!isLoading">
+            <div *ngFor="let vehicle of vehicleList" class="col-lg-9 col-xl-6">
+                <app-vehicle [vehicle]="vehicle"></app-vehicle>
+            </div>
+        </ng-container>
+    </div>
+</section>

@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
   ],
   templateUrl: 'vehicle.component.html',
-  styles: ``
+  styleUrl: 'vehicle.component.scss'
 })
 export class VehicleComponent {
   @Input() vehicle: Vehicle;

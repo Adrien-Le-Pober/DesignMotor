@@ -16,27 +16,31 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
   templateUrl: 'catalog.component.html',
-  styles: ``
+  styleUrl: 'catalog.component.scss'
 })
 export class CatalogComponent {
   private requestSubscription: Subscription | undefined;
   public vehicleList: Vehicle[];
   public brandList: Brand[];
   public filters: any = {};
+  public isLoading: boolean = false;
 
   constructor(
     private catalogService: CatalogService
   ) { }
 
   ngOnInit() {
-    this.fetchVehicles();
+    this.isLoading = true;
     this.fetchBrands();
+    this.fetchVehicles();
   }
 
   fetchVehicles() {
+    this.isLoading = true;
     this.requestSubscription = this.catalogService.getVehicleList(this.filters)
       .subscribe(vehicleList => {
         this.vehicleList = vehicleList;
+        this.isLoading = false;
       });
   }
 
