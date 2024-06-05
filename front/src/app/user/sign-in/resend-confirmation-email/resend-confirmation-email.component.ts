@@ -8,11 +8,12 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: 'resend-confirmation-email.component.html',
-  styles: ``
+  styleUrl: 'resend-confirmation-email.component.scss'
 })
 export class ResendConfirmationEmailComponent {
   email: string;
-  message: string;
+  errorMessage: string;
+  successMessage: string;
   isRequestPending: boolean = false;
 
   constructor(private authService: UserService) {}
@@ -21,11 +22,11 @@ export class ResendConfirmationEmailComponent {
     this.isRequestPending = true;
     this.authService.resendConfirmationEmail(this.email).subscribe({
       next: (response) => {
-        this.message = response.message;
+        this.successMessage = response.message;
         this.isRequestPending = false;
       },
       error: (error) => {
-        this.message = error.error.message || 'Une erreur est survenue.';
+        this.errorMessage = error.error.message || 'Une erreur est survenue.';
         this.isRequestPending = false;
       }
     });

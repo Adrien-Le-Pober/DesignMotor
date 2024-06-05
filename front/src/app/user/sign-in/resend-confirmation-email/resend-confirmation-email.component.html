@@ -1,16 +1,25 @@
-<p *ngIf="message">{{ message }}</p>
-<form (submit)="resendConfirmationEmail()" #resendConfirmationEmailForm="ngForm">
-    <label for="email">Email</label>
-    <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
-        <div *ngIf="emailRef.errors?.['required']">Votre adresse email est requise.</div>
-        <div *ngIf="emailRef.errors?.['email']">Cette adresse email n'est pas valide.</div>
+<main class="container">
+    <h3>Reçevez votre email de confirmation</h3>
+    <div class="col-12 col-md-6 col-lg-4">
+        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+        <form (submit)="resendConfirmationEmail()" #resendConfirmationEmailForm="ngForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <div class="text-danger" *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
+                    <div *ngIf="emailRef.errors?.['required']">Votre adresse email est requise.</div>
+                    <div *ngIf="emailRef.errors?.['email']">Cette adresse email n'est pas valide.</div>
+                </div>
+                <input type="email"
+                    class="form-control"
+                    [(ngModel)]="email"
+                    required
+                    name="email"
+                    email
+                    #emailRef="ngModel"
+                />
+            </div>
+            <button class="btn btn-primary w-100 mt-3" type="submit" [disabled]="!resendConfirmationEmailForm.form.valid || isRequestPending">Envoyer</button>
+        </form>
     </div>
-    <input type="email"
-        [(ngModel)]="email"
-        required
-        name="email"
-        email
-        #emailRef="ngModel"
-    />
-    <button type="submit" [disabled]="!resendConfirmationEmailForm.form.valid || isRequestPending">Envoyer</button>
-</form>
+</main>

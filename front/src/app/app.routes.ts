@@ -14,7 +14,7 @@ export const routes: Routes = [
     { path: 'admin', component: AdminComponent },
     { path: 'connection', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'inscription', component: SignInComponent, canActivate: [AuthGuard] },
-    { path: 'resend-confirmation-email', component: ResendConfirmationEmailComponent },
+    { path: 'renvoyer-email-confirmation', component: ResendConfirmationEmailComponent },
     { path: 'reinitialiser-mot-de-passe/:token', component: ResetPasswordComponent },
     { path: 'mot-de-passe-oublie', component: ForgotPasswordComponent },
     { path: 'catalog', component: CatalogComponent },

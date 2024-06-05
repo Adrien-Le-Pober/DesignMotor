@@ -106,11 +106,11 @@ class RegistrationController extends AbstractController
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
         if (!$user) {
-            return new JsonResponse(['message' => "Cette adresse email n'existe pas dans notre base"], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => "Cette adresse email n'existe pas dans notre base, vous devez vous inscrire"], Response::HTTP_NOT_FOUND);
         }
 
         if ($user->isVerified()) {
-            return new JsonResponse(['message' => 'Cette adresse email a déjà été vérifié'], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['message' => 'Cette adresse email a déjà été vérifié, vous pouvez vous connecter'], Response::HTTP_BAD_REQUEST);
         }
 
         $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,

@@ -3,6 +3,11 @@
     <div class="col-12 col-md-6 col-lg-4">
         <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
         <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+        <a routerLink="/renvoyer-email-confirmation">
+            <div *ngIf="errorMessage" class="alert alert-info">
+                Je n'ai pas reçu d'email de confirmation
+            </div>
+        </a>
         <form (submit)="signIn()" #signinForm="ngForm">
             <div class="form-group">
                 <label for="email">Email:</label>
