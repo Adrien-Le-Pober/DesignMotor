@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './sign-in.component.html',
-  styles: ``
+  styleUrl: 'sign-in.component.scss'
 })
 export class SignInComponent {
   email: string = '';
@@ -18,7 +18,14 @@ export class SignInComponent {
   successMessage: string = '';
   isRequestPending = false;
 
-  constructor(private userService: UserService, private router: Router) {}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.errorMessage = params['errorMessage'];
+      this.successMessage = params['successMessage'];
+    });
+  }
+
+  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {}
 
   signIn() {
     this.isRequestPending = true;

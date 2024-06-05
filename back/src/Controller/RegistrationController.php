@@ -73,13 +73,13 @@ class RegistrationController extends AbstractController
         $id = $request->query->get('id');
 
         if (null === $id) {
-            return $this->redirect($this->getParameter('frontend_base_url') . "/connection?message=Aucun identifiant n'a été fournit");
+            return $this->redirect($this->getParameter('frontend_base_url') . "/connection?errorMessage=Aucun identifiant n'a été fournit");
         }
 
         $user = $userRepository->find($id);
 
         if (null === $user) {
-            return $this->redirect($this->getParameter('frontend_base_url') . '/connection?message=Cet utilisateur est introuvable');
+            return $this->redirect($this->getParameter('frontend_base_url') . '/connection?errorMessage=Cet utilisateur est introuvable');
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists
@@ -87,10 +87,10 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $errorMessage = $translator->trans($exception->getReason(), [], 'VerifyEmailBundle');
-            return $this->redirect($this->getParameter('frontend_base_url') . '/connection?message=' . urlencode($errorMessage));
+            return $this->redirect($this->getParameter('frontend_base_url') . '/connection?errorMessage=' . urlencode($errorMessage));
         }
 
-        return $this->redirect($this->getParameter('frontend_base_url') . '/connection?message=Merci, votre adresse email a bien été vérifiée.');
+        return $this->redirect($this->getParameter('frontend_base_url') . '/connection?successMessage=Merci, votre adresse email a bien été vérifiée.');
     }
 
     #[Route('/resend-confirmation-email', name: 'app_resend_confirmation_email', methods: ['POST'])]
