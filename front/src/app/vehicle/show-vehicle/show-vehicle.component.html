@@ -1,10 +1,18 @@
-<div *ngIf="vehicle">
-    <img *ngIf="vehicle.image" [src]="vehicle.image" alt="image du véhicule" width="300">
-    <p>Marque: {{ vehicle.brand }}</p>
-    <p>Modèle: {{ vehicle.model }}</p>
-    <p>Motorisation: {{ vehicle.motorization }}</p>
-    <p>Prix: {{ vehicle.price | currency: 'EUR' }}</p>
-    <p>Puissance: {{ vehicle.power }}</p>
-    <p *ngIf="vehicle.space">Espace: {{vehicle.space}}</p>
-    <p>Couleur: {{ vehicle.color }}</p>
-</div>
+<main *ngIf="vehicle" class="container">
+    <section>
+        <img *ngIf="vehicle.image" [src]="vehicle.image" alt="image du véhicule">
+    </section>
+    <section class="bg-primary">
+        <div class="card">
+            <p class="card-title">{{ vehicle.brand }} {{ vehicle.model }}</p>
+            <hr>
+            <p>Motorisation: {{ vehicle.motorization }}</p>
+            <p>Puissance: {{ vehicle.power }}</p>
+            <p>Couleur: {{ vehicle.color }}</p>
+            <p *ngIf="vehicle.space">Espace: {{vehicle.space}}</p>
+        </div>
+        <div>
+            <p>Prix: {{ vehicle.price | currency: 'EUR' }}</p>
+        </div>
+    </section>
+</main>

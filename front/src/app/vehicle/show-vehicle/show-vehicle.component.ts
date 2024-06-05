@@ -9,7 +9,7 @@ import { VehicleDescription } from '../../models/vehicle-description.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: 'show-vehicle.component.html',
-  styles: ``
+  styleUrl: 'show-vehicle.component.scss'
 })
 export class ShowVehicleComponent {
   public vehicle: VehicleDescription|undefined;
