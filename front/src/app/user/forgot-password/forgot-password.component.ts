@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: 'forgot-password.component.html',
-  styles: ``
+  styleUrl: 'forgot-password.component.scss'
 })
 export class ForgotPasswordComponent {
   email: string;
