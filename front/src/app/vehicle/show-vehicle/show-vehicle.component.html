@@ -1,18 +1,23 @@
 <main *ngIf="vehicle" class="container">
-    <section>
-        <img *ngIf="vehicle.image" [src]="vehicle.image" alt="image du véhicule">
-    </section>
-    <section class="bg-primary">
-        <div class="card">
-            <p class="card-title">{{ vehicle.brand }} {{ vehicle.model }}</p>
-            <hr>
-            <p>Motorisation: {{ vehicle.motorization }}</p>
-            <p>Puissance: {{ vehicle.power }}</p>
-            <p>Couleur: {{ vehicle.color }}</p>
-            <p *ngIf="vehicle.space">Espace: {{vehicle.space}}</p>
+    <section class="row w-100">
+        <div class="col-xl-7 me-xl-5">
+            <img *ngIf="vehicle.image" [src]="vehicle.image" alt="image du véhicule">
         </div>
-        <div>
-            <p>Prix: {{ vehicle.price | currency: 'EUR' }}</p>
+        <div class="vehicle__infos col-xl-4">
+            <div class="w-100">
+                <div class="card">
+                    <p class="card-title">{{ vehicle.brand }} {{ vehicle.model }}</p>
+                    <hr>
+                    <p>Motorisation: {{ vehicle.motorization }}</p>
+                    <p>Puissance: {{ vehicle.power }}</p>
+                    <p>Couleur: {{ vehicle.color }}</p>
+                    <p *ngIf="vehicle.space">Espace: {{vehicle.space}}</p>
+                </div>
+                <div class="price-box bg-light mt-2">
+                    <p>{{ vehicle.price | currency: 'EUR' }}</p>
+                </div>
+            </div>
         </div>
     </section>
+
 </main>
