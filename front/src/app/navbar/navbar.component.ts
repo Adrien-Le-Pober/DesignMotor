@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../user/user.service';
 import { CommonModule } from '@angular/common';
@@ -16,10 +16,11 @@ export class NavbarComponent {
   @ViewChild('hamburger', { static: true }) hamburgerBtn!: ElementRef;
   @ViewChild('navMenu', { static: true }) navMenu!: ElementRef;
   @ViewChild('menu', { static: true }) menu!: ElementRef;
+  @ViewChild('menuLinks', { static: true }) menuLinks!: ElementRef;
 
-  private dropdownBtns: NodeListOf<HTMLElement> = document.querySelectorAll(".dropdown-btn");
-  private dropdowns: NodeListOf<HTMLElement> = document.querySelectorAll(".dropdown");
-  private links: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".dropdown a");
+  private dropdownBtns: NodeListOf<HTMLElement>;
+  private dropdowns: NodeListOf<HTMLElement>;
+  private links: NodeListOf<HTMLAnchorElement>;
 
   constructor(private userService: UserService) { }
 
@@ -30,12 +31,11 @@ export class NavbarComponent {
   }
 
   ngAfterViewInit() {
-    this.dropdownBtns = document.querySelectorAll('.dropdown-btn');
-    this.dropdowns = document.querySelectorAll('.dropdown');
-    this.links = document.querySelectorAll('.dropdown a');
+    this.dropdownBtns = this.navMenu.nativeElement.querySelectorAll('.dropdown-btn');
+    this.dropdowns = this.navMenu.nativeElement.querySelectorAll('.dropdown');
+    this.links = this.navMenu.nativeElement.querySelectorAll('.dropdown a, .menu-bar a');
 
     this.addEventListeners();
-
     this.setMenuPosition();
   }
 
@@ -71,6 +71,7 @@ export class NavbarComponent {
 
     this.links.forEach((link) => {
       link.addEventListener('click', this.closeMenus.bind(this));
+      link.addEventListener('click', this.closeMenu.bind(this));
     });
 
     document.documentElement.addEventListener('click', this.closeMenus.bind(this));
@@ -85,6 +86,7 @@ export class NavbarComponent {
 
     this.links.forEach((link) => {
       link.removeEventListener('click', this.closeMenus.bind(this));
+      link.removeEventListener('click', this.closeMenu.bind(this));
     });
 
     document.documentElement.removeEventListener('click', this.closeMenus.bind(this));
@@ -118,6 +120,12 @@ export class NavbarComponent {
   closeMenus() {
     this.closeDropdownMenu();
     this.setAriaExpandedFalse();
+  }
+
+  closeMenu() {
+    if (this.menu.nativeElement.classList.contains('show')) {
+      this.menu.nativeElement.classList.remove('show');
+    }
   }
 
   handleEscapeKey(event: KeyboardEvent) {
