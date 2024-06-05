@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CompareValidatorDirective, FormsModule, CommonModule],
   templateUrl: 'reset-password.component.html',
-  styles: ``
+  styleUrl: 'reset-password.component.scss'
 })
 export class ResetPasswordComponent {
   token: string|null;
