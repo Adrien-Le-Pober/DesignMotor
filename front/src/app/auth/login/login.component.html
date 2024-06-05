@@ -1,35 +1,52 @@
-<div>
-    <div *ngIf="errorMessage">{{ errorMessage }}</div>
-    <div *ngIf="isResendConfirmationEmail">
-        <p>
-            Vous n'avez pas reçu d'email ou le lien de confirmation a expiré?
-            <a routerLink="/resend-confirmation-email">reçevoir un email de confirmation</a>.
-        </p>
+<main class="container">
+    <h3>Connectez-vous</h3>
+    <p>Pas encore inscrit? <a routerLink="/inscription">Inscrivez-vous</a></p>
+    <div class="col-12 col-md-6 col-lg-4">
+        <div *ngIf="errorMessage">{{ errorMessage }}</div>
+        <div *ngIf="isResendConfirmationEmail">
+            <p>
+                Vous n'avez pas reçu d'email ou le lien de confirmation a expiré?
+                <a routerLink="/resend-confirmation-email">reçevoir un email de confirmation</a>.
+            </p>
+        </div>
+        <form (submit)="login()" #loginForm="ngForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <div class="text-danger" *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
+                    <div *ngIf="emailRef.errors?.['required']">Votre adresse email est requise.</div>
+                    <div *ngIf="emailRef.errors?.['email']">Cette adresse email n'est pas valide.</div>
+                </div>
+                <input type="email"
+                    class="form-control"
+                    [(ngModel)]="email"
+                    name="email"
+                    required
+                    email
+                    #emailRef="ngModel"
+                >
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <div class="text-danger" *ngIf="passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)">
+                    <div *ngIf="passwordRef.errors?.['required']">Le mot de passe est requis.</div>
+                </div>
+                <input type="password"
+                    class="form-control"
+                    [(ngModel)]="password"
+                    name="password"
+                    required
+                    #passwordRef="ngModel"
+                >
+                <div class="d-flex justify-content-end mb-3">
+                    <a routerLink="/mot-de-passe-oublie">J'ai oublié mon mot de passe</a>
+                </div>
+            </div>
+            <button type="submit"
+                class="btn btn-primary w-100"
+                [disabled]="!loginForm.form.valid || isRequestPending"
+            >
+            Valider
+            </button>
+        </form>
     </div>
-    <form (submit)="login()" #loginForm="ngForm">
-        <label for="email">Email</label>
-        <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
-            <div *ngIf="emailRef.errors?.['required']">Votre adresse email est requise.</div>
-            <div *ngIf="emailRef.errors?.['email']">Cette adresse email n'est pas valide.</div>
-        </div>
-        <input type="email"
-            [(ngModel)]="email"
-            name="email"
-            required
-            email
-            #emailRef="ngModel"
-        >
-        <label for="password">Mot de passe</label>
-        <div *ngIf="passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)">
-            <div *ngIf="passwordRef.errors?.['required']">Le mot de passe est requis.</div>
-        </div>
-        <input type="password"
-            [(ngModel)]="password"
-            name="password"
-            required
-            #passwordRef="ngModel"
-        >
-        <a routerLink="/mot-de-passe-oublie">J'ai oublié mon mot de passe</a>
-        <button type="submit" [disabled]="!loginForm.form.valid || isRequestPending">Valider</button>
-    </form>
-</div>
+</main>
