@@ -23,9 +23,76 @@
             </div>
         </div>
         <ng-container *ngIf="!isLoading">
-            <div *ngFor="let vehicle of vehicleList" class="col-lg-9 col-xl-6">
+            <div *ngFor="let vehicle of vehicleList" class="col-lg-9 col-xl-6 pb-3">
                 <app-vehicle [vehicle]="vehicle"></app-vehicle>
             </div>
         </ng-container>
+    </div>
+</section>
+<section class="container">
+    <div class="row pt-5">
+        <img
+            srcset="../../assets/images/home/mobile/image1-mobile.jpg 500w,
+                    ../../assets/images/home/widescreen/image1-widescreen.jpg 1064w"
+            sizes="(max-width: 576px) 500px, 1064px"
+            src="../../assets/images/home/widescreen/image1-widescreen.jpg"
+            alt="Plongez dans notre selection de voitures"
+            class="col-lg-6"
+        />
+        <div class="col-lg-6 d-flex align-items-center">
+            <span class="fs-5">Plongez dans notre sélection de voitures neuves, où innovation et performance se rencontrent. Chaque véhicule est conçu avec les dernières avancées technologiques pour offrir une expérience de conduite inégalée. Parcourez notre catalogue et trouvez la voiture de vos rêves, prête à conquérir la route avec style et efficacité.</span>
+        </div>
+    </div>
+    <div class="row pt-5">
+        <div class="col-lg-6 d-flex align-items-center order-2 order-lg-1">
+            <span class="fs-5">Chez DesignMotor, nous comprenons que chaque client a des besoins et des préférences uniques en matière de véhicules. C'est pourquoi nous offrons un large choix d'options pour personnaliser votre véhicule selon vos désirs. Que vous recherchiez des fonctionnalités avancées de sécurité, des équipements de confort, des systèmes de divertissement de pointe ou des performances améliorées, notre sélection variée saura répondre à vos attentes. Explorez notre catalogue pour découvrir les multiples configurations possibles et créez le véhicule qui vous correspond parfaitement.</span>
+        </div>
+        <img
+        srcset="../../assets/images/home/mobile/image2-mobile.jpg 500w,
+                ../../assets/images/home/widescreen/image2-widescreen.jpg 1064w"
+        sizes="(max-width: 576px) 500px, 1064px"
+        src="../../assets/images/home/widescreen/image2-widescreen.jpg"
+        alt="Plongez dans notre selection de voitures"
+        class="col-lg-6 order-1 order-lg-2"
+    />
+    </div>
+    <div class="row pt-5">
+        <img
+            srcset="../../assets/images/home/mobile/image3-mobile.jpg 500w,
+                    ../../assets/images/home/widescreen/image3-widescreen.jpg 1064w"
+            sizes="(max-width: 576px) 500px, 1064px"
+            src="../../assets/images/home/widescreen/image3-widescreen.jpg"
+            alt="Plongez dans notre selection de voitures"
+            class="col-lg-6"
+        />
+        <div class="col-lg-6 d-flex align-items-center">
+            <span class="fs-5">Adoptez une conduite écologique avec notre sélection de véhicules électriques. Découvrez les avantages de la mobilité durable sans compromis sur la performance. Nos véhicules électriques offrent une autonomie impressionnante, des coûts de fonctionnement réduits, et une conduite silencieuse. Rejoignez la révolution verte dès aujourd'hui.</span>
+        </div>
+    </div>
+    <div class="row pt-5">
+        <div class="col-lg-6 d-flex align-items-center order-2 order-lg-1">
+            <span class="fs-5">Ne manquez pas nos offres spéciales sur une sélection de véhicules. Que vous recherchiez une voiture neuve, d'occasion, ou électrique, nous avons des promotions exceptionnelles pour vous aider à réaliser de bonnes affaires. Consultez régulièrement notre page pour ne rien manquer de nos remises exclusives et de nos financements avantageux.</span>
+        </div>
+        <img
+            srcset="../../assets/images/home/mobile/image4-mobile.jpg 500w,
+                    ../../assets/images/home/widescreen/image4-widescreen.jpg 1064w"
+            sizes="(max-width: 576px) 500px, 1064px"
+            src="../../assets/images/home/widescreen/image4-widescreen.jpg"
+            alt="Plongez dans notre selection de voitures"
+            class="col-lg-6 order-1 order-lg-2"
+        />
+    </div>
+    <div class="row pt-5">
+        <img
+            srcset="../../assets/images/home/mobile/image5-mobile.jpg 500w,
+                    ../../assets/images/home/widescreen/image5-widescreen.jpg 1064w"
+            sizes="(max-width: 576px) 500px, 1064px"
+            src="../../assets/images/home/widescreen/image5-widescreen.jpg"
+            alt="Plongez dans notre selection de voitures"
+            class="col-lg-6"
+        />
+        <div class="col-lg-6 d-flex align-items-center">
+            <span class="fs-5">Trouvez la voiture qui transformera chaque trajet en une aventure inoubliable. Laissez-vous inspirer par la beauté de la route et redécouvrez le plaisir de voyager en toute liberté.</span>
+        </div>
     </div>
 </section>
