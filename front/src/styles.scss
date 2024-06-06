@@ -1,2 +1,7 @@
 @import "styles/_variables.scss";
 @import "styles/_global.scss";
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+@import '@fortawesome/fontawesome-free/css/all.css';

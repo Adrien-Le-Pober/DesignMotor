@@ -1,0 +1,31 @@
+<main class="container">
+    <h1 class="text-center m-3">
+        Administration
+    </h1>
+    <div class="accordion" id="accordion">
+        <div class="accordion-item mb-3 shadow">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Soldes sur les durée de stockage
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    <app-discount/>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Règles de réduction spéciales
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    <app-discount-rules/>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

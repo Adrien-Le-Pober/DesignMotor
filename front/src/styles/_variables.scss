@@ -1,9 +1,9 @@
 $primary: #000;
 
-@import '../../node_modules/bootstrap/scss/_functions';
-@import '../../node_modules/bootstrap/scss/_variables';
-@import '../../node_modules/bootstrap/scss/_mixins';
+@import 'bootstrap/scss/_functions';
+@import 'bootstrap/scss/_variables';
+@import 'bootstrap/scss/_mixins';
 
 $border: 1px solid $gray-300;
 
-@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "bootstrap/scss/bootstrap";

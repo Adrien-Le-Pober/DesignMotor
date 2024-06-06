@@ -6,15 +6,8 @@ import { DiscountRulesComponent } from './discount-rules/discount-rules.componen
   selector: 'app-admin',
   standalone: true,
   imports: [DiscountComponent, DiscountRulesComponent],
-  template: `
-    <h1>
-      administration du site
-    </h1>
-    <app-discount/>
-    <hr>
-    <app-discount-rules/>
-  `,
-  styles: ``
+  templateUrl: 'admin.component.html',
+  styleUrl: 'admin.component.scss'
 })
 export class AdminComponent {
 

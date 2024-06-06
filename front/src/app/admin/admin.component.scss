@@ -1,0 +1,15 @@
+@import '../../styles/_variables';
+
+.accordion-button[aria-expanded=true],
+.accordion-button[aria-expanded=false]
+{
+    background-color: $primary;
+    color: $white;
+    font-size: 24px;
+}
+
+.accordion-button::after {
+    content: '\F078';
+    font-family: 'FontAwesome';
+    color: $white;
+}
