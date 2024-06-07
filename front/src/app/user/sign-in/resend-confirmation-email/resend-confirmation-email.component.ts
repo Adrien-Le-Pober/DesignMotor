@@ -20,6 +20,8 @@ export class ResendConfirmationEmailComponent {
 
   resendConfirmationEmail() {
     this.isRequestPending = true;
+    this.errorMessage = '';
+    this.successMessage = '';
     this.authService.resendConfirmationEmail(this.email).subscribe({
       next: (response) => {
         this.successMessage = response.message;

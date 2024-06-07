@@ -1,11 +1,15 @@
-<h1>Bonjour et bienvenue chez DesignMotor!</h1>
+{% extends "email_base.html.twig" %}
 
-<p>
-    Pour confirmer votre adresse email, il vous suffit de cliquer sur le lien suivant: <br><br>
-    <a href="{{ signedUrl|raw }}">Confirmer mon adresse email</a>.
-    Ce lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
+{% block content %}
+    <div class="container">
+        <h1>Bonjour et bienvenue chez DesignMotor!</h1>
 
-<p>
-    A bientôt!
-</p>
+        <p>Pour confirmer votre adresse email, il vous suffit de cliquer sur le lien suivant :</p>
+
+        <a href="{{ signedUrl|raw }}" class="btn">Confirmer mon adresse email</a>
+
+        <p>Ce lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.</p>
+
+        <p>A bientôt!</p>
+    </div>
+{% endblock %}
