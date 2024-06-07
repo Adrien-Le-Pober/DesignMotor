@@ -1,78 +1,77 @@
 <form [formGroup]="discountRuleForm" (ngSubmit)="onSubmit()">
-    <label>
-        Nom de la règle:
-        <input type="text" formControlName="name">
-    </label>
-    <div *ngIf="discountRuleForm.get('name')?.invalid && discountRuleForm.get('name')?.touched">
-        <small *ngIf="discountRuleForm.get('name')?.errors?.['required']">Le nom est requis.</small>
+    <div class="form-group">
+        <div *ngIf="discountRuleForm.get('name')?.invalid && discountRuleForm.get('name')?.touched" class="text-danger">
+            <small *ngIf="discountRuleForm.get('name')?.errors?.['required']">Le nom est requis.</small>
+        </div>
+        <label for="name" class="form-label">Nom de la règle</label>
+        <input type="text" class="form-control" formControlName="name">
     </div>
-
-    <label>
-        Description:
-        <textarea formControlName="description"></textarea>
-    </label>
-
-    <h4>Conditions</h4>
+    <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea formControlName="description" class="form-control"></textarea>
+    </div>
+    <hr>
+    <h4 class="mt-2">Conditions</h4>
     <div formArrayName="conditions">
         <div *ngFor="let condition of conditions.controls; let i=index" [formGroupName]="i">
-            <label>Type:</label>
-            <select formControlName="type" (change)="onTypeChange(i)">
-                <option *ngFor="let conditionType of availableConditions" [value]="conditionType.value">{{ conditionType.select }}</option>
-            </select>
-            <div *ngIf="condition.get('type')?.invalid && condition.get('type')?.touched">
-                <small *ngIf="condition.get('type')?.errors?.['required']">Le type est requis.</small>
+            <div class="form-group">
+                <div *ngIf="condition.get('type')?.invalid && condition.get('type')?.touched" class="text-danger">
+                    <small *ngIf="condition.get('type')?.errors?.['required']">Le type est requis.</small>
+                </div>
+                <label class="form-label">Type</label>
+                <select formControlName="type" (change)="onTypeChange(i)" class="form-select">
+                    <option *ngFor="let conditionType of availableConditions" [value]="conditionType.value">{{ conditionType.select }}</option>
+                </select>
             </div>
-
-            <div *ngIf="condition.get('type')?.value">
-                <label>Valeur:</label>
+            <div *ngIf="condition.get('type')?.value" class="mt-3">
+                <label class="form-label">Valeur</label>
                 <div *ngIf="condition.get('type')?.value === 'day_of_week'">
-                    <div *ngFor="let day of daysOfWeek">
-                        <label>
-                            <input 
-                                type="checkbox"
-                                [value]="day.day"
-                                (change)="onCheckboxChange($event, i)"
-                                [checked]="condition.get('value')?.value.includes(day.day)"
-                            >
-                            {{ day.localDay }}
-                        </label>
+                    <div *ngFor="let day of daysOfWeek" class="form-check">
+                        <label class="form-check-label">{{ day.localDay }}</label>
+                        <input 
+                            type="checkbox"
+                            class="form-check-input"
+                            [value]="day.day"
+                            (change)="onCheckboxChange($event, i)"
+                            [checked]="condition.get('value')?.value.includes(day.day)"
+                        >
                     </div>
                 </div>
                 <div *ngIf="condition.get('type')?.value === 'brand'">
-                    <div *ngFor="let brand of brandList">
-                        <label>
-                            <input
-                                type="checkbox"
-                                [value]="brand.name"
-                                (change)="onCheckboxChange($event, i)"
-                                [checked]="condition.get('value')?.value.includes(brand.name)"
-                            >
-                            {{ brand.name }}
-                        </label>
+                    <div *ngFor="let brand of brandList" class="form-check">
+                        <label class="form-check-label"> {{ brand.name }}</label>
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            [value]="brand.name"
+                            (change)="onCheckboxChange($event, i)"
+                            [checked]="condition.get('value')?.value.includes(brand.name)"
+                        >
                     </div>
                 </div>
             </div>
 
-            <button type="button" (click)="removeCondition(i)">Retirer la Condition</button>
+            <button type="button" class="btn btn-outline-danger mb-3" (click)="removeCondition(i)">Retirer la Condition</button>
         </div>
     </div>
-    <button type="button" (click)="addCondition()">Ajouter une Condition</button>
-
-    <h4>Actions</h4>
+    <button type="button" class="btn btn-outline-primary" (click)="addCondition()">Ajouter une Condition</button>
+    <hr>
+    <h4 class="mt-2">Actions</h4>
     <div formArrayName="actions">
         <div *ngFor="let action of actions.controls; let i=index" [formGroupName]="i">
-            <input type="hidden" formControlName="type">
-    
-            <label>Valeur de la réduction:</label>
-            <input type="text" formControlName="value" placeholder="En pourcentage">
-            <div *ngIf="action.get('value')?.invalid && action.get('value')?.touched">
-                <small *ngIf="action.get('value')?.errors?.['required']">La valeur est requise.</small>
+            <div class="form-group">
+                <div *ngIf="action.get('value')?.invalid && action.get('value')?.touched" class="text-danger">
+                    <small *ngIf="action.get('value')?.errors?.['required']">La valeur est requise.</small>
+                </div>
+                <input type="hidden" formControlName="type">
+                <label class="form-label">Valeur de la réduction</label>
+                <input type="text" class="form-control" formControlName="value" placeholder="En pourcentage">
             </div>
-    
-            <button type="button" (click)="removeAction(i)">Retirer l'action</button>
+            <button type="button" class="btn btn-outline-danger mb-3" (click)="removeAction(i)">Retirer l'action</button>
         </div>
     </div>
-    <button type="button" (click)="addAction()">Ajouter une action</button>
-
-    <button type="submit" [disabled]="isRequestPending">{{ isEditMode ? 'Modifier' : 'Créer' }}</button>
+    <button type="button" class="btn btn-outline-primary" (click)="addAction()">Ajouter une action</button>
+    <div class="m-5 d-flex justify-content-center">   
+        <button type="submit" class="btn btn-primary w-75" [disabled]="isRequestPending">{{ isEditMode ? 'Modifier' : 'Créer' }}</button>
+    </div>
 </form>

@@ -27,13 +27,7 @@ export class DiscountService {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    return this.http.post<string>(`${this.appURL}/new-discount`, discount, httpOptions).pipe(
-      tap(response => console.table(response)),
-      catchError(error => {
-        console.log(error);
-        return of(undefined);
-      })
-    );
+    return this.http.post<string>(`${this.appURL}/new-discount`, discount, httpOptions);
   }
 
   cancelDiscountById(discountId: number): Observable<string|undefined> {

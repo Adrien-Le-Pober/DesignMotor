@@ -19,6 +19,7 @@ export class DiscountRulesComponent {
   selectedDiscountRule: DiscountRule | null = null;
   isEditMode: boolean = false;
   isRequestPending: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private discountRuleService: DiscountRulesService) { }
 
@@ -27,8 +28,10 @@ export class DiscountRulesComponent {
   }
 
   loadDiscountRules(): void {
+    this.isLoading = true;
     this.discountRuleService.getDiscountRules().subscribe(data => {
       this.discountRuleList = data;
+      this.isLoading = false;
     });
   }
 

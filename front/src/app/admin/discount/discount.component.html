@@ -1,11 +1,20 @@
-<h3>Gestion des soldes en cours</h3>
-<p>Appliquer une nouvelle réduction</p>
-<app-discount-form></app-discount-form>
-
-<h3>Soldes actives</h3>
-<div *ngFor="let discount of discountList">
-    <p>Taux : {{ discount.rate }}</p>
-    <p>Durée de stockage : {{ discount.storageDuration }}</p>
-    <button (click)="cancelDiscount(discount.id)">Supprimer</button>
-    <hr>
+<h3>Appliquer une nouvelle réduction</h3>
+<app-discount-form (discountAdded)="onDiscountAdded()"></app-discount-form>
+<hr>
+<div *ngIf="isLoading" class="spinner">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<div class="container" *ngIf="discountList && discountList.length > 0">
+    <h3>Soldes actives</h3>
+    <div class="row gap-3">
+        <div class="card col-lg-5" *ngFor="let discount of discountList">
+            <div class="card-body">
+                <p class="card-text">Taux : -{{ discount.rate * 100 }}%</p>
+                <p class="card-text">Durée de stockage : {{ discount.storageDuration }} jours</p>
+                <button class="btn btn-danger" (click)="cancelDiscount(discount.id)" [disabled]="isRequestPending || isLoading">Supprimer</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -18,21 +18,37 @@ import { Subscription } from 'rxjs';
 export class DiscountComponent {
   private requestSubscription: Subscription | undefined;
   public discountList: Discount[];
+  public isLoading: boolean = false;
+  public isRequestPending: boolean = false;
 
   constructor(
     private discountService: DiscountService
   ) { }
 
   ngOnInit() {
+    this.loadDiscounts();
+  }
+
+  loadDiscounts() {
+    this.isLoading = true;
     this.requestSubscription = this.discountService.getDiscountList()
-    .subscribe(discountList => {
-      this.discountList = discountList;
-    });
+      .subscribe(discountList => {
+        this.discountList = discountList;
+        this.isLoading = false;
+      });
   }
 
   cancelDiscount(discountId: number) {
+    this.isRequestPending = true;
     this.discountService.cancelDiscountById(discountId)
-      .subscribe();
+      .subscribe(() => {
+        this.loadDiscounts();
+        this.isRequestPending = false;
+      });
+  }
+
+  onDiscountAdded() {
+    this.loadDiscounts();
   }
   
   ngOnDestroy(): void {

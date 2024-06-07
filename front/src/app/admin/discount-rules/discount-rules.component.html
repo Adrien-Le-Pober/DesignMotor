@@ -6,25 +6,33 @@
         (save)="onSave($event)">
     </app-discount-rules-form>
 
-    <h3>Règles actives</h3>
-    <ul>
-      <li *ngFor="let discountRule of discountRuleList">
-        <hr>
-        <div *ngIf="selectedDiscountRule?.id !== discountRule.id">
-            <span>{{ discountRule.name }}</span>
-            <button (click)="onEdit(discountRule)">Modifier</button>
-            <button (click)="onDelete(discountRule)" [disabled]="isRequestPending">Supprimer</button>
+    <hr>
+
+    <div *ngIf="isLoading" class="spinner">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
-        <div *ngIf="selectedDiscountRule?.id === discountRule.id && isEditMode">
-            <button (click)="onCancelEdit()">Annuler</button>
-            <app-discount-rules-form 
-                [discountRule]="discountRule"
-                [isRequestPending]="isRequestPending"
-                [isEditMode]="isEditMode"
-                (save)="onSave($event)">
-            </app-discount-rules-form>
+    </div>
+    <div class="container" *ngIf="discountRuleList && discountRuleList.length > 0">
+        <h3>Règles actives</h3>
+        <div class="row">
+            <div class="card mb-3 shadow" *ngFor="let discountRule of discountRuleList">
+                <div *ngIf="selectedDiscountRule?.id !== discountRule.id" class="card-body">
+                    <p class="card-text fs-4">{{ discountRule.name }}</p>
+                    <p *ngIf="discountRule.description" class="card-text">{{ discountRule.description }}</p>
+                    <button (click)="onEdit(discountRule)" [disabled]="isRequestPending || isLoading" class="btn btn-outline-primary me-3">Modifier</button>
+                    <button (click)="onDelete(discountRule)" [disabled]="isRequestPending || isLoading" class="btn btn-outline-danger">Supprimer</button>
+                </div>
+                <div *ngIf="selectedDiscountRule?.id === discountRule.id && isEditMode" class="card-body">
+                    <button (click)="onCancelEdit()" class="btn btn-outline-danger">Annuler</button>
+                    <app-discount-rules-form 
+                        [discountRule]="discountRule"
+                        [isRequestPending]="isRequestPending"
+                        [isEditMode]="isEditMode"
+                        (save)="onSave($event)">
+                    </app-discount-rules-form>
+                </div>
+            </div>
         </div>
-        <hr>
-    </li>
-    </ul>
+    </div>
 </div>

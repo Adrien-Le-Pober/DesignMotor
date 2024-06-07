@@ -54,8 +54,9 @@ class DiscountController extends AbstractController
 
             return $this->json("La nouvelle réduction vient d'être appliquée");
         } else {
-            return $this->json(['error' => 'Invalid data'], 400);
+            return $this->json(['error' => 'Les données entrées sont invalides'], 400);
         }
+
     }
 
     #[Route('/cancel-discount/{discount}', name: 'app_cancel_discount')]
@@ -66,6 +67,6 @@ class DiscountController extends AbstractController
         $entityManager->remove($discount);
         $entityManager->flush();
 
-        return $this->json('La réduction à bien été retiré');
+        return $this->json('La réduction à bien été retirée');
     }
 }

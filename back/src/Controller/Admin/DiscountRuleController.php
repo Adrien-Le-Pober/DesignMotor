@@ -1,19 +1,13 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\DiscountRule;
-use function PHPUnit\Framework\isEmpty;
 use App\Service\DiscountRuleCrudService;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\DiscountRuleRepository;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DiscountRuleController extends AbstractController
