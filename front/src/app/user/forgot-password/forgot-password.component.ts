@@ -20,6 +20,8 @@ export class ForgotPasswordComponent {
 
   requestReset() {
     this.isRequestPending = true;
+    this.errorMessage = '';
+    this.successMessage = '';
     this.resetPasswordService.requestReset(this.email).subscribe({
       next: (response) => {
         this.successMessage = response.message;

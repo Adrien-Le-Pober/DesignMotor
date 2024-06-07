@@ -1,7 +1,13 @@
-<p>Pour changer votre mot de passe, cliquez sur le lien ci dessous</p>
+{% extends "email_base.html.twig" %}
 
-<a href="{{ redirectPath ~ '/reinitialiser-mot-de-passe/' ~ resetToken.token }}">Changer mon mot de passe</a>
+{% block content %}
+    <div class="container">
+        <p>Pour changer votre mot de passe, cliquez sur le lien ci dessous</p>
 
-<p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+        <a href="{{ redirectPath ~ '/reinitialiser-mot-de-passe/' ~ resetToken.token }}" class="btn">Changer mon mot de passe</a>
 
-<p>A bientôt!</p>
+        <p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+        <p>A bientôt!</p>
+    </div>
+{% endblock %}
