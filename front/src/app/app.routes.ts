@@ -9,14 +9,16 @@ import { ResetPasswordComponent } from './user/reset-password/reset-password.com
 import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
 import { SignInComponent } from './user/sign-in/sign-in.component';
 import { LoginComponent } from './auth/login/login.component';
+import { AccountComponent } from './user/account/account.component';
 
 export const routes: Routes = [
     { path: 'admin', component: AdminComponent },
-    { path: 'connection', component: LoginComponent, canActivate: [AuthGuard] },
-    { path: 'inscription', component: SignInComponent, canActivate: [AuthGuard] },
-    { path: 'renvoyer-email-confirmation', component: ResendConfirmationEmailComponent },
-    { path: 'reinitialiser-mot-de-passe/:token', component: ResetPasswordComponent },
-    { path: 'mot-de-passe-oublie', component: ForgotPasswordComponent },
+    { path: 'connexion', component: LoginComponent, canActivate: [AuthGuard], data: { authGuardMethod: 'canActivateIfNotLoggedIn' } },
+    { path: 'inscription', component: SignInComponent, canActivate: [AuthGuard], data: { authGuardMethod: 'canActivateIfNotLoggedIn' } },
+    { path: 'mon-compte', component: AccountComponent, canActivate: [AuthGuard], data: { authGuardMethod: 'canActivateIfLoggedIn' } },
+    { path: 'renvoyer-email-confirmation', component: ResendConfirmationEmailComponent, data: { authGuardMethod: 'canActivateIfNotLoggedIn' } },
+    { path: 'reinitialiser-mot-de-passe/:token', component: ResetPasswordComponent, data: { authGuardMethod: 'canActivateIfNotLoggedIn' } },
+    { path: 'mot-de-passe-oublie', component: ForgotPasswordComponent, data: { authGuardMethod: 'canActivateIfNotLoggedIn' } },
     { path: 'catalog', component: CatalogComponent },
     { path: 'vehicle/:id', component: ShowVehicleComponent },
     { path: '', redirectTo: 'catalog', pathMatch: 'full' },

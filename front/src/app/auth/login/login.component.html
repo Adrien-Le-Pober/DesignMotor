@@ -2,7 +2,7 @@
     <h3>Connectez-vous</h3>
     <p>Pas encore inscrit? <a routerLink="/inscription">Inscrivez-vous</a></p>
     <div class="col-12 col-md-6 col-lg-4">
-        <div *ngIf="errorMessage">{{ errorMessage }}</div>
+        <div *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</div>
         <div *ngIf="isResendConfirmationEmail">
             <p>
                 Vous n'avez pas reçu d'email ou le lien de confirmation a expiré?

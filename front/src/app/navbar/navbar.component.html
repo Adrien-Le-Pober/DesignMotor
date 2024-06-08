@@ -60,16 +60,18 @@
                         <li *ngIf="!currentUser" role="menuitem">
                             <a
                                 class="dropdown-link"
-                                routerLink="/connection"
+                                routerLink="/connexion"
                             >
                                 Connexion
                             </a>
                         </li>
                         <li *ngIf="currentUser" role="menuitem">
-                            <a class="dropdown-link" routerLinkActive="active">Mon compte</a>
+                            <a
+                                class="dropdown-link"
+                                routerLink="/mon-compte">Mon compte</a>
                         </li>
                         <li *ngIf="currentUser" role="menuitem">
-                            <a class="dropdown-link" routerLink="" (click)="logout()" routerLinkActive="active">Déconnexion</a>
+                            <a class="dropdown-link" routerLink="" (click)="logout()">Déconnexion</a>
                         </li>
                     </ul>
                 </div>

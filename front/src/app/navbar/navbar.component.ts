@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../user/user.service';
 import { CommonModule } from '@angular/common';
+import { CurrentUser } from '../interfaces/current-user.interface';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: 'navbar.component.scss'
 })
 export class NavbarComponent {
-  currentUser: string|null = null;
+  currentUser: CurrentUser|null = null;
 
   @ViewChild('hamburger', { static: true }) hamburgerBtn!: ElementRef;
   @ViewChild('navMenu', { static: true }) navMenu!: ElementRef;
@@ -25,7 +26,7 @@ export class NavbarComponent {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.currentUser$.subscribe((user: string | null) => {
+    this.userService.currentUser$.subscribe((user: CurrentUser | null) => {
       this.currentUser = user;
     });
   }
