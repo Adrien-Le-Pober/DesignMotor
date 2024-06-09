@@ -56,6 +56,6 @@ class JwtAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        return new JsonResponse(['error' => 'Echec de la connexion'], Response::HTTP_UNAUTHORIZED);
+        return new JsonResponse(['errorMessage' => 'Echec de la connexion'], Response::HTTP_UNAUTHORIZED);
     }
 }
