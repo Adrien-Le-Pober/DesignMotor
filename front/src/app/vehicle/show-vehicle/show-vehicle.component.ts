@@ -14,6 +14,7 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class ShowVehicleComponent {
   private unsubscribe$ = new Subject<void>();
+  public isLoading: boolean = false;
   public vehicle: VehicleDescription|undefined;
 
   constructor(
@@ -23,13 +24,17 @@ export class ShowVehicleComponent {
   ) { }
 
   ngOnInit() {
+    this.isLoading = true;
     const id = this.route.snapshot.paramMap.get('id');
     const vehicleId: number|null = id !== null ? +id : null;
 
     if (vehicleId !== null) {
       this.vehicleService.fetchVehicleById(vehicleId)
         .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(vehicle => this.vehicle = vehicle);
+        .subscribe(vehicle => {
+          this.vehicle = vehicle;
+          this.isLoading = false;
+        });
     } else {
       this.router.navigate(['/404']);
     }

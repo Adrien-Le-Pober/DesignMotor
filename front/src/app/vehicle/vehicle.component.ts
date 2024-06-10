@@ -18,7 +18,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class VehicleComponent {
   private unsubscribe$ = new Subject<void>();
   private timeoutId: any;
-  public loading: boolean = false;
+  public isLoading: boolean = false;
   public videoUrl: string|null;
 
   @Input() vehicle: Vehicle;
@@ -30,7 +30,7 @@ export class VehicleComponent {
   loadVideo(vehicleId: number) {
 
     if(!this.videoUrl) {
-      this.loading = true;
+      this.isLoading = true;
     }
 
     this.timeoutId = setTimeout(() => {
@@ -40,7 +40,7 @@ export class VehicleComponent {
           // Convertir la réponse en URL de données
           const reader = new FileReader();
           reader.onload = () => {
-            this.loading = false;
+            this.isLoading = false;
             this.videoUrl = reader.result as string;
           };
           reader.readAsDataURL(response);
@@ -50,12 +50,12 @@ export class VehicleComponent {
 
   resetMedia() {
     clearTimeout(this.timeoutId);
-    this.loading = false;
+    this.isLoading = false;
     this.videoUrl = null;
   }
 
   hideLoading() {
-    this.loading = false;
+    this.isLoading = false;
   }
 
   cancelRequest() {

@@ -15,12 +15,12 @@
         <source [src]="videoUrl" type="video/mp4">
         Votre navigateur ne supporte pas la lecture de vidéos.
     </video>
-    <div *ngIf="loading" class="spinner">
+    <div *ngIf="isLoading" class="spinner">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
-    <img *ngIf="!videoUrl && !loading" [src]="vehicle.image" alt="image du véhicule">
+    <img *ngIf="!videoUrl && !isLoading" [src]="vehicle.image" alt="image du véhicule">
     <hr>
     <p>{{ vehicle.price | currency: 'EUR' }}</p>
     <a class="btn btn-primary" [routerLink]="['/vehicle', vehicle.id]">Voir la description</a>
