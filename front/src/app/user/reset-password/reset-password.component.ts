@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CompareValidatorDirective } from '../../directive/compare-validator.directive';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
@@ -13,6 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: 'reset-password.component.scss'
 })
 export class ResetPasswordComponent {
+  private unsubscribe$ = new Subject<void>();
   token: string|null;
   plainPassword: string;
   confirmPassword: string;
@@ -31,17 +33,24 @@ export class ResetPasswordComponent {
 
   resetPassword() {
     this.isRequestPending = true;
-    this.resetPasswordService.resetPassword(this.token, this.plainPassword).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.successMessage = response.message;
-        this.isRequestPending = false;
-      },
-      error: (error) => {
-        console.log(error);
-        this.errorMessage = error.error.error;
-        this.isRequestPending = false;
-      }
-    });
+    this.resetPasswordService.resetPassword(this.token, this.plainPassword)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.successMessage = response.message;
+          this.isRequestPending = false;
+        },
+        error: (error) => {
+          console.log(error);
+          this.errorMessage = error.error.error;
+          this.isRequestPending = false;
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

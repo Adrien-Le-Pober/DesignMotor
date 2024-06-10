@@ -3,7 +3,7 @@ import { Vehicle } from '../models/vehicle.model';
 import { CatalogService } from './catalog.service';
 import { CommonModule } from '@angular/common';
 import { VehicleComponent } from '../vehicle/vehicle.component';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Brand } from '../models/brand.model';
 import { FormsModule } from '@angular/forms';
 
@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: 'catalog.component.scss'
 })
 export class CatalogComponent {
-  private requestSubscription: Subscription | undefined;
+  private unsubscribe$ = new Subject<void>();
   public vehicleList: Vehicle[];
   public brandList: Brand[];
   public filters: any = {};
@@ -37,7 +37,8 @@ export class CatalogComponent {
 
   fetchVehicles() {
     this.isLoading = true;
-    this.requestSubscription = this.catalogService.getVehicleList(this.filters)
+    this.catalogService.getVehicleList(this.filters)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(vehicleList => {
         this.vehicleList = vehicleList;
         this.isLoading = false;
@@ -46,6 +47,7 @@ export class CatalogComponent {
 
   fetchBrands() {
     this.catalogService.getBrandList()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(brandList => {
         this.brandList = brandList;
       });
@@ -56,8 +58,7 @@ export class CatalogComponent {
   }
 
   ngOnDestroy(): void {
-    if (this.requestSubscription) {
-      this.requestSubscription.unsubscribe();
-    }
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

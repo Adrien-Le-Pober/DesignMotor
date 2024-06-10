@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService } from '../vehicle.service';
 import { CommonModule } from '@angular/common';
 import { VehicleDescription } from '../../models/vehicle-description.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-show-vehicle',
@@ -12,6 +13,7 @@ import { VehicleDescription } from '../../models/vehicle-description.model';
   styleUrl: 'show-vehicle.component.scss'
 })
 export class ShowVehicleComponent {
+  private unsubscribe$ = new Subject<void>();
   public vehicle: VehicleDescription|undefined;
 
   constructor(
@@ -26,9 +28,15 @@ export class ShowVehicleComponent {
 
     if (vehicleId !== null) {
       this.vehicleService.fetchVehicleById(vehicleId)
+        .pipe(takeUntil(this.unsubscribe$))
         .subscribe(vehicle => this.vehicle = vehicle);
     } else {
       this.router.navigate(['/404']);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

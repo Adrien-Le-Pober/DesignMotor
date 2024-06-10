@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-edit-profile',
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: 'edit-profile.component.scss'
 })
 export class EditProfileComponent {
+  private unsubscribe$ = new Subject<void>();
   email: string = '';
   successMessage: string = '';
   errorMessage: string = '';
@@ -22,26 +24,35 @@ export class EditProfileComponent {
   ngOnInit() {
     this.isLoading = true;
     this.isRequestPending = true;
-    this.userService.getUserInfo().subscribe(data => {
-      this.email = data.email;
-      this.isLoading = false;
-      this.isRequestPending = false;
-    });
+    this.userService.getUserInfo()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(data => {
+        this.email = data.email;
+        this.isLoading = false;
+        this.isRequestPending = false;
+      });
   }
 
   onSubmit() {
     this.isRequestPending = true;
     this.successMessage = '';
     this.errorMessage = '';
-    this.userService.editProfile(this.email).subscribe({
-      next: (response) => {
-        this.successMessage = response.successMessage;
-        this.isRequestPending = false;
-      },
-      error: (error) => {
-        this.errorMessage = error.error.errorMessage;
-        this.isRequestPending = false;
-      }
-    });
+    this.userService.editProfile(this.email)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (response) => {
+          this.successMessage = response.successMessage;
+          this.isRequestPending = false;
+        },
+        error: (error) => {
+          this.errorMessage = error.error.errorMessage;
+          this.isRequestPending = false;
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

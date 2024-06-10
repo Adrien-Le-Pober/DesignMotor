@@ -7,6 +7,7 @@ import { Condition } from '../../../models/condition.model';
 import { Action } from '../../../models/action.model';
 import { Brand } from '../../../models/brand.model';
 import { DayOfWeek } from '../../../interfaces/day-of-week.interface';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-discount-rules-form',
@@ -20,6 +21,7 @@ import { DayOfWeek } from '../../../interfaces/day-of-week.interface';
   styles: ``
 })
 export class DiscountRulesFormComponent {
+  private unsubscribe$ = new Subject<void>();
   @Input() discountRule: DiscountRule | null = null;
   @Input() isEditMode: boolean = false;
   @Input() isRequestPending: boolean = false;
@@ -52,6 +54,7 @@ export class DiscountRulesFormComponent {
 
   fetchBrands() {
     this.discountRuleService.getBrandList()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(brandList => {
         this.brandList = brandList;
       });
@@ -155,5 +158,10 @@ export class DiscountRulesFormComponent {
     } else {
       this.discountRuleForm.markAllAsTouched();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

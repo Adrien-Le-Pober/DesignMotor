@@ -3,7 +3,7 @@ import { DiscountFormComponent } from './discount-form/discount-form.component';
 import { DiscountService } from './discount.service';
 import { Discount } from '../../models/discount.model';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-discount',
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
   styles: ``
 })
 export class DiscountComponent {
-  private requestSubscription: Subscription | undefined;
+  private unsubscribe$ = new Subject<void>();
   public discountList: Discount[];
   public isLoading: boolean = false;
   public isRequestPending: boolean = false;
@@ -31,7 +31,8 @@ export class DiscountComponent {
 
   loadDiscounts() {
     this.isLoading = true;
-    this.requestSubscription = this.discountService.getDiscountList()
+    this.discountService.getDiscountList()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(discountList => {
         this.discountList = discountList;
         this.isLoading = false;
@@ -52,8 +53,7 @@ export class DiscountComponent {
   }
   
   ngOnDestroy(): void {
-    if (this.requestSubscription) {
-      this.requestSubscription.unsubscribe();
-    }
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

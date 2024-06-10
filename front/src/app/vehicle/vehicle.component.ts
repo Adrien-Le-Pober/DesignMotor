@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Vehicle } from '../models/vehicle.model';
 import { VehicleService } from './vehicle.service';
 import { RouterModule } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle',
@@ -15,11 +16,12 @@ import { RouterModule } from '@angular/router';
   styleUrl: 'vehicle.component.scss'
 })
 export class VehicleComponent {
-  @Input() vehicle: Vehicle;
-
+  private unsubscribe$ = new Subject<void>();
   private timeoutId: any;
   public loading: boolean = false;
   public videoUrl: string|null;
+
+  @Input() vehicle: Vehicle;
 
   constructor(
     private vehicleService: VehicleService
@@ -33,15 +35,16 @@ export class VehicleComponent {
 
     this.timeoutId = setTimeout(() => {
       this.vehicleService.getVideo(vehicleId)
-      .subscribe((response: Blob) => {
-        // Convertir la réponse en URL de données
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.loading = false;
-          this.videoUrl = reader.result as string;
-        };
-        reader.readAsDataURL(response);
-      })
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((response: Blob) => {
+          // Convertir la réponse en URL de données
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.loading = false;
+            this.videoUrl = reader.result as string;
+          };
+          reader.readAsDataURL(response);
+        })
     }, 1000);
   }
 
@@ -62,5 +65,7 @@ export class VehicleComponent {
 
   ngOnDestroy() {
     clearTimeout(this.timeoutId);
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
 }
 }

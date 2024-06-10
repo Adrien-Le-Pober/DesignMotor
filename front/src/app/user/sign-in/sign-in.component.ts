@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UserService } from '../user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -12,6 +13,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: 'sign-in.component.scss'
 })
 export class SignInComponent {
+  private unsubscribe$ = new Subject<void>();
   email: string = '';
   password: string = '';
   errorMessage: string = '';
@@ -29,15 +31,22 @@ export class SignInComponent {
 
   signIn() {
     this.isRequestPending = true;
-    this.userService.register(this.email, this.password).subscribe({
-      next: (response) => {
-        this.successMessage = response.message;
-        this.isRequestPending = false;
-      },
-      error: (error) => {
-        this.errorMessage = error.error.errors.join(', ');
-        this.isRequestPending = false;
-      }
-    });
+    this.userService.register(this.email, this.password)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (response) => {
+          this.successMessage = response.message;
+          this.isRequestPending = false;
+        },
+        error: (error) => {
+          this.errorMessage = error.error.errors.join(', ');
+          this.isRequestPending = false;
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

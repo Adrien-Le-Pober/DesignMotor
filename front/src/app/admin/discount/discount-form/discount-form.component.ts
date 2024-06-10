@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { DiscountService } from '../discount.service';
 import { Discount } from '../../../models/discount.model';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-discount-form',
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
   styles: ``
 })
 export class DiscountFormComponent {
+  private unsubscribe$ = new Subject<void>();
   public discount: Discount = new Discount(0, 0, 0);
   public successMessage: string|undefined;
   public errorMessage: string|undefined;
@@ -29,6 +31,7 @@ export class DiscountFormComponent {
   onSubmit() {
     this.isRequestPending = true;
     this.discountService.addDiscount(this.discount)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (successMessage) => {
           this.successMessage = successMessage;
@@ -40,5 +43,10 @@ export class DiscountFormComponent {
           this.isRequestPending = false;
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

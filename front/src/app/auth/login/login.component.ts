@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: 'login.component.scss'
 })
 export class LoginComponent {
+  private unsubscribe$ = new Subject<void>();
   email: string;
   password: string;
   errorMessage: string;
@@ -22,7 +24,9 @@ export class LoginComponent {
 
   login() {
     this.isRequestPending = true;
-    this.authService.login(this.email, this.password).subscribe({
+    this.authService.login(this.email, this.password)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
         next: () => {
             this.isRequestPending = false;
             this.router.navigate(['/']);
@@ -36,6 +40,11 @@ export class LoginComponent {
                 this.errorMessage = 'Email ou mot de passe invalide';
             }
         }
-    });
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

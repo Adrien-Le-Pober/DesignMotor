@@ -3,6 +3,7 @@ import { DiscountRulesFormComponent } from './discount-rules-form/discount-rules
 import { DiscountRule } from '../../models/discount-rule.model';
 import { DiscountRulesService } from './discount-rules.service';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-discount-rules',
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
   styles: ``
 })
 export class DiscountRulesComponent {
+  private unsubscribe$ = new Subject<void>();
   discountRuleList: DiscountRule[];
   selectedDiscountRule: DiscountRule | null = null;
   isEditMode: boolean = false;
@@ -29,9 +31,11 @@ export class DiscountRulesComponent {
 
   loadDiscountRules(): void {
     this.isLoading = true;
-    this.discountRuleService.getDiscountRules().subscribe(data => {
-      this.discountRuleList = data;
-      this.isLoading = false;
+    this.discountRuleService.getDiscountRules()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(data => {
+        this.discountRuleList = data;
+        this.isLoading = false;
     });
   }
 
@@ -73,5 +77,10 @@ export class DiscountRulesComponent {
       this.loadDiscountRules();
       this.isRequestPending = false;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
