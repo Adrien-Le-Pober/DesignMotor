@@ -46,11 +46,11 @@ class AppFixtures extends Fixture
 
             switch($modelName) {
                 case 'Megane E-Tech':
-                    $color = (new Color())->setName('red');
+                    $color = (new Color())->setName('rouge');
                     $manager->persist($color);
-                    $type = (new Type())->setName('Car');
+                    $type = (new Type())->setName('Voiture');
                     $manager->persist($type);
-                    $motorization = (new Motorization())->setName('Electric');
+                    $motorization = (new Motorization())->setName('Electrique');
                     $manager->persist($motorization);
                     $vehicle
                         ->setSpace(mt_rand(1, 10))
@@ -64,11 +64,11 @@ class AppFixtures extends Fixture
                         ->setCreatedAt(new DateTimeImmutable());
                     break;
                 case 'Classe S':
-                    $color = (new Color())->setName('grey');
+                    $color = (new Color())->setName('gris');
                     $manager->persist($color);
-                    $type = (new Type())->setName('Car');
+                    $type = (new Type())->setName('Voiture');
                     $manager->persist($type);
-                    $motorization = (new Motorization())->setName('Petrol');
+                    $motorization = (new Motorization())->setName('Essence');
                     $manager->persist($motorization);
                     $model->setDescription("Découvrez les points forts de la Mercedes-Benz Classe S Berline : design expressif, confort de première classe et technologie innovante de sécurité.");
                     $manager->persist($model);
@@ -83,11 +83,11 @@ class AppFixtures extends Fixture
                         ->setCreatedAt(DateTimeImmutable::createFromFormat('Y-m-d', '2024-01-01'));
                     break;
                 case 'Polo':
-                    $color = (new Color())->setName('blue');
+                    $color = (new Color())->setName('bleu');
                     $manager->persist($color);
-                    $type = (new Type())->setName('Car');
+                    $type = (new Type())->setName('Voiture');
                     $manager->persist($type);
-                    $motorization = (new Motorization())->setName('Petrol');
+                    $motorization = (new Motorization())->setName('Essence');
                     $manager->persist($motorization);
                     $brand->setDescription("La marque Volkswagen appartient au Groupe Volkswagen AG qui est en 2018, le premier constructeur mondial de véhicules devant Toyota avec 10,8 millions d'unités vendues");
                     $manager->persist($brand);
@@ -102,11 +102,11 @@ class AppFixtures extends Fixture
                         ->setCreatedAt(DateTimeImmutable::createFromFormat('Y-m-d', '2022-01-01'));
                     break;
                 case 'DJANGO CLASSIC 50':
-                    $color = (new Color())->setName('red');
+                    $color = (new Color())->setName('rouge');
                     $manager->persist($color);
                     $type = (new Type())->setName('Scooter');
                     $manager->persist($type);
-                    $motorization = (new Motorization())->setName('Petrol');
+                    $motorization = (new Motorization())->setName('Essence');
                     $manager->persist($motorization);
                     $vehicle
                         ->addColor($color)

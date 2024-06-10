@@ -58,22 +58,22 @@ class VehicleRepository extends ServiceEntityRepository
 
     public function findElectricCars(array $filters): array
     {
-        return $this->findVehicles('Electric', 'Car', $filters, []);
+        return $this->findVehicles('Electrique', 'Voiture', $filters, []);
     }
 
     public function findPetrolCars(array $filters): array
     {
-        return $this->findVehicles('Petrol', 'Car', $filters, []);
+        return $this->findVehicles('Essence', 'Voiture', $filters, []);
     }
 
     public function findElectricScooters(array $filters): array
     {
-        return $this->findVehicles('Electric', 'Scooter', $filters, []);
+        return $this->findVehicles('Electrique', 'Scooter', $filters, []);
     }
 
     public function findPetrolScooters(array $filters): array
     {
-        return $this->findVehicles('Petrol', 'Scooter', $filters, []);
+        return $this->findVehicles('Essence', 'Scooter', $filters, []);
     }
 
     public function findDetailsById(int $id): array
