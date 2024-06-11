@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DiscountRuleActionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DiscountRuleActionRepository::class)]
 class DiscountRuleAction
@@ -14,9 +15,19 @@ class DiscountRuleAction
     private ?int $id = null;
 
     #[ORM\Column(length: 48)]
+    #[Assert\Choice(choices: ['discount'], message: 'Le type doit être "discount".')]
     private ?string $type = null;
 
     #[ORM\Column]
+    #[Assert\Range(
+        min: 0,
+        max: 100,
+        notInRangeMessage: 'La valeur doit être un nombre entre {{ min }} et {{ max }}',
+    )]
+    #[Assert\Type(
+        type: 'integer',
+        message: 'La valeur entrée doit être un entier positif',
+    )]
     private ?int $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'discountRuleActions')]

@@ -1,3 +1,4 @@
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 <form [formGroup]="discountRuleForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <div *ngIf="discountRuleForm.get('name')?.invalid && discountRuleForm.get('name')?.touched" class="text-danger">

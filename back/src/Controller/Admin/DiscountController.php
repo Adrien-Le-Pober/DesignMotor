@@ -9,7 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -38,25 +40,36 @@ class DiscountController extends AbstractController
     public function newDiscount(
         VehicleRepository $vehicleRepository,
         Request $request,
-        EntityManagerInterface $entityManager
-    ) {
+        EntityManagerInterface $entityManager,
+        ValidatorInterface $validator
+    ): JsonResponse {
         $data = json_decode($request->getContent(), true);
+
+        $discountCount = $entityManager->getRepository(Discount::class)->count([]);
+        if ($discountCount >= 3) {
+            return new JsonResponse(['error' => 'Le nombre limite de solde active a été atteint'], JsonResponse::HTTP_BAD_REQUEST);
+        };
 
         if (isset($data['storageDuration']) && isset($data['rate'])) {
             $discount = (new Discount())
                 ->setStorageDuration($data['storageDuration'])
                 ->setRate($data['rate']);
 
+            $errors = $validator->validate($discount);
+
+            if (count($errors) > 0) {
+                return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+
             $discount->run($vehicleRepository->findAll());
 
             $entityManager->persist($discount);
             $entityManager->flush();
 
-            return $this->json("La nouvelle réduction vient d'être appliquée");
+            return new JsonResponse(['successMessage' => "La nouvelle réduction vient d'être appliquée"], JsonResponse::HTTP_OK);
         } else {
-            return $this->json(['error' => 'Les données entrées sont invalides'], 400);
+            return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
         }
-
     }
 
     #[Route('/cancel-discount/{discount}', name: 'app_cancel_discount')]

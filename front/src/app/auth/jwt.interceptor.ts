@@ -25,7 +25,7 @@ export class JwtInterceptor implements HttpInterceptor {
                     this.userService.clearCurrentUser();
                     this.router.navigate(['/connexion']);
                 }
-                return throwError(() => new Error(error.message));
+                return throwError(() => error);
             })
         );
     }

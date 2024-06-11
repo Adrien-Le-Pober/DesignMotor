@@ -23,7 +23,7 @@ export class DiscountService {
     );
   }
 
-  addDiscount(discount: Discount): Observable<string|undefined> {
+  addDiscount(discount: Discount): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
@@ -34,7 +34,6 @@ export class DiscountService {
     return this.http.delete<string>(`${this.appURL}/cancel-discount/${discountId}`).pipe(
       tap(response => console.table(response)),
       catchError(error => {
-        console.log(error);
         return of(undefined);
       })
     );

@@ -6,6 +6,7 @@ use App\Repository\DiscountRuleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DiscountRuleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -17,9 +18,19 @@ class DiscountRule
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} caractères',
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} caractères',
+    )]
     private ?string $description = null;
 
     /**

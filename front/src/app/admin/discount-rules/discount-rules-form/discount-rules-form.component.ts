@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DiscountRule } from '../../../models/discount-rule.model';
 import { DiscountRulesService } from '../discount-rules.service';
 import { Condition } from '../../../models/condition.model';
@@ -22,10 +22,6 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class DiscountRulesFormComponent {
   private unsubscribe$ = new Subject<void>();
-  @Input() discountRule: DiscountRule | null = null;
-  @Input() isEditMode: boolean = false;
-  @Input() isRequestPending: boolean = false;
-  @Output() save = new EventEmitter<DiscountRule>();
   public discountRuleForm: FormGroup;
   public availableConditions = [
     { value : 'day_of_week', select: 'Jour de la semaine' },
@@ -33,6 +29,12 @@ export class DiscountRulesFormComponent {
   ];
   public daysOfWeek: DayOfWeek[] = [];
   public brandList: Brand[];
+  public errorMessage: string = '';
+
+  @Input() discountRule: DiscountRule | null = null;
+  @Input() isEditMode: boolean = false;
+  @Input() isRequestPending: boolean = false;
+  @Output() save = new EventEmitter<DiscountRule>();
 
   constructor(private fb: FormBuilder, private discountRuleService: DiscountRulesService) {
     this.discountRuleForm = this.fb.group({
@@ -137,7 +139,16 @@ export class DiscountRulesFormComponent {
 
   onSubmit(): void {
     if (this.discountRuleForm.valid) {
+      this.errorMessage = '';
+      const hasConditions = this.conditions.controls.length > 0;
+      const hasActions = this.actions.controls.length > 0;
+    
+      if (!hasConditions || !hasActions) {
+        this.errorMessage = 'Veuillez sélectionner au moins une condition et une action.';
+        return;
+      }
       this.isRequestPending = true;
+
       const formValue = this.discountRuleForm.value;
       const discountRule = new DiscountRule(
         this.discountRule?.id || 0,
@@ -154,9 +165,23 @@ export class DiscountRulesFormComponent {
             action.value
         ))
       );
-      this.save.emit(discountRule);
+      this.discountRuleService.createDiscountRule(discountRule).subscribe({
+        next: response => {
+          this.discountRuleForm.reset();
+          this.conditions.clear();
+          this.actions.clear();
+          this.errorMessage = '';
+          this.isRequestPending = false;
+          this.save.emit();
+        },
+        error: error => {
+          this.errorMessage = error.error.error;
+          this.isRequestPending = false;
+        }
+      });
     } else {
       this.discountRuleForm.markAllAsTouched();
+      this.errorMessage = '';
     }
   }
 

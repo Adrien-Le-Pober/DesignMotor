@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DiscountRuleConditionRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DiscountRuleConditionRepository::class)]
 class DiscountRuleCondition
@@ -15,6 +15,7 @@ class DiscountRuleCondition
     private ?int $id = null;
 
     #[ORM\Column(length: 48)]
+    #[Assert\Choice(choices: ['day_of_week', 'brand'], message: 'Les types disponibles sont {{ choices }}')]
     private ?string $type = null;
 
     #[ORM\Column(type: 'json')]

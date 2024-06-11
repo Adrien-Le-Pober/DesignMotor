@@ -6,6 +6,7 @@ use App\Repository\DiscountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DiscountRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -17,9 +18,27 @@ class Discount
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\Positive(message: "{{ value }} n'est pas un entier positif")]
+    #[Assert\Type(
+        type: 'integer',
+        message: 'La valeur entrée doit être un entier positif',
+    )]
     private ?int $storageDuration = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\Range(
+        min: 0,
+        max: 1,
+        notInRangeMessage: 'Le coefficient est un nombre entre {{ min }} et {{ max }}',
+    )]
+    #[Assert\Type(
+        type: 'float',
+        message: 'La valeur entrée doit être un nombre compris entre 0 et 1',
+    )]
     private ?float $rate = null;
 
     /**

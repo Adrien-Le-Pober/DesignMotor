@@ -8,14 +8,17 @@ use App\Entity\DiscountRuleCondition;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\DiscountRuleRepository;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class DiscountRuleCrudService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private DiscountRuleRepository $discountRuleRepository
+        private DiscountRuleRepository $discountRuleRepository,
+        private ValidatorInterface $validator
     ) { }
 
     public function getDiscountRules(): array
@@ -52,12 +55,18 @@ class DiscountRuleCrudService
         }, $discountRules);
     }
 
-    public function createDiscountRule(array $data): DiscountRule
+    public function createDiscountRule(array $data): DiscountRule|JsonResponse
     {
         $discountRule = (new DiscountRule())->setName($data['name']);
 
         if (isset($data['description'])) {
             $discountRule->setDescription($data['description']);
+        }
+
+        $errors = $this->validator->validate($discountRule);
+
+        if (count($errors) > 0) {
+            return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $this->handleConditions($discountRule, $data['conditions']);
@@ -75,6 +84,12 @@ class DiscountRuleCrudService
 
         if (isset($data['description'])) {
             $discountRule->setDescription($data['description']);
+        }
+
+        $errors = $this->validator->validate($discountRule);
+
+        if (count($errors) > 0) {
+            return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $this->handleConditions($discountRule, $data['conditions']);
@@ -108,6 +123,12 @@ class DiscountRuleCrudService
                 $newCondition = (new DiscountRuleCondition())
                     ->setType($conditionData['type'])
                     ->setValue($conditionData['value']);
+
+                $errors = $this->validator->validate($newCondition);
+
+                if (count($errors) > 0) {
+                    return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
+                }
                 
                 $discountRule->addDiscountRuleCondition($newCondition);
                 $this->entityManager->persist($newCondition);
@@ -142,6 +163,12 @@ class DiscountRuleCrudService
                 $newAction = (new DiscountRuleAction())
                     ->setType($actionData['type'])
                     ->setValue($actionData['value']);
+
+                $errors = $this->validator->validate($newAction);
+
+                if (count($errors) > 0) {
+                    return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
+                }
                 
                 $discountRule->addDiscountRuleAction($newAction);
                 $this->entityManager->persist($newAction);

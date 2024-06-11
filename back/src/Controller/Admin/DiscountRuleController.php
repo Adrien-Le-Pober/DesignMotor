@@ -21,9 +21,15 @@ class DiscountRuleController extends AbstractController
     #[Route('/new-discount-rule', name: 'app_new_discount_rule', methods: ['POST'])]
     public function newDiscountRule(
         Request $request,
-        DiscountRuleCrudService $discountRuleCrudService
+        DiscountRuleCrudService $discountRuleCrudService,
+        EntityManagerInterface $entityManager,
     ) {
         $data = json_decode($request->getContent(), true);
+
+        $discountRuleCount = $entityManager->getRepository(DiscountRule::class)->count([]);
+        if ($discountRuleCount >= 3) {
+            return new JsonResponse(['error' => 'Le nombre limite de règles actives a été atteint'], JsonResponse::HTTP_BAD_REQUEST);
+        };
 
         if (isset($data['name']) &&
             isset($data['conditions']) && !empty($data['conditions']) &&

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { DiscountService } from '../discount.service';
 import { Discount } from '../../../models/discount.model';
 import { CommonModule } from '@angular/common';
@@ -22,6 +22,7 @@ export class DiscountFormComponent {
   public errorMessage: string|undefined;
   public isRequestPending = false;
 
+  @ViewChild('discountForm') discountForm: NgForm;
   @Output() discountAdded = new EventEmitter<void>();
 
   constructor(
@@ -30,12 +31,15 @@ export class DiscountFormComponent {
   
   onSubmit() {
     this.isRequestPending = true;
+    this.successMessage = '';
+    this.errorMessage = '';
     this.discountService.addDiscount(this.discount)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (successMessage) => {
-          this.successMessage = successMessage;
+        next: (response) => {
+          this.successMessage = response.successMessage;
           this.isRequestPending = false;
+          this.discountForm.resetForm();
           this.discountAdded.emit();
         },
         error: (error) => {

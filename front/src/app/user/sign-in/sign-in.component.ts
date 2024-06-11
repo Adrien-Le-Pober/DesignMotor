@@ -39,6 +39,7 @@ export class SignInComponent {
           this.isRequestPending = false;
         },
         error: (error) => {
+          console.log(error);
           this.errorMessage = error.error.errors.join(', ');
           this.isRequestPending = false;
         }
