@@ -31,19 +31,19 @@ export class DiscountRulesService {
     return this.http.get<Brand[]>(`${this.appURL}/catalog/brands`);
   }
 
-  createDiscountRule(discountRule: DiscountRule): Observable<string> {
-    return this.http.post<string>(`${this.appURL}/new-discount-rule`, discountRule);
+  createDiscountRule(discountRule: DiscountRule): Observable<any> {
+    return this.http.post<any>(`${this.appURL}/new-discount-rule`, discountRule);
   }
 
   getDiscountRules(): Observable<DiscountRule[]> {
     return this.http.get<DiscountRule[]>(`${this.appURL}/discount-rules`);
   }
 
-  updateDiscountRule(discountRule: DiscountRule): Observable<string> {
-    return this.http.put<string>(`${this.appURL}/edit-discount-rule/${discountRule.id}`, discountRule);
+  updateDiscountRule(discountRule: DiscountRule): Observable<any> {
+    return this.http.put<any>(`${this.appURL}/edit-discount-rule/${discountRule.id}`, discountRule);
   }
 
-  deleteDiscountRule(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.appURL}/delete-discount-rule/${id}`);
+  deleteDiscountRule(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.appURL}/delete-discount-rule/${id}`);
   }
 }

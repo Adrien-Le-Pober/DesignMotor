@@ -23,12 +23,12 @@ class DiscountRuleController extends AbstractController
         Request $request,
         DiscountRuleCrudService $discountRuleCrudService,
         EntityManagerInterface $entityManager,
-    ) {
+    ): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
         $discountRuleCount = $entityManager->getRepository(DiscountRule::class)->count([]);
         if ($discountRuleCount >= 3) {
-            return new JsonResponse(['error' => 'Le nombre limite de règles actives a été atteint'], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['errorMessage' => 'Le nombre limite de règles actives a été atteint'], JsonResponse::HTTP_BAD_REQUEST);
         };
 
         if (isset($data['name']) &&
@@ -37,9 +37,9 @@ class DiscountRuleController extends AbstractController
         ) {
             $discountRuleCrudService->createDiscountRule($data);
 
-            return $this->json("La nouvelle règle de réduction vient d'être appliquée");
+            return new JsonResponse(['successMessage' => "La nouvelle règle de réduction vient d'être appliquée"], JsonResponse::HTTP_OK);
         } else {
-            return $this->json(['error' => 'Invalid data'], 400);
+            return new JsonResponse(['errorMessage' => 'Les données sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 
@@ -48,7 +48,7 @@ class DiscountRuleController extends AbstractController
         Request $request,
         DiscountRuleCrudService $discountRuleCrudService,
         DiscountRule $discountRule
-    ) {
+    ): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
         if (isset($data['name']) &&
@@ -57,9 +57,9 @@ class DiscountRuleController extends AbstractController
         ) {
             $discountRuleCrudService->updateDiscountRule($discountRule, $data);
 
-            return $this->json("La nouvelle règle de réduction vient d'être modifiée");
+            return new JsonResponse(['successMessage' => "La règle de réduction vient d'être modifiée"], JsonResponse::HTTP_OK);
         } else {
-            return $this->json(['error' => 'Invalid data'], 400);
+            return new JsonResponse(['errorMessage' => 'Les données sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 
@@ -67,10 +67,10 @@ class DiscountRuleController extends AbstractController
     public function deleteDiscountRule(
         DiscountRule $discountRule,
         EntityManagerInterface $entityManager
-    ) {
+    ): JsonResponse {
         $entityManager->remove($discountRule);
         $entityManager->flush();
 
-        return $this->json("La nouvelle règle de réduction vient d'être supprimée");
+        return new JsonResponse(['successMessage' => "La règle de réduction vient d'être supprimée"], JsonResponse::HTTP_OK);
     }
 }

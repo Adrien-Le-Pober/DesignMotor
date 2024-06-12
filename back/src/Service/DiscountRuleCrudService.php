@@ -66,7 +66,7 @@ class DiscountRuleCrudService
         $errors = $this->validator->validate($discountRule);
 
         if (count($errors) > 0) {
-            return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['errorMessage' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $this->handleConditions($discountRule, $data['conditions']);
@@ -89,7 +89,7 @@ class DiscountRuleCrudService
         $errors = $this->validator->validate($discountRule);
 
         if (count($errors) > 0) {
-            return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['errorMessage' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $this->handleConditions($discountRule, $data['conditions']);
@@ -127,7 +127,7 @@ class DiscountRuleCrudService
                 $errors = $this->validator->validate($newCondition);
 
                 if (count($errors) > 0) {
-                    return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
+                    return new JsonResponse(['errorMessage' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
                 }
                 
                 $discountRule->addDiscountRuleCondition($newCondition);
@@ -167,7 +167,7 @@ class DiscountRuleCrudService
                 $errors = $this->validator->validate($newAction);
 
                 if (count($errors) > 0) {
-                    return new JsonResponse(['error' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
+                    return new JsonResponse(['errorMessage' => 'Les données entrées sont invalides'], JsonResponse::HTTP_BAD_REQUEST);
                 }
                 
                 $discountRule->addDiscountRuleAction($newAction);

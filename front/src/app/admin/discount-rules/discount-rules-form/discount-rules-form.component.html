@@ -1,10 +1,9 @@
-<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 <form [formGroup]="discountRuleForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
+        <label for="name" class="form-label mb-0">Nom de la règle</label>
         <div *ngIf="discountRuleForm.get('name')?.invalid && discountRuleForm.get('name')?.touched" class="text-danger">
             <small *ngIf="discountRuleForm.get('name')?.errors?.['required']">Le nom est requis.</small>
         </div>
-        <label for="name" class="form-label">Nom de la règle</label>
         <input type="text" class="form-control" formControlName="name">
     </div>
     <div class="form-group">
@@ -16,10 +15,10 @@
     <div formArrayName="conditions">
         <div *ngFor="let condition of conditions.controls; let i=index" [formGroupName]="i">
             <div class="form-group">
+                <label class="form-label">Type</label>
                 <div *ngIf="condition.get('type')?.invalid && condition.get('type')?.touched" class="text-danger">
                     <small *ngIf="condition.get('type')?.errors?.['required']">Le type est requis.</small>
                 </div>
-                <label class="form-label">Type</label>
                 <select formControlName="type" (change)="onTypeChange(i)" class="form-select">
                     <option *ngFor="let conditionType of availableConditions" [value]="conditionType.value">{{ conditionType.select }}</option>
                 </select>
@@ -39,6 +38,11 @@
                     </div>
                 </div>
                 <div *ngIf="condition.get('type')?.value === 'brand'">
+                    <div *ngIf="!brandList" class="spinner">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                     <div *ngFor="let brand of brandList" class="form-check">
                         <label class="form-check-label"> {{ brand.name }}</label>
                         <input
@@ -61,10 +65,10 @@
     <div formArrayName="actions">
         <div *ngFor="let action of actions.controls; let i=index" [formGroupName]="i">
             <div class="form-group">
+                <input type="hidden" formControlName="type">
                 <div *ngIf="action.get('value')?.invalid && action.get('value')?.touched" class="text-danger">
                     <small *ngIf="action.get('value')?.errors?.['required']">La valeur est requise.</small>
                 </div>
-                <input type="hidden" formControlName="type">
                 <label class="form-label">Valeur de la réduction</label>
                 <input type="text" class="form-control" formControlName="value" placeholder="En pourcentage">
             </div>

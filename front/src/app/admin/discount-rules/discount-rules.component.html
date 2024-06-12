@@ -1,9 +1,15 @@
 <div>
-    <h3>Créer une règle de réduction </h3>
+    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <h3 *ngIf="!isEditMode">Créer une règle de réduction </h3>
+    <h3 *ngIf="isEditMode">Modification d'une règle de réduction </h3>
     <app-discount-rules-form 
+        *ngIf="!isEditMode"
         [discountRule]="selectedDiscountRule"
         [isRequestPending]="isRequestPending"
-        (save)="onSave($event)">
+        (save)="onSave($event)"
+        (successMessage)="onSuccessMessage($event)"
+        (errorMessage)="onErrorMessage($event)">
     </app-discount-rules-form>
 
     <hr>
@@ -29,7 +35,9 @@
                         [discountRule]="discountRule"
                         [isRequestPending]="isRequestPending"
                         [isEditMode]="isEditMode"
-                        (save)="onSave($event)">
+                        (save)="onSave($event)"
+                        (successMessage)="onSuccessMessage($event)"
+                        (errorMessage)="onErrorMessage($event)">
                     </app-discount-rules-form>
                 </div>
             </div>

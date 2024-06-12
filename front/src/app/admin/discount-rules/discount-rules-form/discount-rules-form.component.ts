@@ -29,12 +29,13 @@ export class DiscountRulesFormComponent {
   ];
   public daysOfWeek: DayOfWeek[] = [];
   public brandList: Brand[];
-  public errorMessage: string = '';
 
   @Input() discountRule: DiscountRule | null = null;
   @Input() isEditMode: boolean = false;
   @Input() isRequestPending: boolean = false;
   @Output() save = new EventEmitter<DiscountRule>();
+  @Output() successMessage = new EventEmitter<string>();
+  @Output() errorMessage = new EventEmitter<string>();
 
   constructor(private fb: FormBuilder, private discountRuleService: DiscountRulesService) {
     this.discountRuleForm = this.fb.group({
@@ -139,15 +140,15 @@ export class DiscountRulesFormComponent {
 
   onSubmit(): void {
     if (this.discountRuleForm.valid) {
-      this.errorMessage = '';
+      this.errorMessage.emit('');
+      this.successMessage.emit('');
       const hasConditions = this.conditions.controls.length > 0;
       const hasActions = this.actions.controls.length > 0;
     
       if (!hasConditions || !hasActions) {
-        this.errorMessage = 'Veuillez sélectionner au moins une condition et une action.';
+        this.errorMessage.emit('Veuillez sélectionner au moins une condition et une action.');
         return;
       }
-      this.isRequestPending = true;
 
       const formValue = this.discountRuleForm.value;
       const discountRule = new DiscountRule(
@@ -165,24 +166,17 @@ export class DiscountRulesFormComponent {
             action.value
         ))
       );
-      this.discountRuleService.createDiscountRule(discountRule).subscribe({
-        next: response => {
-          this.discountRuleForm.reset();
-          this.conditions.clear();
-          this.actions.clear();
-          this.errorMessage = '';
-          this.isRequestPending = false;
-          this.save.emit();
-        },
-        error: error => {
-          this.errorMessage = error.error.error;
-          this.isRequestPending = false;
-        }
-      });
+      this.save.emit(discountRule);
     } else {
       this.discountRuleForm.markAllAsTouched();
-      this.errorMessage = '';
+      this.errorMessage.emit('Le formulaire est invalide');
     }
+  }
+
+  resetForm(): void {
+    this.discountRuleForm.reset();
+    this.conditions.clear();
+    this.actions.clear();
   }
 
   ngOnDestroy(): void {
