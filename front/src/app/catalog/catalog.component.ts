@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
   templateUrl: 'catalog.component.html',
-  styleUrl: 'catalog.component.scss'
+  styles: ''
 })
 export class CatalogComponent {
   private unsubscribe$ = new Subject<void>();
