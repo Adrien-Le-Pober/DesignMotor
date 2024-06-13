@@ -7,6 +7,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: calc(100vh - 116px);
+        min-height: calc(100vh - 117px - 113px); // 117: navbar, 113: footer
     }
 }
