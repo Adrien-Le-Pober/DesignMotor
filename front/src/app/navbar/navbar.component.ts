@@ -3,16 +3,20 @@ import { RouterModule } from '@angular/router';
 import { UserService } from '../user/user.service';
 import { CommonModule } from '@angular/common';
 import { CurrentUser } from '../interfaces/current-user.interface';
+import { VehicleService } from '../vehicle/vehicle.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: 'navbar.component.html',
   styleUrl: 'navbar.component.scss'
 })
 export class NavbarComponent {
   currentUser: CurrentUser|null = null;
+  searchResults: any[] = [];
+  searchTerm: string = '';
 
   @ViewChild('hamburger', { static: true }) hamburgerBtn!: ElementRef;
   @ViewChild('navMenu', { static: true }) navMenu!: ElementRef;
@@ -23,7 +27,7 @@ export class NavbarComponent {
   private dropdowns: NodeListOf<HTMLElement>;
   private links: NodeListOf<HTMLAnchorElement>;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private vehicleService: VehicleService) { }
 
   ngOnInit() {
     this.userService.currentUser$.subscribe((user: CurrentUser | null) => {
@@ -137,5 +141,36 @@ export class NavbarComponent {
 
   toggleHamburger() {
     this.menu.nativeElement.classList.toggle('show');
+  }
+
+  // Search
+
+  onSearchChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const searchValue = inputElement.value;
+
+    if (searchValue && searchValue.length > 2) {
+      this.vehicleService.searchVehiclesOnNavbar(searchValue)
+        .subscribe(results => {
+          this.searchResults = results;
+        });
+    } else {
+      this.searchResults = [];
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const isClickedInside = target.closest('.search') !== null;
+
+    if (!isClickedInside) {
+      this.clearSearch();
+    }
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.searchResults = [];
   }
 }

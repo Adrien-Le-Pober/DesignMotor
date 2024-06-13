@@ -23,21 +23,35 @@ export class ShowVehicleComponent {
     private vehicleService: VehicleService
   ) { }
 
-  ngOnInit() {
-    this.isLoading = true;
-    const id = this.route.snapshot.paramMap.get('id');
-    const vehicleId: number|null = id !== null ? +id : null;
+  ngOnInit(): void {
+    this.route.paramMap
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(params => {
+      const idString = params.get('id');
+      if (idString !== null) {
+        const id = +idString;
+        if (!isNaN(id)) {
+          this.isLoading = true;
+          this.loadVehicle(id);
+        } else {
+          this.router.navigate(['/404']);
+        }
+      } else {
+        this.router.navigate(['/404']);
+      }
+    });
+  }
 
-    if (vehicleId !== null) {
-      this.vehicleService.fetchVehicleById(vehicleId)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(vehicle => {
-          this.vehicle = vehicle;
-          this.isLoading = false;
-        });
-    } else {
-      this.router.navigate(['/404']);
-    }
+  loadVehicle(vehicleId: number): void {
+    this.isLoading = true;
+    this.vehicleService.fetchVehicleById(vehicleId)
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe(vehicle => {
+        this.vehicle = vehicle;
+        this.isLoading = false;
+      });
   }
 
   ngOnDestroy(): void {

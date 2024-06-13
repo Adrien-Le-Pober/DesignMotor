@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Vehicle;
-use App\Repository\VehicleRepository;
 use App\Trait\Base64ImageTrait;
+use App\Repository\VehicleRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,5 +26,14 @@ class VehicleController extends AbstractController
         }
         
         return $this->json($vehicle);
+    }
+
+    #[Route('/search-vehicles', methods: ['GET'])]
+    public function search(Request $request, VehicleRepository $vehicleRepository): JsonResponse
+    {
+        $query = $request->query->get('q', '');
+        $vehicles = $vehicleRepository->findByModelOrBrand($query, 5);
+
+        return $this->json($vehicles);
     }
 }

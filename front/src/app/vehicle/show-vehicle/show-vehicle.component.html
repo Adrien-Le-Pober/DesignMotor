@@ -4,7 +4,7 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
-    <section *ngIf="vehicle" class="row w-100">
+    <section *ngIf="vehicle && !isLoading" class="row w-100">
         <div class="col-xl-7 me-xl-5">
             <img *ngIf="vehicle.image" [src]="vehicle.image" alt="image du véhicule">
         </div>

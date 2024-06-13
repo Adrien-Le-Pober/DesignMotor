@@ -20,4 +20,8 @@ export class VehicleService {
   fetchVehicleById(vehicleId: number): Observable<VehicleDescription> {
     return this.http.get<VehicleDescription>(`${this.appURL}/vehicle/${vehicleId}`)
   }
+
+  searchVehiclesOnNavbar(query: string): Observable<any> {
+    return this.http.get<any>(`${this.appURL}/search-vehicles?q=${query}`);
+  }
 }

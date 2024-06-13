@@ -102,4 +102,18 @@ class VehicleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findByModelOrBrand(string $query, int $limit = 5)
+    {
+        return $this->createQueryBuilder('v')
+            ->select('v.id', 'b.name AS brand', 'mo.name AS model')
+            ->leftJoin('v.brand', 'b')
+            ->leftJoin('v.model', 'mo')
+            ->where('mo.name LIKE :query')
+            ->orWhere('b.name LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }
