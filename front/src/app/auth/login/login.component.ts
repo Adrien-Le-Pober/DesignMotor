@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
@@ -17,13 +17,33 @@ export class LoginComponent {
   email: string;
   password: string;
   errorMessage: string;
+  successMessage: string;
   isRequestPending: boolean = false;
   isResendConfirmationEmail: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(params => {
+        if (params['errorMessage']) {
+          this.errorMessage = params['errorMessage'];
+        }
+        if (params['successMessage']) {
+          this.successMessage = params['successMessage'];
+        }
+      });
+  }
 
   login() {
     this.isRequestPending = true;
+    this.errorMessage = '';
+    this.successMessage = '';
     this.authService.login(this.email, this.password)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
