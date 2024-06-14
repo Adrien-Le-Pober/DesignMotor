@@ -23,5 +23,5 @@
     <img *ngIf="!videoUrl && !isLoading" [src]="vehicle.image" alt="image du véhicule">
     <hr>
     <p>{{ vehicle.price | currency: 'EUR' }}</p>
-    <a class="btn btn-primary" [routerLink]="['/vehicle', vehicle.id]">Voir la description</a>
+    <a class="btn btn-primary" [routerLink]="['/vehicule', vehicle.id]">Voir la description</a>
 </div>

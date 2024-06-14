@@ -19,9 +19,9 @@ export const routes: Routes = [
     { path: 'renvoyer-email-confirmation', component: ResendConfirmationEmailComponent, data: { authGuardMethod: 'canActivateIfNotLoggedIn' } },
     { path: 'reinitialiser-mot-de-passe/:token', component: ResetPasswordComponent, data: { authGuardMethod: 'canActivateIfNotLoggedIn' } },
     { path: 'mot-de-passe-oublie', component: ForgotPasswordComponent, data: { authGuardMethod: 'canActivateIfNotLoggedIn' } },
-    { path: 'catalog', component: CatalogComponent },
-    { path: 'vehicle/:id', component: ShowVehicleComponent },
-    { path: '', redirectTo: 'catalog', pathMatch: 'full' },
+    { path: 'catalogue', component: CatalogComponent },
+    { path: 'vehicule/:id', component: ShowVehicleComponent },
+    { path: '', redirectTo: 'catalogue', pathMatch: 'full' },
     { path: '404', component: PageNotFoundComponent },
     { path: '**', redirectTo: '/404' }
 ];

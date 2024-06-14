@@ -10,7 +10,7 @@
             </a>
             <nav class="menu" #menu>
                 <ul class="menu-bar">
-                    <li><a class="nav-link" routerLink="/catalog" routerLinkActive="active">Catalogue</a></li>
+                    <li><a class="nav-link" routerLink="/catalogue" routerLinkActive="active">Catalogue</a></li>
                     <li>
                         <button 
                             class="nav-link dropdown-btn"
@@ -57,7 +57,7 @@
                 </form>
                 <ul *ngIf="searchResults.length > 0" class="search-results">
                     <li *ngFor="let vehicle of searchResults" class="border border-light-subtle fs-5">
-                        <a [routerLink]="['/vehicle', vehicle.id]">{{ vehicle.brand }} {{ vehicle.model }}</a>
+                        <a [routerLink]="['/vehicule', vehicle.id]">{{ vehicle.brand }} {{ vehicle.model }}</a>
                     </li>
                 </ul>
 
