@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap, throwError } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from "jwt-decode";
 import { CurrentUser } from '../interfaces/current-user.interface';

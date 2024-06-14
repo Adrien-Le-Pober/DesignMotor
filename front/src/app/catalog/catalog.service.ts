@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Vehicle } from '../models/vehicle.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, catchError, of, tap } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Brand } from '../models/brand.model';
 
 @Injectable({
