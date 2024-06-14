@@ -6,21 +6,21 @@ use App\Entity\Type;
 use App\Entity\Brand;
 use App\Entity\Color;
 use App\Entity\Model;
+use DateTimeImmutable;
 use App\Entity\Vehicle;
 use App\Entity\Motorization;
-use App\Service\AssetsService;
-use DateTimeImmutable;
+use App\Service\PathService;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(private AssetsService $assetsService)
+    public function __construct(private PathService $pathService)
     { }
 
     public function load(ObjectManager $manager): void
     {
-        $assetsPath = $this->assetsService;
+        $filePath = $this->pathService;
 
         $brandsData = [
             'Renault' => 'Megane E-Tech',
@@ -57,8 +57,8 @@ class AppFixtures extends Fixture
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type)
-                        ->setImagePath($assetsPath->getImagePath() . 'renault_megan_E-Tech.jpg')
-                        ->setVideoPath($assetsPath->getVideoPath() . 'Renault-Megane-eTech.mp4')
+                        ->setImagePath($filePath->getImagePath() . 'renault_megan_E-Tech.jpg')
+                        ->setVideoPath($filePath->getVideoPath() . 'Renault-Megane-eTech.mp4')
                         ->setPrice(30_000)
                         ->setDescription("Découvrez la Megane E-Tech, la berline 100% électrique de Renault, avec 220 ch, autonomie jusqu'à 480 km et assemblée en France.")
                         ->setCreatedAt(new DateTimeImmutable());
@@ -77,8 +77,8 @@ class AppFixtures extends Fixture
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type)
-                        ->setImagePath($assetsPath->getImagePath() . 'mercedes_classe_s.jpg')
-                        ->setVideoPath($assetsPath->getVideoPath() . 'Mercedes-Classe-S.mp4')
+                        ->setImagePath($filePath->getImagePath() . 'mercedes_classe_s.jpg')
+                        ->setVideoPath($filePath->getVideoPath() . 'Mercedes-Classe-S.mp4')
                         ->setPrice(113_959)
                         ->setCreatedAt(DateTimeImmutable::createFromFormat('Y-m-d', '2024-01-01'));
                     break;
@@ -96,8 +96,8 @@ class AppFixtures extends Fixture
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type)
-                        ->setImagePath($assetsPath->getImagePath() . 'volkswagen_polo.jpg')
-                        ->setVideoPath($assetsPath->getVideoPath() . 'Volkswagen-Polo.mp4')
+                        ->setImagePath($filePath->getImagePath() . 'volkswagen_polo.jpg')
+                        ->setVideoPath($filePath->getVideoPath() . 'Volkswagen-Polo.mp4')
                         ->setPrice(21_390)
                         ->setCreatedAt(DateTimeImmutable::createFromFormat('Y-m-d', '2022-01-01'));
                     break;
@@ -112,8 +112,8 @@ class AppFixtures extends Fixture
                         ->addColor($color)
                         ->setMotorization($motorization)
                         ->setType($type)
-                        ->setImagePath($assetsPath->getImagePath() . 'Peugeot_Django_classic_50.jpg')
-                        ->setVideoPath($assetsPath->getVideoPath() . 'Peugeot-Django-50.mp4')
+                        ->setImagePath($filePath->getImagePath() . 'Peugeot_Django_classic_50.jpg')
+                        ->setVideoPath($filePath->getVideoPath() . 'Peugeot-Django-50.mp4')
                         ->setPrice(2_899)
                         ->setCreatedAt(DateTimeImmutable::createFromFormat('Y-m-d', '2023-01-01'));
                     break;
