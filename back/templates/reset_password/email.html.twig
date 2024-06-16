@@ -1,13 +1,37 @@
-{% extends "email_base.html.twig" %}
-
 {% block content %}
-    <div class="container">
-        <p>Pour changer votre mot de passe, cliquez sur le lien ci dessous</p>
-
-        <a href="{{ redirectPath ~ '/reinitialiser-mot-de-passe/' ~ resetToken.token }}" class="btn">Changer mon mot de passe</a>
-
-        <p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
-
-        <p>A bientôt!</p>
-    </div>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin: 50px; font-family: 'Roboto', sans-serif;">
+        <tr>
+            <td>
+                <p>
+                    Pour changer votre mot de passe, cliquez sur le lien ci-dessous
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="{{ redirectPath ~ '/reinitialiser-mot-de-passe/' ~ resetToken.token }}"
+                style="
+                    background-color: #000;
+                    color: white;
+                    padding: 1rem;
+                    text-decoration: none;
+                    display: inline-block;"
+                >
+                    Changer mon mot de passe
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>
+                    Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>A bientôt!</p>
+            </td>
+        </tr>
+    </table>
 {% endblock %}
