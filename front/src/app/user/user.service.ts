@@ -19,8 +19,8 @@ export class UserService {
     return this.currentUserSubject.value;
   }
 
-  register(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.appURL}/register`, { email, password });
+  register(email: string, password: string, rgpd: boolean): Observable<any> {
+    return this.http.post<any>(`${this.appURL}/register`, { email, password, rgpd });
   }
 
   resendConfirmationEmail(email: string): Observable<any> {

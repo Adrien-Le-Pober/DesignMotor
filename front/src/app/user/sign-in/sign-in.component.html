@@ -45,6 +45,24 @@
                     #passwordRef="ngModel"
                 >
             </div>
+            <div class="form-check">
+                <div class="text-danger" *ngIf="rgpdRef.invalid && (rgpdRef.dirty || rgpdRef.touched)">
+                    <div *ngIf="rgpdRef.errors?.['required']">Vous devez cocher cette case</div>
+                </div>
+                <input 
+                    class="form-check-input"
+                    [(ngModel)]="rgpd"
+                    type="checkbox"
+                    name="rgpd"
+                    value=""
+                    id="rgpd"
+                    required
+                    #rgpdRef="ngModel"
+                >
+                <label class="form-check-label" for="rgpd">
+                    Je consens au traitement de mes données à caractère personnel
+                </label>
+            </div>
             <button class="btn btn-primary w-100 mt-3" type="submit" [disabled]="!signinForm.form.valid || isRequestPending">S'inscrire</button>
         </form>
     </div>

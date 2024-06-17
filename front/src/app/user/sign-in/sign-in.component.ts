@@ -16,6 +16,7 @@ export class SignInComponent {
   private unsubscribe$ = new Subject<void>();
   email: string = '';
   password: string = '';
+  rgpd: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
   isRequestPending = false;
@@ -31,7 +32,7 @@ export class SignInComponent {
 
   signIn() {
     this.isRequestPending = true;
-    this.userService.register(this.email, this.password)
+    this.userService.register(this.email, this.password, this.rgpd)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (response) => {

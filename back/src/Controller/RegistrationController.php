@@ -34,7 +34,8 @@ class RegistrationController extends AbstractController
 
         $user = (new User())
             ->setEmail($userData['email'] ?? '')
-            ->setPassword($userData['password'] ?? '');
+            ->setPassword($userData['password'] ?? '')
+            ->setRgpd($userData['rgpd'] ?? false);
 
         $errors = $validator->validate($user);
         if (count($errors) > 0) {

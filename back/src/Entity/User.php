@@ -45,6 +45,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[ORM\Column]
+    #[Assert\IsTrue(message: "L'utilisateur n'a pas consenti au traitement de ses données.")]
+    private ?bool $rgpd = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,5 +140,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function onPrePersist(): void
     {
         $this->roles = ["ROLE_USER"];
+    }
+
+    public function isRgpd(): ?bool
+    {
+        return $this->rgpd;
+    }
+
+    public function setRgpd(bool $rgpd): static
+    {
+        $this->rgpd = $rgpd;
+
+        return $this;
     }
 }
