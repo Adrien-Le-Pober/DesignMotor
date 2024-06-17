@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
@@ -81,6 +81,17 @@ class UserController extends AbstractController
         }
 
         return new JsonResponse(['errorMessage' => "Le format de l'adresse email est invalide"], JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    #[Route('/user/{username}/delete-account', methods: ["DELETE"])]
+    public function deleteUserAccount(string $username): JsonResponse
+    {
+        $user = $this->getCurrentUser($username);
+
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['successMessage' => 'Votre compte a bien été supprimé'], JsonResponse::HTTP_OK);
     }
 
     private function getCurrentUser(string $username)

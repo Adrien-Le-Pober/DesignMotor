@@ -1,0 +1,49 @@
+<div class="d-flex justify-content-center">
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal">
+        Supprimer mon compte
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalLabel">Confirmez vous la suppression de votre compte?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Avant de procéder, nous souhaitons vous informer des conséquences de cette action :</p>
+                <ul>
+                    <li>
+                        Vous ne pourrez plus consulter votre historique d'achats, télécharger vos factures ou suivre vos commandes passées.
+                    </li>
+                    <li>
+                        Vos données personnelles seront supprimées de notre base de données conformément à nos politiques de confidentialité et aux régulations en vigueur. Cependant, certaines informations transactionnelles peuvent être conservées à des fins légales et fiscales.
+                    </li>
+                    <li>
+                        Une fois votre compte supprimé, cette action sera irréversible. Vous devrez créer un nouveau compte si vous souhaitez utiliser nos services à l'avenir.
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button 
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    [disabled]="isRequestPending"
+                >
+                    Annuler
+                </button>
+                <button
+                    type="button"
+                    (click)="onDelete()"
+                    class="btn btn-danger"
+                    [disabled]="isRequestPending"
+                >
+                    Confirmer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -80,6 +80,18 @@ export class UserService {
     }
   }
 
+  deleteAccount(): Observable<any> {
+    const token = this.getCurrentToken();
+    const username = this.getUsernameFromToken(token);
+    if (username) {
+      return this.http.delete(`${this.appURL}/user/${username}/delete-account`).pipe(
+        tap(() => this.clearCurrentUser())
+      );
+    } else {
+      throw new Error('User is not authenticated');
+    }
+  }
+
   private getCurrentToken(): string {
     if (this.currentUserValue && this.currentUserValue.token) {
       return this.currentUserValue.token;
