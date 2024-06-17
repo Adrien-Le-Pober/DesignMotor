@@ -23,5 +23,20 @@
                 </div>
             </div>
         </div>
+        <div class="text-center py-3 py-lg-5">
+            <div *ngIf="vehicle.description; else checkModelDescription">
+                {{ vehicle.description }}
+            </div>
+            <ng-template #checkModelDescription>
+                <div *ngIf="vehicle.modelDescription; else checkBrandDescription">
+                    {{ vehicle.modelDescription }}
+                </div>
+            </ng-template>
+            <ng-template #checkBrandDescription>
+                <div *ngIf="vehicle.brandDescription">
+                    {{ vehicle.brandDescription }}
+                </div>
+            </ng-template>
+        </div>
     </section>
 </main>
