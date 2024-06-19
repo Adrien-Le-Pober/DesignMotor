@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\IsTrue(message: "L'utilisateur n'a pas consenti au traitement de ses données.")]
     private ?bool $rgpd = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $googleId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,6 +153,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRgpd(bool $rgpd): static
     {
         $this->rgpd = $rgpd;
+
+        return $this;
+    }
+
+    public function getGoogleId(): ?string
+    {
+        return $this->googleId;
+    }
+
+    public function setGoogleId(?string $googleId): static
+    {
+        $this->googleId = $googleId;
 
         return $this;
     }

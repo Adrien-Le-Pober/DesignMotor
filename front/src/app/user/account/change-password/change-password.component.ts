@@ -4,11 +4,12 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CompareValidatorDirective } from '../../../directive/compare-validator.directive';
 import { Subject, takeUntil } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [FormsModule, CommonModule, CompareValidatorDirective],
+  imports: [FormsModule, CommonModule, CompareValidatorDirective, RouterModule],
   templateUrl: 'change-password.component.html',
   styleUrl: 'change-password.component.scss'
 })

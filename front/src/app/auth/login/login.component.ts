@@ -37,6 +37,9 @@ export class LoginComponent {
         if (params['successMessage']) {
           this.successMessage = params['successMessage'];
         }
+        if (params['token']) {
+          this.authService.handleOAuthCallback(params['token']);
+        }
       });
   }
 
@@ -61,6 +64,10 @@ export class LoginComponent {
             }
         }
       });
+  }
+
+  loginWithGoogle() {
+    window.location.href = `${this.authService.getOAuthUrl('google')}`;
   }
 
   ngOnDestroy(): void {
