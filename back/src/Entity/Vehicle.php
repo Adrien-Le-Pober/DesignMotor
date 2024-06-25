@@ -88,6 +88,9 @@ class Vehicle
     #[Assert\NotBlank]
     private ?string $description = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $soldedPrice = null;
+
     public function __construct()
     {
         $this->color = new ArrayCollection();
@@ -245,7 +248,11 @@ class Vehicle
 
     public function setDiscountPrice(float $coefficient): static
     {
-        $this->setPrice(round($coefficient * $this->getPrice()));
+        if ($this->getSoldedPrice()) {
+            $this->setSoldedPrice(round($coefficient * $this->getSoldedPrice()));
+        } else {
+            $this->setSoldedPrice(round($coefficient * $this->getPrice()));
+        }
 
         return $this;
     }
@@ -322,6 +329,18 @@ class Vehicle
     public function onPreUpdate(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function getSoldedPrice(): ?float
+    {
+        return $this->soldedPrice;
+    }
+
+    public function setSoldedPrice(?float $soldedPrice): static
+    {
+        $this->soldedPrice = $soldedPrice;
+
+        return $this;
     }
 
 }

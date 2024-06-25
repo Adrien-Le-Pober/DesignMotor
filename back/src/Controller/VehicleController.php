@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Vehicle;
 use App\Trait\Base64ImageTrait;
+use App\Service\DiscountRuleService;
 use App\Repository\VehicleRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,13 +18,16 @@ class VehicleController extends AbstractController
     #[Route('/vehicle/{id}', name: 'app_show_vehicle')]
     public function show(
         int $id,
-        VehicleRepository $vehicleRepository
+        VehicleRepository $vehicleRepository,
+        DiscountRuleService $discountRuleService
     ): JsonResponse {
         $vehicle = $vehicleRepository->findDetailsById($id);
 
         if($vehicle['image']) {
             $vehicle['image'] = $this->getBase64Image($vehicle['image']);
         }
+
+        $discountRuleService->applyRules($vehicle);
         
         return $this->json($vehicle);
     }

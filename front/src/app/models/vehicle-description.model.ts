@@ -4,6 +4,7 @@ export class VehicleDescription extends Vehicle {
     constructor(
         id: number,
         price: number,
+        soldedPrice: number,
         public power: string,
         public space: string|null,
         brand: string,
@@ -15,6 +16,6 @@ export class VehicleDescription extends Vehicle {
         public description: string|null,
         image?: string,
     ) {
-        super(id, brand, model, price, image);
+        super(id, brand, model, price, soldedPrice, image);
     }
 }

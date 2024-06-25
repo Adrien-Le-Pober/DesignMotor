@@ -36,7 +36,8 @@ class VehicleAbstractFactoryService
                     $electricCar["brandName"],
                     $electricCar["modelName"],
                     $electricCar["imagePath"],
-                    $electricCar["price"]
+                    $electricCar["price"],
+                    $electricCar["soldedPrice"],
                 )->getVehicleInfos();
             }
         }
@@ -51,7 +52,8 @@ class VehicleAbstractFactoryService
                     $petrolCar["brandName"],
                     $petrolCar["modelName"],
                     $petrolCar["imagePath"],
-                    $petrolCar["price"]
+                    $petrolCar["price"],
+                    $petrolCar["soldedPrice"],
                 )->getVehicleInfos();
             }
         }
@@ -67,6 +69,7 @@ class VehicleAbstractFactoryService
                     $electricScooter["modelName"],
                     $electricScooter["imagePath"],
                     $electricScooter["price"],
+                    $electricScooter["soldedPrice"],
                 )->getVehicleInfos();
             }
         }
@@ -81,7 +84,8 @@ class VehicleAbstractFactoryService
                     $petrolScooter["brandName"],
                     $petrolScooter["modelName"],
                     $petrolScooter["imagePath"],
-                    $petrolScooter["price"]
+                    $petrolScooter["price"],
+                    $petrolScooter["soldedPrice"],
                 )->getVehicleInfos();
             }
         }

@@ -18,7 +18,7 @@ export class DiscountRulesService {
   getDaysOfWeek(): DayOfWeek[] {
     return [
       {day: 'Monday', localDay: 'Lundi'},
-      {day: 'Thuesday', localDay: 'Mardi'},
+      {day: 'Tuesday', localDay: 'Mardi'},
       {day: 'Wednesday', localDay: 'Mercredi'},
       {day: 'Thursday', localDay: 'Jeudi'},
       {day: 'Friday', localDay: 'Vendredi'},

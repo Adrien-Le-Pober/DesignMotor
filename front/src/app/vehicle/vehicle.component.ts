@@ -10,10 +10,10 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
+    RouterModule
   ],
   templateUrl: 'vehicle.component.html',
-  styleUrl: 'vehicle.component.scss'
+  styleUrl: 'vehicle.component.scss',
 })
 export class VehicleComponent {
   private unsubscribe$ = new Subject<void>();

@@ -32,6 +32,8 @@ img {
 }
 
 .price-box {
+    display: flex;
+    align-items: center;
     padding: 1rem;
     font-size: 24px;
 }

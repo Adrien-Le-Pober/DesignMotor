@@ -16,7 +16,8 @@ class PetrolScooter extends AbstractScooter
             'brand' => $this->brand,
             'model' => $this->model,
             'image' => $this->getBase64Image($this->imagePath),
-            'price' => $this->price
+            'price' => $this->price,
+            'soldedPrice' => $this->soldedPrice
         ];
     }
 }

@@ -9,7 +9,8 @@ interface VehicleFactoryInterface
         string $brand,
         string $model,
         string $imagePath,
-        float $price
+        float $price,
+        float|null $soldedPrice
     ): AbstractCar;
 
     public function createScooter(
@@ -17,6 +18,7 @@ interface VehicleFactoryInterface
         string $brand,
         string $model,
         string $imagePath,
-        float $price
+        float $price,
+        float|null $soldedPrice
     ): AbstractScooter;
 }

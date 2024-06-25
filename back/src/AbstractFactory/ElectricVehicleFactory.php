@@ -13,10 +13,11 @@ class ElectricVehicleFactory implements VehicleFactoryInterface
         string $brand,
         string $model,
         string $imagePath,
-        float $price
+        float $price,
+        float|null $soldedPrice,
     ): AbstractCar
     {
-        return new ElectricCar($id, $brand, $model, $imagePath, $price);
+        return new ElectricCar($id, $brand, $model, $imagePath, $price, $soldedPrice);
     }
 
     public function createScooter(
@@ -24,9 +25,10 @@ class ElectricVehicleFactory implements VehicleFactoryInterface
         string $brand,
         string $model,
         string $imagePath,
-        float $price
+        float $price, 
+        float|null $soldedPrice
     ): AbstractScooter
     {
-        return new ElectricScooter($id, $brand, $model, $imagePath, $price);
+        return new ElectricScooter($id, $brand, $model, $imagePath, $price, $soldedPrice);
     }
 }
