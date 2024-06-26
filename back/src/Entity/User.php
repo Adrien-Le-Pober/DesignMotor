@@ -52,6 +52,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $googleId = null;
 
+    #[ORM\Column(length: 80, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Regex('/^[a-zA-Zéèäë ]+$/')]
+    #[Assert\Length(max: 80)]
+    private ?string $lastname = null;
+
+    #[ORM\Column(length: 80, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Regex('/^[a-zA-Zéèäë ]+$/')]
+    #[Assert\Length(max: 80)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 16, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Regex('/^\d+/')]
+    #[Assert\Length(max: 16)]
+    private ?string $phone = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -165,6 +183,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGoogleId(?string $googleId): static
     {
         $this->googleId = $googleId;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(?string $lastname): static
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(?string $firstname): static
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

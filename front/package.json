@@ -34,5 +34,8 @@
     "@angular/compiler-cli": "^17.3.0",
     "@angular/localize": "^17.3.6",
     "typescript": "~5.4.2"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-musl": "^4.9.5"
   }
 }

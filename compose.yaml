@@ -20,6 +20,7 @@ services:
       - "4200:4200"
     volumes:
       - ./front/:/var/www
+      - /var/www/node_modules
 
   database:
     image: mysql:latest

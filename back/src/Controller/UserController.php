@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Service\ValidatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
@@ -26,7 +26,10 @@ class UserController extends AbstractController
         $user = $this->getCurrentUser($username);
 
         return $this->json([
-            'email' => $user->getEmail()
+            'email' => $user->getEmail(),
+            'firstname' => $user->getFirstname(),
+            'lastname' => $user->getLastname(),
+            'phone' => $user->getPhone()
         ]);
     }
 
@@ -64,23 +67,34 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/{username}/edit-profile', methods: ["POST"])]
-    public function editProfile(string $username, Request $request, JWTTokenManagerInterface $jwtManager): JsonResponse
-    {
+    public function editProfile(
+        string $username,
+        Request $request,
+        JWTTokenManagerInterface $jwtManager,
+        ValidatorService $validator
+    ): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
         $user = $this->getCurrentUser($username);
 
         if ($data['email'] && filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $user->setEmail($data['email']);
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            $user
+                ->setEmail($data['email'])
+                ->setFirstname(trim(ucfirst(strtolower($data['firstname']))))
+                ->setLastname(trim(ucfirst(strtolower($data['lastname']))))
+                ->setPhone($data['phone']);
 
-            $token = $jwtManager->create($user);
+            if ($validator::validate($user)) {
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
     
-            return new JsonResponse(['successMessage' => 'Les informations ont bien été mise à jour', 'token' => $token], JsonResponse::HTTP_OK);
+                $token = $jwtManager->create($user);
+        
+                return new JsonResponse(['successMessage' => 'Les informations ont bien été mise à jour', 'token' => $token], JsonResponse::HTTP_OK);
+            }
         }
 
-        return new JsonResponse(['errorMessage' => "Le format de l'adresse email est invalide"], JsonResponse::HTTP_BAD_REQUEST);
+        return new JsonResponse(['errorMessage' => "Certaines données sont invalides"], JsonResponse::HTTP_BAD_REQUEST);
     }
 
     #[Route('/user/{username}/delete-account', methods: ["DELETE"])]

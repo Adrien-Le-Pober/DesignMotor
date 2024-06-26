@@ -64,11 +64,11 @@ export class UserService {
 
   }
 
-  editProfile(email: string): Observable<any> {
+  editProfile(email: string, firstname: string|null, lastname: string|null, phone: string|null): Observable<any> {
     const token = this.getCurrentToken();
     const username = this.getUsernameFromToken(token);
     if (username) {
-      return this.http.post<{ token: string }>(`${this.appURL}/user/${username}/edit-profile`, { email }).pipe(
+      return this.http.post<{ token: string }>(`${this.appURL}/user/${username}/edit-profile`, { email, firstname, lastname, phone }).pipe(
         tap(response => {
           if (response.token) {
             this.setCurrentUser({ ...this.currentUserValue, token: response.token });

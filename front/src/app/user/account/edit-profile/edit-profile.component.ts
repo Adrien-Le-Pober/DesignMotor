@@ -13,7 +13,12 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class EditProfileComponent {
   private unsubscribe$ = new Subject<void>();
+
   email: string = '';
+  firstname: string = '';
+  lastname: string = '';
+  phone: string = '';
+
   successMessage: string = '';
   errorMessage: string = '';
   isRequestPending: boolean = false;
@@ -26,8 +31,11 @@ export class EditProfileComponent {
     this.isRequestPending = true;
     this.userService.getUserInfo()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(data => {
-        this.email = data.email;
+      .subscribe(userData => {
+        this.email = userData.email;
+        this.firstname = userData.firstname;
+        this.lastname = userData.lastname;
+        this.phone = userData.phone;
         this.isLoading = false;
         this.isRequestPending = false;
       });
@@ -37,7 +45,7 @@ export class EditProfileComponent {
     this.isRequestPending = true;
     this.successMessage = '';
     this.errorMessage = '';
-    this.userService.editProfile(this.email)
+    this.userService.editProfile(this.email, this.firstname, this.lastname, this.phone)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (response) => {

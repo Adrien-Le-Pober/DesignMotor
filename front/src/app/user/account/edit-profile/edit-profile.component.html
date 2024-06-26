@@ -10,7 +10,7 @@
 
         <form *ngIf="!isLoading" (ngSubmit)="onSubmit()" #editProfileForm="ngForm">
             <div class="form-group">
-                <label for="email" class="form-label">Email</label>
+                <label for="email" class="form-label mt-2 mb-0">Email</label>
                 <div class="text-danger" *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
                     <div *ngIf="emailRef.errors?.['required']">Votre adresse email est requise.</div>
                     <div *ngIf="emailRef.errors?.['email']">Cette adresse email n'est pas valide.</div>
@@ -24,7 +24,55 @@
                     #emailRef="ngModel"
                 >
             </div>
-            <button type="submit" class="btn btn-primary mt-3" [disabled]="editProfileForm.invalid || isRequestPending">Valider</button>
+            <div class="form-group">
+                <label for="firstname" class="form-label mt-2 mb-0">Prénom</label>
+                <div class="text-danger" *ngIf="firstnameRef.invalid && (firstnameRef.dirty || firstnameRef.touched)">
+                    <div *ngIf="firstnameRef.errors?.['pattern']">Certains caractères sont invalides.</div>
+                    <div *ngIf="firstnameRef.errors?.['maxlength']">Votre prénom ne doit pas dépasser 80 caractères.</div>
+                </div>
+                <input type="text"
+                    class="form-control"
+                    id="firstname"
+                    [(ngModel)]="firstname"
+                    name="firstname"
+                    pattern="^[a-zA-Zéèäë ]+$"
+                    maxlength="80"
+                    #firstnameRef="ngModel"
+                >
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="form-label mt-2 mb-0">Nom</label>
+                <div class="text-danger" *ngIf="lastnameRef.invalid && (lastnameRef.dirty || lastnameRef.touched)">
+                    <div *ngIf="lastnameRef.errors?.['pattern']">Certains caractères sont invalides.</div>
+                    <div *ngIf="lastnameRef.errors?.['maxlength']">Votre nom ne doit pas dépasser 80 caractères.</div>
+                </div>
+                <input type="text"
+                    class="form-control"
+                    id="lastname"
+                    [(ngModel)]="lastname"
+                    name="lastname"
+                    pattern="^[a-zA-Zéèäë ]+$"
+                    maxlength="80"
+                    #lastnameRef="ngModel"
+                >
+            </div>
+            <div class="form-group">
+                <label for="phone" class="form-label mt-2 mb-0">Téléphone</label>
+                <div class="text-danger" *ngIf="phoneRef.invalid && (phoneRef.dirty || phoneRef.touched)">
+                    <div *ngIf="phoneRef.errors?.['pattern']">Seul les chiffres sont valides.</div>
+                    <div *ngIf="phoneRef.errors?.['maxlength']">Votre nom ne doit pas dépasser 16 caractères.</div>
+                </div>
+                <input type="text"
+                    class="form-control"
+                    id="phone"
+                    [(ngModel)]="phone"
+                    name="phone"
+                    pattern="^[0-9]+$"
+                    maxlength="16"
+                    #phoneRef="ngModel"
+                >
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="editProfileForm.invalid || isRequestPending">Valider</button>
         </form>
     </div>
 </div>
