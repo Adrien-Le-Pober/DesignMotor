@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { CurrentUser } from '../interfaces/current-user.interface';
 import { VehicleService } from '../vehicle/vehicle.service';
 import { FormsModule } from '@angular/forms';
+import { Observable, map } from 'rxjs';
+import { CartService } from '../cart/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +19,7 @@ export class NavbarComponent {
   currentUser: CurrentUser|null = null;
   searchResults: any[] = [];
   searchTerm: string = '';
+  isCartEmpty$: Observable<boolean>;
 
   @ViewChild('hamburger', { static: true }) hamburgerBtn!: ElementRef;
   @ViewChild('navMenu', { static: true }) navMenu!: ElementRef;
@@ -27,12 +30,19 @@ export class NavbarComponent {
   private dropdowns: NodeListOf<HTMLElement>;
   private links: NodeListOf<HTMLAnchorElement>;
 
-  constructor(private userService: UserService, private vehicleService: VehicleService) { }
+  constructor(
+    private userService: UserService,
+    private vehicleService: VehicleService,
+    private cartService: CartService
+  ) { }
 
   ngOnInit() {
     this.userService.currentUser$.subscribe((user: CurrentUser | null) => {
       this.currentUser = user;
     });
+    this.isCartEmpty$ = this.cartService.items$.pipe(
+      map(items => items.length === 0)
+    );
   }
 
   ngAfterViewInit() {

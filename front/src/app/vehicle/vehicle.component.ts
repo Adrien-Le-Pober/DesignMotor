@@ -2,8 +2,9 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Vehicle } from '../models/vehicle.model';
 import { VehicleService } from './vehicle.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { CartService } from '../cart/cart.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -24,7 +25,9 @@ export class VehicleComponent {
   @Input() vehicle: Vehicle;
 
   constructor(
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private cartService: CartService,
+    private router: Router
   ) { }
 
   loadVideo(vehicleId: number) {
@@ -61,6 +64,11 @@ export class VehicleComponent {
   cancelRequest() {
     // Annuler la requête en cours si l'utilisateur retire sa souris
     clearTimeout(this.timeoutId);
+  }
+
+  addToCart(product: Vehicle): void {
+    this.cartService.addToCart(product);
+    this.router.navigate(['/panier']);
   }
 
   ngOnDestroy() {

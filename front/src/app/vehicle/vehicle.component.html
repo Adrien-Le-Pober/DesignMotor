@@ -31,5 +31,6 @@
         </span>
         <span *ngIf="vehicle.soldedPrice">{{ vehicle.soldedPrice | currency: 'EUR':'symbol':'3.0' }}</span>
     </div>
-    <a class="btn btn-primary" [routerLink]="['/vehicule', vehicle.id]">Voir la description</a>
+    <a class="btn btn-primary rounded-pill" [routerLink]="['/vehicule', vehicle.id]">Voir la description</a>
+    <a class="btn btn-outline-primary rounded-pill mt-2" (click)="addToCart(vehicle)">Ajouter au panier</a>
 </div>

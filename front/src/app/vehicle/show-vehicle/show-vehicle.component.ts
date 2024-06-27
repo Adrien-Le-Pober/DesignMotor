@@ -4,6 +4,8 @@ import { VehicleService } from '../vehicle.service';
 import { CommonModule } from '@angular/common';
 import { VehicleDescription } from '../../models/vehicle-description.model';
 import { Subject, takeUntil } from 'rxjs';
+import { Vehicle } from '../../models/vehicle.model';
+import { CartService } from '../../cart/cart.service';
 
 @Component({
   selector: 'app-show-vehicle',
@@ -20,7 +22,8 @@ export class ShowVehicleComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -52,6 +55,11 @@ export class ShowVehicleComponent {
         this.vehicle = vehicle;
         this.isLoading = false;
       });
+  }
+
+  addToCart(product: Vehicle): void {
+    this.cartService.addToCart(product);
+    this.router.navigate(['/panier']);
   }
 
   ngOnDestroy(): void {
