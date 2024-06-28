@@ -1,0 +1,23 @@
+<div class="container">
+    <section class="my-5 d-none d-md-block">
+        <ol class="progress-bar">
+            <li [class.is-complete]="currentStep > 0" [class.is-active]="currentStep === 0"><span>Connexion</span></li>
+            <li [class.is-complete]="currentStep > 1" [class.is-active]="currentStep === 1"><span>Données personnelles</span></li>
+            <li [class.is-complete]="currentStep > 2" [class.is-active]="currentStep === 2"><span>Récapitulatif</span></li>
+            <li [class.is-active]="currentStep === 3"><span>Paiement</span></li>
+        </ol>
+    </section>
+
+    <div *ngIf="!isLoggedIn">
+        <app-login [redirectUrl]="'/recapitulatif-commande'"></app-login>
+    </div>
+    <div *ngIf="isLoggedIn && currentStep === 1">
+        <app-edit-profile (formSubmitted)="onEditProfileComplete()" [allFieldsRequired]="true"></app-edit-profile>
+    </div>
+    <div *ngIf="isLoggedIn && currentStep === 2">
+        <app-cart (cartValidated)="onCartComplete()" [useValidateCart]="true"></app-cart>
+    </div>
+<!--     <div *ngIf="isLoggedIn && currentStep === 3">
+        <app-payment (paymentProcessed)="onPaymentComplete()"></app-payment>
+    </div> -->
+</div>

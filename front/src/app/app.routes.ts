@@ -12,6 +12,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { AccountComponent } from './user/account/account.component';
 import { PrivatePolicyComponent } from './footer/private-policy/private-policy.component';
 import { CartComponent } from './cart/cart.component';
+import { OrderComponent } from './order/order.component';
 
 export const routes: Routes = [
     { path: 'admin', component: AdminComponent },
@@ -24,6 +25,7 @@ export const routes: Routes = [
     { path: 'catalogue', component: CatalogComponent },
     { path: 'vehicule/:id', component: ShowVehicleComponent },
     { path: 'panier', component: CartComponent },
+    { path: 'recapitulatif-commande', component: OrderComponent },
     { path: 'politique-de-confidentialite', component: PrivatePolicyComponent},
     { path: '', redirectTo: 'catalogue', pathMatch: 'full' },
     { path: '404', component: PageNotFoundComponent },

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +14,9 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class LoginComponent {
   private unsubscribe$ = new Subject<void>();
+
+  @Input() redirectUrl: string;
+
   email: string;
   password: string;
   errorMessage: string;
@@ -28,6 +31,12 @@ export class LoginComponent {
   ) {}
 
   ngOnInit(): void {
+    const storedRedirectUrl = sessionStorage.getItem('redirectUrl');
+    if (storedRedirectUrl) {
+      this.redirectUrl = storedRedirectUrl;
+      sessionStorage.removeItem('redirectUrl');
+    }
+
     this.route.queryParams
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(params => {
@@ -38,7 +47,7 @@ export class LoginComponent {
           this.successMessage = params['successMessage'];
         }
         if (params['token']) {
-          this.authService.handleOAuthCallback(params['token']);
+          this.authService.handleOAuthCallback(params['token'], this.redirectUrl);
         }
       });
   }
@@ -52,7 +61,8 @@ export class LoginComponent {
       .subscribe({
         next: () => {
             this.isRequestPending = false;
-            this.router.navigate(['/']);
+            const redirect = this.redirectUrl || '/';
+            this.router.navigate([redirect]);
         },
         error: (error) => {
             this.isRequestPending = false;
@@ -67,6 +77,9 @@ export class LoginComponent {
   }
 
   loginWithGoogle() {
+    if (this.redirectUrl) {
+      sessionStorage.setItem('redirectUrl', this.redirectUrl);
+    }
     window.location.href = `${this.authService.getOAuthUrl('google')}`;
   }
 

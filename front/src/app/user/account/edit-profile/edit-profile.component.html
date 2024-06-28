@@ -1,9 +1,9 @@
-<div class="container">
-    <div *ngIf="isLoading" class="spinner">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+<div *ngIf="isLoading" class="spinner">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
     </div>
+</div>
+<div class="container d-flex justify-content-center align">
     <div class="col-lg-6">
         <p *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</p>
         <p *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</p>
@@ -27,6 +27,7 @@
             <div class="form-group">
                 <label for="firstname" class="form-label mt-2 mb-0">Prénom</label>
                 <div class="text-danger" *ngIf="firstnameRef.invalid && (firstnameRef.dirty || firstnameRef.touched)">
+                    <div *ngIf="firstnameRef.errors?.['required']">Votre prénom est requis.</div>
                     <div *ngIf="firstnameRef.errors?.['pattern']">Certains caractères sont invalides.</div>
                     <div *ngIf="firstnameRef.errors?.['maxlength']">Votre prénom ne doit pas dépasser 80 caractères.</div>
                 </div>
@@ -35,6 +36,7 @@
                     id="firstname"
                     [(ngModel)]="firstname"
                     name="firstname"
+                    [required]="allFieldsRequired"
                     pattern="^[a-zA-Zéèäë ]+$"
                     maxlength="80"
                     #firstnameRef="ngModel"
@@ -43,6 +45,7 @@
             <div class="form-group">
                 <label for="lastname" class="form-label mt-2 mb-0">Nom</label>
                 <div class="text-danger" *ngIf="lastnameRef.invalid && (lastnameRef.dirty || lastnameRef.touched)">
+                    <div *ngIf="lastnameRef.errors?.['required']">Votre nom est requis.</div>
                     <div *ngIf="lastnameRef.errors?.['pattern']">Certains caractères sont invalides.</div>
                     <div *ngIf="lastnameRef.errors?.['maxlength']">Votre nom ne doit pas dépasser 80 caractères.</div>
                 </div>
@@ -51,6 +54,7 @@
                     id="lastname"
                     [(ngModel)]="lastname"
                     name="lastname"
+                    [required]="allFieldsRequired"
                     pattern="^[a-zA-Zéèäë ]+$"
                     maxlength="80"
                     #lastnameRef="ngModel"
@@ -59,6 +63,7 @@
             <div class="form-group">
                 <label for="phone" class="form-label mt-2 mb-0">Téléphone</label>
                 <div class="text-danger" *ngIf="phoneRef.invalid && (phoneRef.dirty || phoneRef.touched)">
+                    <div *ngIf="phoneRef.errors?.['required']">Votre téléphone est requis.</div>
                     <div *ngIf="phoneRef.errors?.['pattern']">Seul les chiffres sont valides.</div>
                     <div *ngIf="phoneRef.errors?.['maxlength']">Votre nom ne doit pas dépasser 16 caractères.</div>
                 </div>
@@ -67,6 +72,7 @@
                     id="phone"
                     [(ngModel)]="phone"
                     name="phone"
+                    [required]="allFieldsRequired"
                     pattern="^[0-9]+$"
                     maxlength="16"
                     #phoneRef="ngModel"

@@ -26,10 +26,10 @@ export class AuthService {
         return `${this.appURL}/oauth/connect/${provider}`;
     }
 
-    handleOAuthCallback(token: string): void {
+    handleOAuthCallback(token: string, redirectUrl: string = '/'): void {
         if (token) {
             this.userService.setCurrentUser({ token });
-            this.router.navigate(['/']);
+            this.router.navigate([redirectUrl]);
         } else {
             console.error('Token not received');
         }

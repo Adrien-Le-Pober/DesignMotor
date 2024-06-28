@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '../../user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,9 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class EditProfileComponent {
   private unsubscribe$ = new Subject<void>();
+  
+  @Input() allFieldsRequired = false;
+  @Output() formSubmitted = new EventEmitter<void>();
 
   email: string = '';
   firstname: string = '';
@@ -49,6 +52,7 @@ export class EditProfileComponent {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (response) => {
+          this.formSubmitted.emit();
           this.successMessage = response.successMessage;
           this.isRequestPending = false;
         },

@@ -18,8 +18,13 @@
                     </div>
                 </div>
             </div>
+            <div class="row d-flex justify-content-center">
+                <a *ngIf="!useValidateCart" routerLink="/recapitulatif-commande" class="btn btn-primary rounded-pill py-2 col-10 col-lg-6">Passer au paiement</a>
+                <button *ngIf="useValidateCart" (click)="validateCart()" class="btn btn-primary rounded-pill py-2 col-10 col-lg-6">Passer au paiement</button>
+            </div>
         </ng-container>
     </div>
+
     <ng-template #noItems>
         <p class="text-center">Votre panier est vide</p>
     </ng-template>
