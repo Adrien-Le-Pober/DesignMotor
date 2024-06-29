@@ -92,19 +92,19 @@ export class UserService {
     }
   }
 
-  private getCurrentToken(): string {
-    if (this.currentUserValue && this.currentUserValue.token) {
-      return this.currentUserValue.token;
-    }
-    throw new Error('User is not authenticated');
-  }
-
-  private getUsernameFromToken(token: string): string|undefined {
+  getUsernameFromToken(token: string): string|undefined {
     if(token) {
       const decodedToken = jwtDecode(token) as { username: string };
       return decodedToken.username;
     }
     return undefined;
+  }
+
+  private getCurrentToken(): string {
+    if (this.currentUserValue && this.currentUserValue.token) {
+      return this.currentUserValue.token;
+    }
+    throw new Error('User is not authenticated');
   }
 
   private getCurrentUserFromLocalStorage(): CurrentUser | null {

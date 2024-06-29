@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\OrderRepository;
+use Ramsey\Uuid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OrderRepository;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
+#[ORM\HasLifecycleCallbacks]
 class Order
 {
     #[ORM\Id]
@@ -137,5 +139,19 @@ class Order
         $this->tva = $tva;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+        $this->reference = Uuid::uuid4()->toString();
+    }
+
+	#[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

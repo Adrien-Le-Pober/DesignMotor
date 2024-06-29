@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Vehicle } from '../models/vehicle.model';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CartItem } from '../interfaces/cart-item.interface';
 
-interface CartItem {
-  product: Vehicle;
-  quantity: number;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private items: CartItem[] = [];
+  private itemsKey = 'cartItems'; // Clé pour stocker les articles dans localStorage
+  private items: CartItem[] = this.loadCartItemsFromStorage();
   private itemsSubject = new BehaviorSubject<CartItem[]>(this.items);
 
   items$: Observable<CartItem[]> = this.itemsSubject.asObservable();
@@ -26,16 +24,19 @@ export class CartService {
     }
 
     this.updateCart();
+    this.saveCartItemsToStorage();
   }
 
   removeFromCart(productId: number) {
     this.items = this.items.filter(item => item.product.id !== productId);
     this.updateCart();
+    this.saveCartItemsToStorage();
   }
 
   clearCart() {
     this.items = [];
     this.updateCart();
+    this.saveCartItemsToStorage();
   }
 
   getItems(): CartItem[] {
@@ -56,5 +57,14 @@ export class CartService {
 
   private updateCart() {
     this.itemsSubject.next([...this.items]);
+  }
+
+  private loadCartItemsFromStorage(): CartItem[] {
+    const itemsJson = localStorage.getItem(this.itemsKey);
+    return itemsJson ? JSON.parse(itemsJson) : [];
+  }
+
+  private saveCartItemsToStorage() {
+    localStorage.setItem(this.itemsKey, JSON.stringify(this.items));
   }
 }

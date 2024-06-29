@@ -26,5 +26,10 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    App\Payment\StripePaymentGateway:
+        arguments:
+            $stripeSecretKey: '%env(STRIPE_SECRET_KEY)%'
+            $frontendBaseUrl: '%frontend_base_url%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

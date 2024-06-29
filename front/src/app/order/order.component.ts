@@ -4,6 +4,7 @@ import { LoginComponent } from '../auth/login/login.component';
 import { EditProfileComponent } from '../user/account/edit-profile/edit-profile.component';
 import { CartComponent } from '../cart/cart.component';
 import { CommonModule } from '@angular/common';
+import { PaymentComponent } from '../payment/payment.component';
 
 @Component({
   selector: 'app-order',
@@ -12,7 +13,8 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     LoginComponent,
     EditProfileComponent,
-    CartComponent
+    CartComponent,
+    PaymentComponent
   ],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss'

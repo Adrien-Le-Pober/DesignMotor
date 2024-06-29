@@ -1,0 +1,21 @@
+<section class="container">
+    <div class="payment-form rounded bg-light p-3 shadow">
+        Le formulaire est en mode test, pour tester sa fonctionnalité :
+        <ul>
+            <li>Numéro de carte : 4242 4242 4242 4242</li>
+            <li>Utilisez une date d'expiration future</li>
+            <li>Utilisez n'importe quel CVC à trois chiffres</li>
+        </ul>
+    
+        <button 
+            (click)="initiatePayment()"
+            [disabled]="isRequestPending"
+            class="btn btn-primary rounded-pill w-100"
+        >
+            Payer
+        </button>
+    </div>
+</section>
+
+
+<script src="https://js.stripe.com/v3/"></script>

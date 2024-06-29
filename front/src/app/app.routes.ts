@@ -13,6 +13,8 @@ import { AccountComponent } from './user/account/account.component';
 import { PrivatePolicyComponent } from './footer/private-policy/private-policy.component';
 import { CartComponent } from './cart/cart.component';
 import { OrderComponent } from './order/order.component';
+import { PaymentSuccessComponent } from './payment/payment-success/payment-success.component';
+import { PaymentFailureComponent } from './payment/payment-failure/payment-failure.component';
 
 export const routes: Routes = [
     { path: 'admin', component: AdminComponent },
@@ -26,6 +28,8 @@ export const routes: Routes = [
     { path: 'vehicule/:id', component: ShowVehicleComponent },
     { path: 'panier', component: CartComponent },
     { path: 'recapitulatif-commande', component: OrderComponent },
+    { path: 'paiement-reussi', component: PaymentSuccessComponent },
+    { path: 'paiement-echec', component: PaymentFailureComponent },
     { path: 'politique-de-confidentialite', component: PrivatePolicyComponent},
     { path: '', redirectTo: 'catalogue', pathMatch: 'full' },
     { path: '404', component: PageNotFoundComponent },

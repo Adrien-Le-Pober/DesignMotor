@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="d-flex flex-column align-items-center m-5">
+        <h2>Choisissez un moyen de paiement</h2>
+        <label>
+            <input type="radio" name="paymentMethod" value="stripe" [(ngModel)]="paymentMethod">
+            Carte de crédit (Stripe)
+        </label>
+    </div>
+
+    
+    <div *ngIf="paymentMethod === 'stripe'">
+        <app-stripe-payment (paymentInitiated)="onPaymentInitiated()"></app-stripe-payment>
+    </div>
+
+</div>

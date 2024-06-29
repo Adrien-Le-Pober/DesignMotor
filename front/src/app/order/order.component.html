@@ -17,7 +17,7 @@
     <div *ngIf="isLoggedIn && currentStep === 2">
         <app-cart (cartValidated)="onCartComplete()" [useValidateCart]="true"></app-cart>
     </div>
-<!--     <div *ngIf="isLoggedIn && currentStep === 3">
+    <div *ngIf="isLoggedIn && currentStep === 3">
         <app-payment (paymentProcessed)="onPaymentComplete()"></app-payment>
-    </div> -->
+    </div>
 </div>
