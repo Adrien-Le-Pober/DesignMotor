@@ -51,14 +51,4 @@ class StripePaymentGateway implements PaymentGatewayInterface
             throw new \Exception('Could not create Stripe payment session: ' . $e->getMessage());
         }
     }
-
-    public function handlePaymentSuccess(string $paymentId): void
-    {
-        // Logic for handling successful Stripe payment
-    }
-
-    public function handlePaymentFailure(string $paymentId): void
-    {
-        // Logic for handling failed Stripe payment
-    }
 }

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('icons/favicon.ico') }}"/>
+    <title>Facture</title>
+    <style>
+        .container {
+            margin: 15px 50px;
+        }
+        p {
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background-color: #0275d8;
+            color: white;
+        }
+        th {
+            height: 2.5rem;
+            text-align: center;
+        }
+        td {
+            height: 2rem; 
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="container">
+    <div>
+        <div style="float:left;">
+            <p><b>Facturé par :</b></p>
+            <p>Adrien Le Pober</p>
+            <p>adresse: 19 rue du Calendula</p>
+            <p>34440 Colombiers</p>
+            <p>Téléphone : 07.62.72.00.39</p>
+        </div>
+        <div style="float:right;">
+            <p><b>Facturé à :</b></p>
+            <p>{{ order.user.lastname }} {{ order.user.firstname }}</p>
+            <p>{{ order.user.phone }}</p>
+            <br>
+            <p>Colombiers,</p>
+            <p>le {{order.createdAt|date("d/m/Y")}}</p>
+        </div>
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <div>
+        <h2>Facture n° {{ order.reference }}</h2>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th colspan="1" style="width:10%;">Qté</th>
+            <th colspan="4" style="width:60%;">Description</th>
+            <th colspan="2" style="width:15%;">Prix unit.HT</th>
+            <th colspan="2" style="width:15%;">Montant HT</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% set totalHt = 0 %}
+        {% for product in order.products %}
+        <tr>
+            <td colspan="1">{{ product.quantity }}</td>
+            <td colspan="4" style="width:40%;">{{ product.product.brand ~ ' ' ~ product.product.model }}</td>
+            <td colspan="2">{{ (product.price / (1 + (order.tva / 100)))|format_currency('EUR') }}</td>
+            
+            <td colspan="2">{{ ((product.price / (1 + (order.tva / 100))) * product.quantity)|format_currency('EUR') }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot style="border-top: solid 1px #000">
+        <tr>
+            <td colspan="5"></td>
+            <td colspan="2"><b>Total HT</b></td>
+            <td colspan="2">{{ (order.price / (1 + (order.tva / 100)))|format_currency('EUR') }}</td>
+        </tr>
+        <tr>
+            <td colspan="5"></td>
+            <td colspan="2"><b>TVA {{ order.tva }}%</b></td>
+            <td colspan="2">{{ (order.price - (order.price / (1 + order.tva / 100)))|format_currency('EUR') }}</td>
+        </tr>
+        <tr>
+            <td colspan="5"></td>
+            <td colspan="2"><b>TOTAL</b></td>
+            <td colspan="2">{{ order.price | format_currency('EUR') }}</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <div style="position:absolute;bottom: 15px;display:block;">
+        <p style="text-align:center;">adrien.le.pober@gmail.com - identification de T.V.A. : FR : ?</p>
+    </div>
+
+</body>
+</html>

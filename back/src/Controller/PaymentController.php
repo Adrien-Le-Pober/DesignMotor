@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\Tva;
 use App\Entity\User;
 use App\Entity\Order;
-use App\Entity\Vehicle;
 use App\Enum\PaymentStatus;
+use App\Service\EmailService;
 use App\Service\DiscountRuleService;
-use App\Payment\PaymentGatewayInterface;
 use App\Repository\VehicleRepository;
+use App\Payment\PaymentGatewayInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +30,8 @@ class PaymentController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         DiscountRuleService $discountRuleService,
-        VehicleRepository $vehicleRepository
+        VehicleRepository $vehicleRepository,
+        EmailService $emailService
     ): JsonResponse {
         $cartData = json_decode($request->getContent(), true);
 
@@ -54,7 +55,7 @@ class PaymentController extends AbstractController
         $order = (new Order)
             ->setStatus(PaymentStatus::PENDING->value)
             ->setUser($user)
-            ->setProducts($cartItems)
+            ->setProducts($products)
             ->setPrice($totalPrice)
             ->setTva($entityManager->getRepository(Tva::class)->find(1)->getValue());
 
@@ -63,22 +64,8 @@ class PaymentController extends AbstractController
 
         $paymentUrl = $this->paymentGateway->createPayment($order, $products);
 
+        $emailService->sendInvoiceEmail($order);
+
         return new JsonResponse(['paymentUrl' => $paymentUrl]);
-    }
-
-    #[Route('/payment/success', name: 'payment_success', methods: ['POST'])]
-    public function handlePaymentSuccess(Request $request): JsonResponse
-    {
-        $paymentId = $request->get('paymentId');
-        $this->paymentGateway->handlePaymentSuccess($paymentId);
-        return new JsonResponse(['status' => 'success']);
-    }
-
-    #[Route('/payment/failure', name: 'payment_failure', methods: ['POST'])]
-    public function handlePaymentFailure(Request $request): JsonResponse
-    {
-        $paymentId = $request->get('paymentId');
-        $this->paymentGateway->handlePaymentFailure($paymentId);
-        return new JsonResponse(['status' => 'failure']);
     }
 }
