@@ -10,7 +10,7 @@
                 <div *ngFor="let order of orders; let i = index" class="accordion-item mb-2 shadow">
                     <h2 class="accordion-header" [id]="'heading_' + i">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseProducts_' + i" aria-expanded="false" [attr.aria-controls]="'collapseProducts_' + i">
-                            <h5>Commande du {{ order.createdAt | date:'fullDate':'':'fr' }}</h5>
+                            <p class="mb-0 fw-bold">Commande du {{ order.createdAt | date:'fullDate':'':'fr' }}</p>
                         </button>
                     </h2>
                     <div [id]="'collapseProducts_' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading_' + i" data-bs-parent="#order-accordion">
