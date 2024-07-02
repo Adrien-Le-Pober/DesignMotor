@@ -15,7 +15,13 @@ class PdfGeneratorService
         private VehicleRepository $vehicleRepository
     ) {}
 
-    public function generateInvoice(Order $order): string
+    public function saveInvoiceToFile(Order $order, string $filePath): void
+    {
+        $pdfContent = $this->generateInvoice($order);
+        file_put_contents($filePath, $pdfContent);
+    }
+
+    private function generateInvoice(Order $order): string
     {
         $html = $this->twig->render('invoice/invoice.html.twig', [
             'order' => $order

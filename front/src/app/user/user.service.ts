@@ -45,6 +45,12 @@ export class UserService {
     return jwtDecode(token);
   }
 
+  getUserOrders(): Observable<any> {
+    const token = this.getCurrentToken();
+    const username = this.getUsernameFromToken(token);
+    return this.http.get(`${this.appURL}/user/get-orders/${username}`);
+  }
+
   getUserInfo(): Observable<any> {
     const token = this.getCurrentToken();
     const username = this.getUsernameFromToken(token);

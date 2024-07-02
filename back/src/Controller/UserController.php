@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\OrderRepository;
 use App\Repository\UserRepository;
 use App\Service\ValidatorService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,20 @@ class UserController extends AbstractController
         private EntityManagerInterface $entityManager,
         private UserPasswordHasherInterface $passwordHasher
     ) {}
+
+    #[Route('/user/get-orders/{username}', methods: ["GET"])]
+    public function getUserOrders(
+        string $username,
+        OrderRepository $orderRepository
+    ): JsonResponse {
+        $user = $this->getCurrentUser($username);
+
+        $orders = $orderRepository->findByUser($user);
+
+        return $this->json([
+            'orders' => $orders
+        ]);
+    }
 
     #[Route('/user/get-infos/{username}', methods: ["GET"])]
     public function getUserInfo(string $username): JsonResponse

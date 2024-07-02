@@ -26,10 +26,9 @@ class EmailService
     }
 
     public function sendInvoiceEmail(Order $order)
-    {
-        $pdfContent = $this->pdfGeneratorService->generateInvoice($order);
+    {        
         $pdfFilePath = tempnam(sys_get_temp_dir(), 'invoice_') . '.pdf';
-        file_put_contents($pdfFilePath, $pdfContent);
+        $this->pdfGeneratorService->saveInvoiceToFile($order, $pdfFilePath);
 
         $email = (new Email())
             ->from($this->mailerFrom)
