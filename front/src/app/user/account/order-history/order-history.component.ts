@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { UserService } from '../../user.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { LoaderComponent } from '../../../components/spinner/loader.component';
 
 @Component({
   selector: 'app-order-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoaderComponent],
   templateUrl: 'order-history.component.html',
   styles: ``
 })

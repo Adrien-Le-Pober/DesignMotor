@@ -1,12 +1,12 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { UserService } from '../user/user.service';
+import { UserService } from '../../user/user.service';
 import { CommonModule } from '@angular/common';
-import { CurrentUser } from '../interfaces/current-user.interface';
-import { VehicleService } from '../vehicle/vehicle.service';
+import { CurrentUser } from '../../interfaces/current-user.interface';
+import { VehicleService } from '../../vehicle/vehicle.service';
 import { FormsModule } from '@angular/forms';
 import { Observable, map } from 'rxjs';
-import { CartService } from '../cart/cart.service';
+import { CartService } from '../../cart/cart.service';
 
 @Component({
   selector: 'app-navbar',

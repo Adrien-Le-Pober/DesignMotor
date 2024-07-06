@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { CatalogComponent } from './catalog/catalog.component';
 import { ShowVehicleComponent } from './vehicle/show-vehicle/show-vehicle.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './auth/auth.guard';
 import { ResendConfirmationEmailComponent } from './user/sign-in/resend-confirmation-email/resend-confirmation-email.component';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
@@ -10,7 +10,7 @@ import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.
 import { SignInComponent } from './user/sign-in/sign-in.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AccountComponent } from './user/account/account.component';
-import { PrivatePolicyComponent } from './footer/private-policy/private-policy.component';
+import { PrivatePolicyComponent } from './components/footer/private-policy/private-policy.component';
 import { CartComponent } from './cart/cart.component';
 import { OrderComponent } from './order/order.component';
 import { PaymentSuccessComponent } from './payment/payment-success/payment-success.component';

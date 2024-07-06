@@ -38,11 +38,9 @@
                     </div>
                 </div>
                 <div *ngIf="condition.get('type')?.value === 'brand'">
-                    <div *ngIf="!brandList" class="spinner">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
+
+                    <app-loader *ngIf="!brandList"></app-loader>
+
                     <div *ngFor="let brand of brandList" class="form-check">
                         <label class="form-check-label"> {{ brand.name }}</label>
                         <input

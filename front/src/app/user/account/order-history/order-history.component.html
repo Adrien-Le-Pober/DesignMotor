@@ -1,8 +1,4 @@
-<div *ngIf="isLoading" class="spinner">
-    <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-</div>
+<app-loader *ngIf="isLoading"></app-loader>
 <div class="container d-flex justify-content-center align">
     <div class=" col-12 col-xl-8">
         <ng-container *ngIf="orders">

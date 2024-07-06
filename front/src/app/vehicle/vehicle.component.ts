@@ -5,13 +5,15 @@ import { VehicleService } from './vehicle.service';
 import { Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { CartService } from '../cart/cart.service';
+import { LoaderComponent } from '../components/spinner/loader.component';
 
 @Component({
   selector: 'app-vehicle',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    LoaderComponent
   ],
   templateUrl: 'vehicle.component.html',
   styleUrl: 'vehicle.component.scss',

@@ -1,9 +1,5 @@
 <main class="container">
-    <div *ngIf="isLoading" class="spinner__fullscreen">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
+    <app-loader *ngIf="isLoading" [fullscreen]="true"></app-loader>
     <section *ngIf="vehicle && !isLoading" class="row w-100">
         <div class="col-xl-7 me-xl-5">
             <img *ngIf="vehicle.image" [src]="vehicle.image" alt="image du véhicule">

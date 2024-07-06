@@ -6,6 +6,7 @@ import { VehicleComponent } from '../vehicle/vehicle.component';
 import { Subject, takeUntil } from 'rxjs';
 import { Brand } from '../models/brand.model';
 import { FormsModule } from '@angular/forms';
+import { LoaderComponent } from '../components/spinner/loader.component';
 
 @Component({
   selector: 'app-catalog',
@@ -14,6 +15,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     VehicleComponent,
     FormsModule,
+    LoaderComponent
   ],
   templateUrl: 'catalog.component.html',
   styles: ''

@@ -1,11 +1,7 @@
 <h3>Appliquer une nouvelle réduction</h3>
 <app-discount-form (discountAdded)="onDiscountAdded()"></app-discount-form>
 <hr>
-<div *ngIf="isLoading" class="spinner">
-    <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-</div>
+<app-loader *ngIf="isLoading"></app-loader>
 <div class="container" *ngIf="discountList && discountList.length > 0">
     <h3>Soldes actives</h3>
     <div class="row gap-3">

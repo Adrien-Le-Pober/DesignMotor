@@ -14,11 +14,7 @@
 
     <hr>
 
-    <div *ngIf="isLoading" class="spinner">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
+    <app-loader *ngIf="isLoading"></app-loader>
     <div class="container" *ngIf="discountRuleList && discountRuleList.length > 0">
         <h3>Règles actives</h3>
         <div class="row">

@@ -4,13 +4,15 @@ import { DiscountRule } from '../../models/discount-rule.model';
 import { DiscountRulesService } from './discount-rules.service';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
+import { LoaderComponent } from '../../components/spinner/loader.component';
 
 @Component({
   selector: 'app-discount-rules',
   standalone: true,
   imports: [
     DiscountRulesFormComponent,
-    CommonModule
+    CommonModule,
+    LoaderComponent
   ],
   templateUrl: 'discount-rules.component.html',
   styles: ``

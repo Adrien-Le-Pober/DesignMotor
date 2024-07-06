@@ -15,10 +15,8 @@
         <source [src]="videoUrl" type="video/mp4">
         Votre navigateur ne supporte pas la lecture de vidéos.
     </video>
-    <div *ngIf="isLoading" class="spinner">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+    <div *ngIf="isLoading" class="loader">
+        <app-loader></app-loader>
     </div>
     <img *ngIf="!videoUrl && !isLoading" [src]="vehicle.image" alt="image du véhicule">
     <hr>

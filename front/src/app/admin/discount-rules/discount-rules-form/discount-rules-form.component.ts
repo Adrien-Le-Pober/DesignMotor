@@ -8,6 +8,7 @@ import { Action } from '../../../models/action.model';
 import { Brand } from '../../../models/brand.model';
 import { DayOfWeek } from '../../../interfaces/day-of-week.interface';
 import { Subject, takeUntil } from 'rxjs';
+import { LoaderComponent } from '../../../components/spinner/loader.component';
 
 @Component({
   selector: 'app-discount-rules-form',
@@ -15,7 +16,8 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [
     FormsModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoaderComponent
   ],
   templateUrl: 'discount-rules-form.component.html',
   styles: ``

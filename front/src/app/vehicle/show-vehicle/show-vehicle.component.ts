@@ -6,11 +6,12 @@ import { VehicleDescription } from '../../models/vehicle-description.model';
 import { Subject, takeUntil } from 'rxjs';
 import { Vehicle } from '../../models/vehicle.model';
 import { CartService } from '../../cart/cart.service';
+import { LoaderComponent } from '../../components/spinner/loader.component';
 
 @Component({
   selector: 'app-show-vehicle',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoaderComponent],
   templateUrl: 'show-vehicle.component.html',
   styleUrl: 'show-vehicle.component.scss'
 })

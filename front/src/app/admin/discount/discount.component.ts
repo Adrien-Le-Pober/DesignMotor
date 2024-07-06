@@ -4,12 +4,14 @@ import { DiscountService } from './discount.service';
 import { Discount } from '../../models/discount.model';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
+import { LoaderComponent } from '../../components/spinner/loader.component';
 
 @Component({
   selector: 'app-discount',
   standalone: true,
   imports: [
     DiscountFormComponent,
+    LoaderComponent,
     CommonModule
   ],
   templateUrl: 'discount.component.html',

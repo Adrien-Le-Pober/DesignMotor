@@ -3,11 +3,12 @@ import { UserService } from '../../user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
+import { LoaderComponent } from '../../../components/spinner/loader.component';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, LoaderComponent],
   templateUrl: 'edit-profile.component.html',
   styleUrl: 'edit-profile.component.scss'
 })
