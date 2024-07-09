@@ -7,23 +7,23 @@ use App\Entity\User;
 use App\Entity\Order;
 use App\Enum\PaymentStatus;
 use App\Service\EmailService;
+use App\Service\StripeService;
 use App\Service\DiscountRuleService;
 use App\Repository\VehicleRepository;
 use App\Payment\PaymentGatewayInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PaymentController extends AbstractController
 {
-    private $paymentGateway;
-
-    public function __construct(PaymentGatewayInterface $paymentGateway)
-    {
-        $this->paymentGateway = $paymentGateway;
-    }
+    public function __construct(
+        private PaymentGatewayInterface $paymentGateway,
+        private StripeService $stripeService
+    ) { }
 
     #[Route('/payment/create', name: 'create_payment', methods: ['POST'])]
     public function createPayment(
@@ -67,5 +67,19 @@ class PaymentController extends AbstractController
         $emailService->sendInvoiceEmail($order);
 
         return new JsonResponse(['paymentUrl' => $paymentUrl]);
+    }
+
+    #[Route('/stripe/webhook', name: 'stripe_webhook', methods: ['POST'])]
+    public function stripeWebhook(Request $request): Response
+    {
+        $payload = $request->getContent();
+        $sigHeader = $request->headers->get('stripe-signature');
+
+        try {
+            $this->stripeService->handleWebhook($payload, $sigHeader);
+            return new Response('Webhook handled', Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
     }
 }

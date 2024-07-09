@@ -4,6 +4,7 @@ namespace App\Payment;
 
 use Stripe\Stripe;
 use App\Entity\Order;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 
@@ -12,8 +13,11 @@ class StripePaymentGateway implements PaymentGatewayInterface
     private string $stripeSecretKey;
     private $frontendBaseUrl;
 
-    public function __construct(string $stripeSecretKey, string $frontendBaseUrl)
-    {
+    public function __construct(
+        string $stripeSecretKey,
+        string $frontendBaseUrl,
+        private EntityManagerInterface $entityManager
+    ) {
         $this->stripeSecretKey = $stripeSecretKey;
         $this->frontendBaseUrl = $frontendBaseUrl;
 
@@ -45,6 +49,10 @@ class StripePaymentGateway implements PaymentGatewayInterface
                 'success_url' => $this->frontendBaseUrl . '/paiement-reussi?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => $this->frontendBaseUrl . '/paiement-echec?session_id={CHECKOUT_SESSION_ID}',
             ]);
+
+            $order->setStripeSessionId($session->id);
+            $this->entityManager->persist($order);
+            $this->entityManager->flush();
 
             return $session->url;
         } catch (ApiErrorException $e) {

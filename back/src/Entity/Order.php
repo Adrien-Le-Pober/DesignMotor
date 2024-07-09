@@ -40,6 +40,9 @@ class Order
     #[ORM\Column]
     private ?float $tva = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeSessionId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,8 +153,20 @@ class Order
     }
 
 	#[ORM\PreUpdate]
-    public function onPreUpdate(): void
+             public function onPreUpdate(): void
+             {
+                 $this->updatedAt = new \DateTimeImmutable();
+             }
+
+    public function getStripeSessionId(): ?string
     {
-        $this->updatedAt = new \DateTimeImmutable();
+        return $this->stripeSessionId;
+    }
+
+    public function setStripeSessionId(?string $stripeSessionId): static
+    {
+        $this->stripeSessionId = $stripeSessionId;
+
+        return $this;
     }
 }

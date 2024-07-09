@@ -31,6 +31,10 @@ services:
             $stripeSecretKey: '%env(STRIPE_SECRET_KEY)%'
             $frontendBaseUrl: '%frontend_base_url%'
 
+    App\Service\StripeService:
+        arguments:
+            $endpointSecret: '%env(STRIPE_WEBHOOK_SECRET)%'
+
     App\Service\EmailService:
         arguments:
             $mailerFrom: '%mailer_from%'
