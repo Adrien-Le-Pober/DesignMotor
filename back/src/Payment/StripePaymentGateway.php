@@ -24,12 +24,12 @@ class StripePaymentGateway implements PaymentGatewayInterface
         Stripe::setApiKey($this->stripeSecretKey);
     }
 
-    public function createPayment(Order $order, array $products): string
+    public function createPayment(Order $order): string
     {
         try {
             $lineItems = [];
 
-            foreach ($products as $item) {
+            foreach ($order->getProducts() as $item) {
                 $lineItems[] = [
                     'price_data' => [
                         'currency' => 'eur',

@@ -6,5 +6,5 @@ use App\Entity\Order;
 
 interface PaymentGatewayInterface
 {
-    public function createPayment(Order $order, array $products): string;
+    public function createPayment(Order $order): string;
 }
