@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\EmailService;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -25,12 +26,14 @@ class ResetPasswordController extends AbstractController
 
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private TranslatorInterface $translator,
+        private EmailService $emailService
     ) {
     }
 
     #[Route('', name: 'app_forgot_password_request', methods: ['POST'])]
-    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): JsonResponse
+    public function request(Request $request, MailerInterface $mailer): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $email = $data['email'] ?? null;
@@ -43,14 +46,13 @@ class ResetPasswordController extends AbstractController
             return new JsonResponse(['error' => "L'adresse email n'est pas valide"], Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->processSendingPasswordResetEmail($email, $mailer, $translator);
+        return $this->processSendingPasswordResetEmail($email, $mailer, $this->translator);
     }
 
     #[Route('/reset/{token}', name: 'app_reset_password', methods: ['POST'])]
     public function reset(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        TranslatorInterface $translator,
         ?string $token = null
     ): JsonResponse {
         if (null === $token) {
@@ -61,7 +63,7 @@ class ResetPasswordController extends AbstractController
             /** @var User $user */
             $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
         } catch (ResetPasswordExceptionInterface $e) {
-            return new JsonResponse(['error' => $translator->trans($e->getReason(), [], 'ResetPasswordBundle')], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => $this->translator->trans($e->getReason(), [], 'ResetPasswordBundle')], Response::HTTP_BAD_REQUEST);
         }
 
         $data = json_decode($request->getContent(), true);
@@ -84,7 +86,7 @@ class ResetPasswordController extends AbstractController
         return new JsonResponse(['message' => "Le mot de passe vient d'être modifié"]);
     }
 
-    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): JsonResponse
+    private function processSendingPasswordResetEmail(string $emailFormData): JsonResponse
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email' => $emailFormData,
@@ -97,22 +99,10 @@ class ResetPasswordController extends AbstractController
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
-            return new JsonResponse(['error' => $translator->trans($e->getReason(), [], 'ResetPasswordBundle')], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => $this->translator->trans($e->getReason(), [], 'ResetPasswordBundle')], Response::HTTP_BAD_REQUEST);
         }
 
-        $email = (new TemplatedEmail())
-            ->from(new Address($this->getParameter('mailer_from'), 'DesignMotor'))
-            ->to($user->getEmail())
-            ->subject('Réinitialiser un mot de passe')
-            ->htmlTemplate('reset_password/email.html.twig')
-            ->context(
-                [
-                    'resetToken' => $resetToken,
-                    'redirectPath' => $this->getParameter('frontend_base_url')
-                ]
-            );
-
-        $mailer->send($email);
+        $this->emailService->sendPasswordResetEmail($user, $resetToken, $this->getParameter('frontend_base_url'));
 
         return new JsonResponse(['message' => 'Si cette adresse email est dans notre base, vous recevrez sous peu un email pour réinitialiser votre mot de passe'], Response::HTTP_OK);
     }

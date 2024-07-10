@@ -9,6 +9,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 
 class EmailService
 {
@@ -45,5 +46,22 @@ class EmailService
                 ->subject('Confirmation de votre adresse email')
                 ->htmlTemplate('registration/confirmation_email.html.twig')
         );
+    }
+
+    public function sendPasswordResetEmail(User $user, ResetPasswordToken $resetToken, string $frontendBaseUrl): void
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address($this->mailerFrom, 'DesignMotor'))
+            ->to($user->getEmail())
+            ->subject('Réinitialiser un mot de passe')
+            ->htmlTemplate('reset_password/email.html.twig')
+            ->context(
+                [
+                    'resetToken' => $resetToken,
+                    'redirectPath' => $frontendBaseUrl
+                ]
+            );
+
+        $this->mailer->send($email);
     }
 }
