@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
+use App\Service\UserService;
 use App\Repository\OrderRepository;
-use App\Repository\UserRepository;
-use App\Service\ValidatorService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,9 +14,8 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 class UserController extends AbstractController
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private EntityManagerInterface $entityManager,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private UserService $userService
     ) {}
 
     #[Route('/user/get-orders/{username}', methods: ["GET"])]
@@ -26,7 +23,7 @@ class UserController extends AbstractController
         string $username,
         OrderRepository $orderRepository
     ): JsonResponse {
-        $user = $this->getCurrentUser($username);
+        $user = $this->userService->getUserByEmail($username);
 
         $orders = $orderRepository->findByUser($user);
 
@@ -38,7 +35,7 @@ class UserController extends AbstractController
     #[Route('/user/get-infos/{username}', methods: ["GET"])]
     public function getUserInfo(string $username): JsonResponse
     {
-        $user = $this->getCurrentUser($username);
+        $user = $this->userService->getUserByEmail($username);
 
         return $this->json([
             'email' => $user->getEmail(),
@@ -54,7 +51,7 @@ class UserController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $currentPassword = $data['currentPassword'];
 
-        $user = $this->getCurrentUser($username);
+        $user = $this->userService->getUserByEmail($username);
 
         if ($this->passwordHasher->isPasswordValid($user, $currentPassword)) {
             return $this->json(['validPassword' => true]);
@@ -68,15 +65,13 @@ class UserController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        $user = $this->getCurrentUser($username);
+        $user = $this->userService->getUserByEmail($username);
 
         if (!$this->passwordHasher->isPasswordValid($user, $data['currentPassword'])) {
             return new JsonResponse(['errorMessage' => 'Le mot de passe est incorrect'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $user->setPassword($this->passwordHasher->hashPassword($user, $data['newPassword']));
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->userService->changePassword($user, $data['newPassword']);
 
         return new JsonResponse(['successMessage' => "Votre mot de passe a été modifié avec succès"], JsonResponse::HTTP_OK);
     }
@@ -86,27 +81,14 @@ class UserController extends AbstractController
         string $username,
         Request $request,
         JWTTokenManagerInterface $jwtManager,
-        ValidatorService $validator
     ): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
-        $user = $this->getCurrentUser($username);
+        $user = $this->userService->getUserByEmail($username);
 
-        if ($data['email'] && filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $user
-                ->setEmail($data['email'])
-                ->setFirstname(trim(ucfirst(strtolower($data['firstname']))))
-                ->setLastname(trim(ucfirst(strtolower($data['lastname']))))
-                ->setPhone($data['phone']);
-
-            if ($validator::validate($user)) {
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
-    
-                $token = $jwtManager->create($user);
-        
-                return new JsonResponse(['successMessage' => 'Les informations ont bien été mise à jour', 'token' => $token], JsonResponse::HTTP_OK);
-            }
+        if ($this->userService->updateUserProfile($user, $data)) {
+            $token = $jwtManager->create($user);
+            return new JsonResponse(['successMessage' => 'Les informations ont bien été mise à jour', 'token' => $token], JsonResponse::HTTP_OK);
         }
 
         return new JsonResponse(['errorMessage' => "Certaines données sont invalides"], JsonResponse::HTTP_BAD_REQUEST);
@@ -115,22 +97,10 @@ class UserController extends AbstractController
     #[Route('/user/{username}/delete-account', methods: ["DELETE"])]
     public function deleteUserAccount(string $username): JsonResponse
     {
-        $user = $this->getCurrentUser($username);
+        $user = $this->userService->getUserByEmail($username);
 
-        $this->entityManager->remove($user);
-        $this->entityManager->flush();
+        $this->userService->deleteUser($user);
 
         return new JsonResponse(['successMessage' => 'Votre compte a bien été supprimé'], JsonResponse::HTTP_OK);
-    }
-
-    private function getCurrentUser(string $username)
-    {
-        $user = $this->userRepository->findOneBy(['email' => $username]);
-
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
-        }
-
-        return $user;
     }
 }
