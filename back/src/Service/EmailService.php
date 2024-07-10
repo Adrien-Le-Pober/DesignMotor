@@ -2,28 +2,22 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Entity\Order;
+use App\Security\EmailVerifier;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Part\File;
-use Symfony\Component\Mime\Part\DataPart;
-use Symfony\Component\Mime\Part\FilePart;
+use Symfony\Component\Mime\Address;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 
 class EmailService
 {
-    private $mailer;
-    private $pdfGeneratorService;
-    private $mailerFrom;
-
     public function __construct(
-        MailerInterface $mailer,
-        PdfGeneratorService $pdfGeneratorService,
-        string $mailerFrom
-    ) {
-        $this->mailer = $mailer;
-        $this->pdfGeneratorService = $pdfGeneratorService;
-        $this->mailerFrom = $mailerFrom;
-    }
+        private MailerInterface $mailer,
+        private PdfGeneratorService $pdfGeneratorService,
+        private EmailVerifier $emailVerifier,
+        private string $mailerFrom,
+    ) {}
 
     public function sendInvoiceEmail(Order $order)
     {        
@@ -40,5 +34,16 @@ class EmailService
         $this->mailer->send($email);
 
         unlink($pdfFilePath);
+    }
+
+    public function sendEmailConfirmation(User $user): void
+    {
+        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            (new TemplatedEmail())
+                ->from(new Address($this->mailerFrom, 'Design Motor'))
+                ->to($user->getEmail())
+                ->subject('Confirmation de votre adresse email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
+        );
     }
 }

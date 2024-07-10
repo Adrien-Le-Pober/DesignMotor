@@ -5,65 +5,44 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Security\EmailVerifier;
 use App\Repository\UserRepository;
-use App\Service\ValidatorService;
-use Symfony\Component\Mime\Address;
+use App\Service\EmailService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier, private EntityManagerInterface $entityManager)
-    {
-    }
+    public function __construct(
+        private EmailService $emailService
+    ) {}
 
     #[Route('/register', name: 'app_register', methods: ['POST'])]
     public function register(
         Request $request,
-        UserPasswordHasherInterface $userPasswordHasher,
-        ValidatorService $validator
+        UserService $userService
     ): JsonResponse {
         $userData = json_decode($request->getContent(), true);
 
-        $user = (new User())
-            ->setEmail($userData['email'] ?? '')
-            ->setPassword($userData['password'] ?? '')
-            ->setRgpd($userData['rgpd'] ?? false);
+        $user = $userService->createUser($userData);
 
-        $validator::validate($user);
-
-        $user->setPassword(
-            $userPasswordHasher->hashPassword(
-                $user,
-                $user->getPassword()
-            )
-        );
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        // Envoyer le mail depuis un Event Subscriber
-        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-            (new TemplatedEmail())
-                ->from(new Address($this->getParameter('mailer_from'), 'Design Motor'))
-                ->to($user->getEmail())
-                ->subject('Confirmation de votre adresse email')
-                ->htmlTemplate('registration/confirmation_email.html.twig')
-        );
+        $this->emailService->sendEmailConfirmation($user);
 
         return $this->json(['message' => 'Merci de vérifier votre boîte email, nous vous avons envoyé un email de confirmation'], Response::HTTP_CREATED);
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
-    {
+    public function verifyUserEmail(
+        Request $request,
+        TranslatorInterface $translator,
+        UserRepository $userRepository,
+        EmailVerifier $emailVerifier,
+    ): Response {
         $id = $request->query->get('id');
 
         if (null === $id) {
@@ -76,9 +55,8 @@ class RegistrationController extends AbstractController
             return $this->redirect($this->getParameter('frontend_base_url') . '/connexion?errorMessage=Cet utilisateur est introuvable');
         }
 
-        // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
+            $emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $errorMessage = $translator->trans($exception->getReason(), [], 'VerifyEmailBundle');
             return $this->redirect($this->getParameter('frontend_base_url') . '/connexion?errorMessage=' . urlencode($errorMessage));
@@ -88,7 +66,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/resend-confirmation-email', name: 'app_resend_confirmation_email', methods: ['POST'])]
-    public function resendConfirmationEmail(Request $request): JsonResponse
+    public function resendConfirmationEmail(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $userData = json_decode($request->getContent(), true);
         $email = $userData["email"];
@@ -97,7 +75,7 @@ class RegistrationController extends AbstractController
             return new JsonResponse(['message' => "L'adresse email est requise"], Response::HTTP_BAD_REQUEST);
         }
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
         if (!$user) {
             return new JsonResponse(['message' => "Cette adresse email n'existe pas dans notre base, vous devez vous inscrire"], Response::HTTP_NOT_FOUND);
@@ -107,13 +85,7 @@ class RegistrationController extends AbstractController
             return new JsonResponse(['message' => 'Cette adresse email a déjà été vérifié, vous pouvez vous connecter'], Response::HTTP_BAD_REQUEST);
         }
 
-        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-            (new TemplatedEmail())
-                ->from(new Address($this->getParameter('mailer_from'), 'Design Motor'))
-                ->to($user->getEmail())
-                ->subject('Confirmation de votre adresse email')
-                ->htmlTemplate('registration/confirmation_email.html.twig')
-        );
+        $this->emailService->sendEmailConfirmation($user);
 
         return new JsonResponse(['message' => 'Un email de confirmation vient de vous être envoyé'], Response::HTTP_OK);
     }
