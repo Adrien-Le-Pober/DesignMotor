@@ -25,8 +25,8 @@ class VehicleRepositoryTest extends KernelTestCase
         $this->makeAssertions(
             method: 'findElectricCars',
             count: 1,
-            motorizationName: 'Electric',
-            typeName: 'Car'
+            motorizationName: 'Electrique',
+            typeName: 'Voiture'
         );
     }
 
@@ -37,8 +37,8 @@ class VehicleRepositoryTest extends KernelTestCase
         $this->makeAssertions(
             method: 'findPetrolCars',
             count: 2,
-            motorizationName: 'Petrol',
-            typeName: 'Car'
+            motorizationName: 'Essence',
+            typeName: 'Voiture'
         );
     }
 
@@ -49,7 +49,7 @@ class VehicleRepositoryTest extends KernelTestCase
         $this->makeAssertions(
             method: 'findElectricScooters',
             count: 0,
-            motorizationName: 'Electric',
+            motorizationName: 'Electrique',
             typeName: 'Scooter',
             isEmpty: true
         );
@@ -62,7 +62,7 @@ class VehicleRepositoryTest extends KernelTestCase
         $this->makeAssertions(
             method: 'findPetrolScooters',
             count: 1,
-            motorizationName: 'Petrol',
+            motorizationName: 'Essence',
             typeName: 'Scooter'
         );
     }

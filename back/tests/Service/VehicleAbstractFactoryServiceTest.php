@@ -33,7 +33,8 @@ class VehicleAbstractFactoryServiceTest extends TestCase
                         'brandName' => 'Renault',
                         'modelName' => 'Megane E-Tech',
                         'imagePath' => 'somePath.jpg',
-                        'price' => 25000
+                        'price' => 25000,
+                        'soldedPrice' => 25000
                     ]
                 ]);
         }

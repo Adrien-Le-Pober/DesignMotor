@@ -39,7 +39,6 @@ class RegistrationController extends AbstractController
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(
         Request $request,
-        TranslatorInterface $translator,
         UserRepository $userRepository,
         EmailVerifier $emailVerifier,
     ): Response {
@@ -58,8 +57,7 @@ class RegistrationController extends AbstractController
         try {
             $emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
-            $errorMessage = $translator->trans($exception->getReason(), [], 'VerifyEmailBundle');
-            return $this->redirect($this->getParameter('frontend_base_url') . '/connexion?errorMessage=' . urlencode($errorMessage));
+            return $this->redirect($this->getParameter('frontend_base_url') . '/connexion?errorMessage=Une erreur est survenue, veuillez réessayer plus tard');
         }
 
         return $this->redirect($this->getParameter('frontend_base_url') . '/connexion?successMessage=Merci, votre adresse email a bien été vérifiée.');
@@ -69,7 +67,7 @@ class RegistrationController extends AbstractController
     public function resendConfirmationEmail(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $userData = json_decode($request->getContent(), true);
-        $email = $userData["email"];
+        $email = $userData["email"] ?? null;
 
         if (!$email) {
             return new JsonResponse(['message' => "L'adresse email est requise"], Response::HTTP_BAD_REQUEST);

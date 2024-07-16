@@ -9,18 +9,20 @@ use App\Entity\Model;
 use DateTimeImmutable;
 use App\Entity\Vehicle;
 use App\Entity\Motorization;
-use App\Service\AssetsService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class VehicleEntityTest extends KernelTestCase
 {
-    private AssetsService $assetsService;
+    private string $imagePath;
+    private string $videoPath;
 
     public function setUp(): void
     {
         self::bootKernel();
-        $this->assetsService = static::getContainer()->get(AssetsService::class);
-        
+        $kernel = self::$kernel;
+
+        $this->imagePath = $kernel->getProjectDir() . '/public/images';
+        $this->videoPath = $kernel->getProjectDir() . '/public/videos';
     }
 
     public function getEntity(): Vehicle
@@ -28,8 +30,8 @@ class VehicleEntityTest extends KernelTestCase
 		return (new Vehicle())
             ->setPower('55')
             ->setSpace('20')
-            ->setImagePath($this->assetsService->getImagePath() . 'SomePath.jpg')
-            ->setVideoPath($this->assetsService->getVideoPath() . 'SomePath.mp4')
+            ->setImagePath($this->imagePath . 'SomePath.jpg')
+            ->setVideoPath($this->videoPath . 'SomePath.mp4')
             ->setPrice(10_000)
             ->setDescription('description')
             ->setCreatedAt(new DateTimeImmutable())
