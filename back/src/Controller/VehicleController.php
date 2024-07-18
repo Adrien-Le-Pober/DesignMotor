@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Vehicle;
 use App\Trait\Base64ImageTrait;
 use App\Service\DiscountRuleService;
 use App\Repository\VehicleRepository;
@@ -23,7 +22,7 @@ class VehicleController extends AbstractController
     ): JsonResponse {
         $vehicle = $vehicleRepository->findDetailsById($id);
 
-        if($vehicle['image']) {
+        if ($vehicle['image']) {
             $vehicle['image'] = $this->getBase64Image($vehicle['image']);
         }
 
