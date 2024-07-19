@@ -23,6 +23,7 @@ class DiscountRuleCondition
 
     #[ORM\ManyToOne(inversedBy: 'discountRuleConditions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?DiscountRule $DiscountRule = null;
 
     public function getId(): ?int
