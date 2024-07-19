@@ -5,6 +5,7 @@ namespace App\Entity;
 use Ramsey\Uuid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\OrderRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -17,9 +18,12 @@ class Order
     private ?int $id = null;
 
     #[ORM\Column(length: 32)]
+    #[Assert\Choice(['P', 'C', 'F'])]
     private ?string $status = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Uuid]
     private ?string $reference = null;
 
     #[ORM\Column]
@@ -29,18 +33,25 @@ class Order
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
+    #[Assert\Regex('/^\d+(\.\d{1,2})?$/')]
     private ?float $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[Assert\NotNull]
+    #[Assert\Type(User::class)]
     private ?User $user = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Type('array')]
     private ?array $products = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
+    #[Assert\Type('float')]
     private ?float $tva = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
     private ?string $stripeSessionId = null;
 
     public function getId(): ?int
@@ -153,10 +164,10 @@ class Order
     }
 
 	#[ORM\PreUpdate]
-             public function onPreUpdate(): void
-             {
-                 $this->updatedAt = new \DateTimeImmutable();
-             }
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getStripeSessionId(): ?string
     {
