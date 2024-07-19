@@ -37,12 +37,20 @@ class DiscountRule
      * @var Collection<int, DiscountRuleCondition>
      */
     #[ORM\OneToMany(targetEntity: DiscountRuleCondition::class, mappedBy: 'DiscountRule', orphanRemoval: true)]
+    #[Assert\Count(
+        min: 1,
+        minMessage: "Il doit y avoir au moins une condition de règle de remise."
+    )]
     private Collection $discountRuleConditions;
 
     /**
      * @var Collection<int, DiscountRuleAction>
      */
     #[ORM\OneToMany(targetEntity: DiscountRuleAction::class, mappedBy: 'DiscountRule', orphanRemoval: true)]
+    #[Assert\Count(
+        min: 1,
+        minMessage: "Il doit y avoir au moins une action de règle de remise."
+    )]
     private Collection $discountRuleActions;
 
     #[ORM\Column]
