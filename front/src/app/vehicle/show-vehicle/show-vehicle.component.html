@@ -17,9 +17,11 @@
                 <div class="price-box bg-light mt-2">
                     <span [style.text-decoration]="vehicle.soldedPrice?'line-through':''" class="me-2">{{ vehicle.price | currency: 'EUR':'symbol':'3.0' }}</span>
                     <span *ngIf="vehicle.soldedPrice" class="me-2">
-                        <h6 class="m-0"><span class="badge text-bg-success">
-                            -{{ 100 - (vehicle.soldedPrice * 100) / vehicle.price }}%
-                        </span></h6>
+                        <h6 class="m-0">
+                            <span class="badge text-bg-success">
+                                -{{ 100 - (vehicle.soldedPrice * 100) / vehicle.price | number: '1.0-0' }}%
+                            </span>
+                        </h6>
                     </span>
                     <span *ngIf="vehicle.soldedPrice">{{ vehicle.soldedPrice | currency: 'EUR':'symbol':'3.0' }}</span>
                 </div>
