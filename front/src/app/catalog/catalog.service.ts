@@ -14,18 +14,18 @@ export class CatalogService {
 
   constructor(private http: HttpClient) { }
 
-  getVehicleList(filters: any): Observable<Vehicle[]> {
+  getVehicleList(filters: any): Observable<{ vehicles: Vehicle[], total: number }> {
     let params = new HttpParams();
     for (const key in filters) {
       if (filters[key]) {
         params = params.set(key, filters[key]);
       }
     }
-    return this.http.get<Vehicle[]>(`${this.appURL}/catalog`, { params }).pipe(
+    return this.http.get<{ vehicles: Vehicle[], total: number }>(`${this.appURL}/catalog`, { params }).pipe(
       tap(response => console.log(response)),
       catchError(error => {
         console.log(error);
-        return of([]);
+        return of({ vehicles: [], total: 0 });
       })
     );
   }

@@ -28,13 +28,18 @@ class CatalogController extends AbstractController
             $filters['brand'] = $request->query->get('brand');
         }
 
-        $vehicles = $vehicleAbstractFactoryService->getVehicles($filters);
+        $result = $vehicleAbstractFactoryService->getVehicles($filters);
+        $vehicles = $result['vehicles'];
+        $vehiclesCount = $result['total'];
 
         foreach ($vehicles as &$vehicle) {
             $discountRuleService->applyRules($vehicle);
         }
 
-        return $this->json($vehicles);
+        return $this->json([
+            'vehicles' => $vehicles,
+            'total' => $vehiclesCount
+        ]);
     }
 
     #[Route('vehicle/{vehicle}/video', name: 'vehicule-video')]

@@ -23,6 +23,7 @@ import { LoaderComponent } from '../components/spinner/loader.component';
 export class CatalogComponent {
   private unsubscribe$ = new Subject<void>();
   public vehicleList: Vehicle[];
+  public totalVehicles: number = 0;
   public brandList: Brand[];
   public filters: any = {};
   public isLoading: boolean = false;
@@ -41,8 +42,9 @@ export class CatalogComponent {
     this.isLoading = true;
     this.catalogService.getVehicleList(this.filters)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(vehicleList => {
-        this.vehicleList = vehicleList;
+      .subscribe(response => {
+        this.vehicleList = response.vehicles;
+        this.totalVehicles = response.total;
         this.isLoading = false;
       });
   }
